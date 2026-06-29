@@ -59,6 +59,8 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const job = sheetData ? sheetData.job : (participant as any).job || null;
   const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin;
   const instagramUrl = sheetData?.instagram || (participant as any).instagram;
+  const ipk = sheetData?.ipk || (participant as any).gpa;
+  const motto = sheetData?.motto || (participant as any).quote;
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
@@ -131,6 +133,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <div className="pt-4 border-t border-glass">
                 <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">Status Kelulusan</p>
                 <p className="text-text-muted">Yudisium Ke-41 (Juli 2026)</p>
+                {ipk && <p className="text-text-muted mt-1">IPK {ipk}</p>}
               </div>
 
               {job && (
@@ -150,10 +153,17 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-text-primary leading-tight mb-4 drop-shadow-sm">
                 {participant.name}
               </h1>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-medium">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-medium mb-6">
                 <GraduationCap size={16} />
                 <span>Calon Insinyur</span>
               </div>
+              {motto && (
+                <div className="border-l-2 border-gold/40 pl-5 py-2">
+                  <p className="text-lg md:text-xl text-text-primary/90 italic font-serif">
+                    {motto.includes('"') || motto.includes("'") || motto.includes('“') || motto.includes('”') ? motto.trim() : `"${motto.trim()}"`}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Riwayat Hidup */}
@@ -227,11 +237,11 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 <div className="mt-8 pt-6 border-t border-glass/30 space-y-3">
                   <p className="text-sm font-mono text-gold uppercase tracking-widest">Tautan Publikasi</p>
                   <ul className="space-y-2">
-                    {publications.map((pub: string, idx: number) => (
+                    {publications.map((pub: any, idx: number) => (
                       <li key={idx}>
-                        <a href={pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
+                        <a href={pub.url || pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
                           <LinkIcon size={14} className="shrink-0" />
-                          <span>{pub}</span>
+                          <span>{pub.title || pub.url || pub}</span>
                         </a>
                       </li>
                     ))}

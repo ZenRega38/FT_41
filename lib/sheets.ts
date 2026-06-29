@@ -12,8 +12,37 @@ export interface StudentSheetData {
   projects: Array<{ title: string; desc: string }>;
   scholarships: string[];
   awards: string[];
-  publications: string[];
+  publications: Array<{ title: string; url: string }>;
   job: { company: string; role: string; date: string } | null;
+  ipk?: string;
+  motto?: string;
+}
+
+async function fetchLinkTitle(url: string): Promise<string> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2000); // 2 second timeout
+    const res = await fetch(url, { signal: controller.signal, next: { revalidate: 3600 } }).catch(() => null);
+    clearTimeout(timeout);
+    
+    if (res && res.ok) {
+      const text = await res.text();
+      const match = text.match(/<title[^>]*>([^<]+)<\/title>/i);
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+    }
+  } catch (err) {
+    // ignore fetch errors
+  }
+  
+  // Fallback to domain name
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname;
+  } catch (e) {
+    return url;
+  }
 }
 
 export async function fetchStudentDetails(nim: string): Promise<StudentSheetData | null> {
@@ -36,7 +65,7 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
       Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true,
-        complete: (results) => {
+        complete: async (results) => {
           const rows = results.data as Record<string, string>[];
           const studentRow = rows.find(r => r["NPM"]?.trim() === nim.trim());
           
@@ -91,14 +120,16 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
           // Parse Awards (Lomba)
           const awards = [];
           if (isValidValue(studentRow["Judul Lomba"])) {
-            const juara = studentRow["Juara"]?.trim() || "";
+            const juara = studentRow["Juara"]?.trim();
             const tingkat = studentRow["Tingkat Kejuaraan"]?.trim() || "";
-            awards.push(`${juara} - ${studentRow["Judul Lomba"].trim()} (${tingkat})`);
+            const prefix = juara ? `${juara}, ` : "";
+            awards.push(`${prefix}${studentRow["Judul Lomba"].trim()} (${tingkat})`);
           }
           if (isValidValue(studentRow["Judul Lomba 2"])) {
-            const juara2 = studentRow["Juara Lomba 2"]?.trim() || "";
+            const juara2 = studentRow["Juara Lomba 2"]?.trim();
             const tingkat2 = studentRow["Tingkat Kejuaraan Lomba 2"]?.trim() || "";
-            awards.push(`${juara2} - ${studentRow["Judul Lomba 2"].trim()} (${tingkat2})`);
+            const prefix2 = juara2 ? `${juara2}, ` : "";
+            awards.push(`${prefix2}${studentRow["Judul Lomba 2"].trim()} (${tingkat2})`);
           }
 
           // Parse Projects (Skripsi)
@@ -111,11 +142,18 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
           }
 
           // Parse Publications
-          const publications = [];
-          if (isValidValue(studentRow["Link Publikasi Skripsi"])) publications.push(studentRow["Link Publikasi Skripsi"].trim());
-          if (isValidValue(studentRow["Link Publikasi"])) publications.push(studentRow["Link Publikasi"].trim());
-          if (isValidValue(studentRow["Link Publikasi 2"])) publications.push(studentRow["Link Publikasi 2"].trim());
-          if (isValidValue(studentRow["Link Publikasi 3"])) publications.push(studentRow["Link Publikasi 3"].trim());
+          const pubUrls = [];
+          if (isValidValue(studentRow["Link Publikasi Skripsi"])) pubUrls.push(studentRow["Link Publikasi Skripsi"].trim());
+          if (isValidValue(studentRow["Link Publikasi"])) pubUrls.push(studentRow["Link Publikasi"].trim());
+          if (isValidValue(studentRow["Link Publikasi 2"])) pubUrls.push(studentRow["Link Publikasi 2"].trim());
+          if (isValidValue(studentRow["Link Publikasi 3"])) pubUrls.push(studentRow["Link Publikasi 3"].trim());
+
+          const publications = await Promise.all(
+            pubUrls.map(async (url) => {
+              const title = await fetchLinkTitle(url);
+              return { title, url };
+            })
+          );
 
           // Parse Job
           let job = null;
@@ -127,21 +165,25 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
             };
           }
 
-          const data: StudentSheetData = {
+          // Parse IPK and Motto
+          const ipk = isValidValue(studentRow["IPK"]) ? studentRow["IPK"].trim() : undefined;
+          const motto = isValidValue(studentRow["Motto Hidup"]) ? studentRow["Motto Hidup"].trim() : undefined;
+
+          resolve({
             npm: studentRow["NPM"].trim(),
             bio: isValidValue(studentRow["Riwayat Hidup"]) ? studentRow["Riwayat Hidup"].trim() : undefined,
             linkedin: isValidValue(studentRow["Link Profil LinkedIn"]) ? studentRow["Link Profil LinkedIn"].trim() : undefined,
             instagram: isValidValue(studentRow["Link Profil Instagram"]) ? studentRow["Link Profil Instagram"].trim() : undefined,
             organizations,
             internships,
+            projects,
             scholarships,
             awards,
-            projects,
             publications,
             job,
-          };
-          
-          resolve(data);
+            ipk,
+            motto
+          });
         },
         error: (err: any) => {
           console.error("PapaParse error:", err);
