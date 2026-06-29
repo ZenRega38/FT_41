@@ -39,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
+        suppressHydrationWarning
         className={`${titilliumWeb.variable} ${chakraPetch.variable} ${shareTechMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
       >
         <WelcomePopup />
