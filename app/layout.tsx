@@ -29,6 +29,9 @@ const shareTechMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   title: "Yudisium Ke-41 Fakultas Teknik UBT",
   description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 peserta, 4 program studi, satu babak baru.",
+  icons: {
+    icon: '/logo.png',
+  },
 };
 
 export default function RootLayout({

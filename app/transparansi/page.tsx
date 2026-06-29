@@ -41,15 +41,7 @@ export default function TransparansiPage() {
       </div>
 
       <Container className="relative z-10">
-        <MotionReveal direction="down" className="mb-12">
-          <Link 
-            href="/"
-            className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors font-mono tracking-widest uppercase text-sm"
-          >
-            <ArrowLeft size={16} />
-            <span>Kembali ke Beranda</span>
-          </Link>
-        </MotionReveal>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
           <MotionReveal direction="up" className="lg:col-span-2 space-y-4">

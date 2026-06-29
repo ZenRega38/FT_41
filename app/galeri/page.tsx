@@ -22,15 +22,7 @@ export default function GaleriPage() {
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
       <Container>
-        <MotionReveal direction="down" className="mb-12">
-          <Link 
-            href="/"
-            className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors font-mono tracking-widest uppercase text-sm"
-          >
-            <ArrowLeft size={16} />
-            <span>Kembali ke Beranda</span>
-          </Link>
-        </MotionReveal>
+
 
         <MotionReveal direction="up" className="mb-16 space-y-4">
           <p className="text-gold tracking-[0.2em] uppercase text-xs md:text-sm font-semibold">Dokumentasi</p>

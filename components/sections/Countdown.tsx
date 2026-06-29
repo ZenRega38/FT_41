@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
-
-const TARGET_DATE = new Date("2026-07-08T08:00:00+08:00").getTime();
+import { YUDISIUM_DATE } from '@/lib/constants';
 
 interface TimeLeft {
   days: number;
@@ -20,7 +19,7 @@ export function Countdown() {
   useEffect(() => {
     setTimeout(() => setIsMounted(true), 0);
     const calculateTimeLeft = () => {
-      const difference = TARGET_DATE - new Date().getTime();
+      const difference = YUDISIUM_DATE - new Date().getTime();
       if (difference > 0) {
         setTimeLeft({
           days: Math.floor(difference / (1000 * 60 * 60 * 24)),

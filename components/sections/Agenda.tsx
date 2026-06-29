@@ -95,7 +95,7 @@ export function Agenda() {
           </div>
 
           {/* Scroll row */}
-          <div ref={scrollRef} className="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory hide-scrollbar -mx-1 px-1">
+          <div ref={scrollRef} className="flex overflow-x-auto overflow-y-hidden items-stretch gap-4 pb-4 snap-x snap-mandatory hide-scrollbar -mx-1 px-1">
             {events.map((event, idx) => (
               <MotionReveal
                 key={idx}

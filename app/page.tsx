@@ -16,6 +16,7 @@ import { Messages } from "@/components/sections/Messages";
 import { Closing } from "@/components/sections/Closing";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { section } from "framer-motion/client";
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -30,13 +31,13 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-black-primary text-text-primary">
       {/* Cinematic Hero Section */}
-      <section 
+      <section
         ref={heroRef}
         id="home"
         className="relative flex flex-col items-center justify-center min-h-screen overflow-x-clip px-4 bg-black-primary"
       >
         {/* Blueprint Grid Background */}
-        <div 
+        <div
           className="absolute inset-0 z-0 opacity-20 pointer-events-none"
           style={{
             backgroundImage: `
@@ -46,7 +47,7 @@ export default function Home() {
             backgroundSize: '40px 40px'
           }}
         />
-        <div 
+        <div
           className="absolute inset-0 z-0 opacity-10 pointer-events-none"
           style={{
             backgroundImage: `
@@ -57,25 +58,25 @@ export default function Home() {
           }}
         />
 
-          <motion.div
-            animate={{ scale: [1, 1.05] }}
-            transition={{ duration: 30, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
-            className="absolute inset-0 z-0"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src="/bg1.jpeg" 
-              alt="Gedung Rektorat Background"
-              className="w-full h-full object-cover opacity-20"
-            />
-          </motion.div>
-        <div className="absolute inset-0 z-0 opacity-[0.05] mix-blend-overlay pointer-events-none" 
-             style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}>
+        <motion.div
+          animate={{ scale: [1, 1.05] }}
+          transition={{ duration: 30, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+          className="absolute inset-0 z-0"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/bg1.jpeg"
+            alt="Gedung Rektorat Background"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </motion.div>
+        <div className="absolute inset-0 z-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
+          style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}>
         </div>
-        
+
         {/* Glowing Orb */}
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3],
             rotate: [0, 90, 0]
@@ -86,7 +87,7 @@ export default function Home() {
 
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-black-primary/40 via-transparent to-black-primary pointer-events-none"></div>
 
-        <motion.div 
+        <motion.div
           style={{ y, opacity }}
           className="z-10 text-center space-y-8 flex flex-col items-center justify-center w-full mt-16"
         >
@@ -100,8 +101,8 @@ export default function Home() {
               {siteConfig.stats.chapter}
             </h1>
           </motion.div>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
@@ -111,8 +112,8 @@ export default function Home() {
             <p className="tracking-[0.2em]">{"//"} {siteConfig.institution.faculty}</p>
             <p className="text-text-muted opacity-50 tracking-[0.2em]">{siteConfig.institution.name}</p>
           </motion.div>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1 }}

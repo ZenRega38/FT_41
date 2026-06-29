@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { X } from 'lucide-react';
+import { useIsPostYudisium } from '@/lib/hooks';
 
 export function WelcomePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const isPost = useIsPostYudisium();
 
   useEffect(() => {
     setTimeout(() => setMounted(true), 0);
@@ -57,14 +60,14 @@ export function WelcomePopup() {
             </button>
 
             <div className="p-8 md:p-10 text-center space-y-6">
-              <div className="mx-auto w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center border border-gold/30 mb-6">
-                <span className="text-gold font-serif text-2xl font-bold">41</span>
+              <div className="mx-auto w-20 h-20 rounded-full bg-black-soft flex items-center justify-center border border-gold/30 mb-6 overflow-hidden shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                <Image src="/logo.png" alt="Logo" width={80} height={80} className="object-cover" />
               </div>
               
               <h2 className="text-2xl md:text-3xl font-serif text-text-primary">Selamat Datang</h2>
               
               <p className="text-text-muted leading-relaxed">
-                Anda sedang memasuki laman resmi <strong>Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan</strong>. Mari rayakan lahirnya 71 calon insinyur yang siap membangun masa depan.
+                Anda sedang memasuki laman resmi <strong>Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan</strong>. Mari rayakan lahirnya 71 {isPost ? 'insinyur' : 'calon insinyur'} yang siap membangun masa depan.
               </p>
 
               <div className="pt-6 border-t border-glass flex flex-col items-center gap-4">

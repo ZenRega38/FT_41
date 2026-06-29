@@ -8,6 +8,7 @@ import { Participant } from '@/types/site';
 import participantsData from '@/data/participants.json';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUp } from 'lucide-react';
+import { useIsPostYudisium } from '@/lib/hooks';
 
 const PAGE_SIZE = 10;
 
@@ -16,6 +17,8 @@ function GraduateWallContent() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<string>('All');
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
+  const [activeScrollIndex, setActiveScrollIndex] = useState(0);
+  const isPost = useIsPostYudisium();
 
   useEffect(() => {
     const prodi = searchParams.get('prodi');
@@ -38,10 +41,30 @@ function GraduateWallContent() {
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [search, filter, participants]);
 
+  // Split into chunks for mobile pagination
+  const mobileChunks = useMemo(() => {
+    const chunks = [];
+    for (let i = 0; i < filteredParticipants.length; i += visibleCount) {
+      chunks.push(filteredParticipants.slice(i, i + visibleCount));
+    }
+    return chunks;
+  }, [filteredParticipants, visibleCount]);
+
   // Reset visibleCount whenever filter/search changes
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
+    setActiveScrollIndex(0);
   }, [filter, search]);
+
+  const handleMobileScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const scrollPosition = container.scrollLeft;
+    const itemWidth = container.clientWidth; 
+    const index = Math.round(scrollPosition / itemWidth);
+    if (index !== activeScrollIndex) {
+      setActiveScrollIndex(index);
+    }
+  };
 
   const hasMore = visibleCount < filteredParticipants.length;
   const hasLess = visibleCount > PAGE_SIZE;
@@ -52,7 +75,7 @@ function GraduateWallContent() {
         <div className="text-center mb-16 space-y-4">
           <h2 className="section-title text-text-primary">Lulusan</h2>
           <p className="text-text-muted max-w-2xl mx-auto">
-            Mengenal lebih dekat 71 calon lulusan Fakultas Teknik.
+            Mengenal lebih dekat 71 {isPost ? 'lulusan' : 'calon lulusan'} Fakultas Teknik.
           </p>
         </div>
 
@@ -97,7 +120,11 @@ function GraduateWallContent() {
         {/* Graduate Grid */}
         {filteredParticipants.length > 0 ? (
           <>
-            <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+            {/* Desktop View (Standard Grid) */}
+            <motion.div 
+              layout 
+              className="hidden md:grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+            >
               {filteredParticipants.slice(0, visibleCount).map((participant, index) => (
                 <GraduateCard
                   key={participant.id}
@@ -107,27 +134,68 @@ function GraduateWallContent() {
               ))}
             </motion.div>
 
-            {/* Gallery-style text + arrow controls */}
-            <div className="flex flex-col items-center gap-4 mt-14">
+            {/* Mobile View (Swipeable Pages) */}
+            <div 
+              className="md:hidden flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-4 px-4 pb-6"
+              onScroll={handleMobileScroll}
+            >
+              {mobileChunks.map((chunk, chunkIndex) => (
+                <div key={chunkIndex} className="min-w-full shrink-0 snap-center pr-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    {chunk.map((participant, index) => (
+                      <GraduateCard
+                        key={participant.id}
+                        participant={participant}
+                        index={(chunkIndex * visibleCount) + index}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile Scroll Indicator */}
+            {mobileChunks.length > 1 && (
+              <div className="md:hidden flex justify-center items-center mt-2 mb-6">
+                <span className="text-gold font-mono text-xs tracking-widest bg-gold/10 px-4 py-1.5 rounded-full border border-gold/30">
+                  Halaman {activeScrollIndex + 1} / {mobileChunks.length}
+                </span>
+              </div>
+            )}
+
+            {/* Controls */}
+            <div className="flex flex-col items-center gap-4 mt-8 md:mt-14">
               {/* Show count info */}
               <p className="text-xs text-text-muted tracking-widest uppercase">
                 Menampilkan {Math.min(visibleCount, filteredParticipants.length)} dari {filteredParticipants.length} lulusan
               </p>
 
-              {/* Only one action at a time */}
               {hasMore && (
-                <button
-                  onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
-                  className="inline-flex items-center gap-3 text-gold hover:text-champagne font-mono tracking-widest uppercase text-sm group transition-colors"
-                >
-                  <span>Lihat Lebih Banyak</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
-                </button>
+                <>
+                  {/* Mobile Load More (adds 10) */}
+                  <button
+                    onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
+                    className="md:hidden inline-flex items-center gap-3 text-gold hover:text-champagne font-mono tracking-widest uppercase text-sm group transition-colors"
+                  >
+                    <span>Tampilkan Lebih Banyak</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
+                  </button>
+
+                  {/* Desktop Load All */}
+                  <button
+                    onClick={() => setVisibleCount(filteredParticipants.length)}
+                    className="hidden md:inline-flex items-center gap-3 text-gold hover:text-champagne font-mono tracking-widest uppercase text-sm group transition-colors"
+                  >
+                    <span>Tampilkan Semua Lulusan</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
+                  </button>
+                </>
               )}
               {!hasMore && hasLess && (
                 <button
                   onClick={() => {
                     setVisibleCount(PAGE_SIZE);
+                    setActiveScrollIndex(0);
                     document.getElementById('peserta')?.scrollIntoView({ behavior: 'smooth' });
                   }}
                   className="inline-flex items-center gap-3 text-text-muted hover:text-text-primary font-mono tracking-widest uppercase text-sm group transition-colors"

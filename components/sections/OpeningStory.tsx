@@ -1,7 +1,11 @@
+"use client";
+
 import React from 'react';
 import { Container } from '@/components/ui/Container';
+import { useIsPostYudisium } from '@/lib/hooks';
 
 export function OpeningStory() {
+  const isPost = useIsPostYudisium();
   return (
     <section className="py-24 md:py-32 bg-black-primary relative overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
@@ -17,7 +21,7 @@ export function OpeningStory() {
           </p>
           
           <p className="text-lg md:text-xl text-text-muted leading-relaxed">
-            Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan merayakan 71 calon lulusan yang siap membawa ilmu, integritas, dan karya ke masa depan.
+            Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan merayakan 71 {isPost ? 'lulusan' : 'calon lulusan'} yang siap membawa ilmu, integritas, dan karya ke masa depan.
           </p>
         </div>
       </Container>

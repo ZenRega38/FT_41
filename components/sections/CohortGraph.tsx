@@ -7,11 +7,13 @@ import { MotionReveal } from '@/components/ui/MotionReveal';
 import participantsData from '@/data/participants.json';
 import { Participant } from '@/types/site';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useIsPostYudisium } from '@/lib/hooks';
 
 type DistType = 'tahun' | 'prodi' | 'gender';
 
 export function CohortGraph() {
   const [activeTab, setActiveTab] = useState<DistType>('tahun');
+  const isPost = useIsPostYudisium();
 
   const distributionData = useMemo(() => {
     const stats: Record<string, number> = {};
@@ -51,7 +53,7 @@ export function CohortGraph() {
           <p className="text-gold tracking-[0.3em] font-mono text-xs md:text-sm">[ DEMOGRAFI ]</p>
           <h2 className="section-title text-text-primary">Distribusi Peserta</h2>
           <p className="text-text-muted max-w-2xl mx-auto">
-            Komposisi 71 calon lulusan berdasarkan berbagai kategori.
+            Komposisi 71 {isPost ? 'lulusan' : 'calon lulusan'} berdasarkan berbagai kategori.
           </p>
         </MotionReveal>
 
@@ -69,7 +71,19 @@ export function CohortGraph() {
                     : 'bg-black-soft text-text-muted hover:text-gold hover:bg-charcoal border border-glass'
                 }`}
               >
-                {tab === 'tahun' ? 'Tahun Masuk' : tab === 'prodi' ? 'Program Studi' : 'Gender'}
+                {tab === 'tahun' ? (
+                  <>
+                    <span className="sm:hidden">Tahun</span>
+                    <span className="hidden sm:inline">Tahun Masuk</span>
+                  </>
+                ) : tab === 'prodi' ? (
+                  <>
+                    <span className="sm:hidden">Prodi</span>
+                    <span className="hidden sm:inline">Program Studi</span>
+                  </>
+                ) : (
+                  'Gender'
+                )}
               </button>
             ))}
           </div>
