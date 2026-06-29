@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-black-primary: #050505;
+  --color-black-soft: #0a0a0b;
+  --color-charcoal: #111112;
+  --color-gold: #c5a059; /* Brass / Technical Gold */
+  --color-gold-muted: #9c7b41;
+  --color-champagne: #e6d3a8;
+  --color-text-primary: #f2f2f2;
+  --color-text-muted: #8c8c8c;
+  --color-border-gold: rgba(197, 160, 89, 0.25);
+  --color-glass: rgba(255, 255, 255, 0.05);
+
+  --font-sans: var(--font-sans), 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-serif: var(--font-heading), 'Space Grotesk', serif;
+  --font-mono: var(--font-mono), 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: var(--color-black-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography scale */
+  .hero-title {
+    font-size: clamp(3.5rem, 10vw, 10rem);
+    line-height: 1.1;
+    font-family: var(--font-heading);
+  }
+  .section-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.2;
+    font-family: var(--font-heading);
+  }
+  .body-lg {
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

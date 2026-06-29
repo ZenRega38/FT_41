@@ -1,0 +1,30 @@
+[
+  {
+    "code": "TE",
+    "name": "Teknik Elektro",
+    "shortName": "Elektro",
+    "description": "Program studi Teknik Elektro berfokus pada sistem kelistrikan, elektronika, telekomunikasi, dan kendali cerdas.",
+    "icon": "circuit"
+  },
+  {
+    "code": "TM",
+    "name": "Teknik Mesin",
+    "shortName": "Mesin",
+    "description": "Program studi Teknik Mesin mempelajari desain mekanik, konversi energi, dan manufaktur untuk industri masa depan.",
+    "icon": "gear"
+  },
+  {
+    "code": "TS",
+    "name": "Teknik Sipil",
+    "shortName": "Sipil",
+    "description": "Program studi Teknik Sipil merancang dan membangun infrastruktur yang aman, berkelanjutan, dan inovatif.",
+    "icon": "bridge"
+  },
+  {
+    "code": "TK",
+    "name": "Teknik Komputer",
+    "shortName": "Komputer",
+    "description": "Program studi Teknik Komputer menggabungkan perangkat keras dan lunak untuk sistem cerdas dan IoT.",
+    "icon": "chip"
+  }
+]
