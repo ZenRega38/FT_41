@@ -2,8 +2,9 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import participantsData from '@/data/participants.json';
+import { fetchStudentDetails } from '@/lib/sheets';
 import { Container } from '@/components/ui/Container';
-import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users } from 'lucide-react';
+import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
@@ -37,16 +38,27 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
     notFound();
   }
 
+  const sheetData = participant.nim ? await fetchStudentDetails(participant.nim) : null;
+
   // Fallback dummy data for missing properties
-  const bio = (participant as any).bio || `Halo, saya ${participant.name.split(',')[0]}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Berkomitmen untuk mengaplikasikan ilmu keteknikan dalam membangun peradaban dan memajukan kawasan pesisir laut tropis.`;
-  const projects = (participant as any).projects || [
+  const bio = sheetData ? sheetData.bio : (participant as any).bio || `Halo, saya ${participant.name.split(',')[0]}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Berkomitmen untuk mengaplikasikan ilmu keteknikan dalam membangun peradaban dan memajukan kawasan pesisir laut tropis.`;
+  const projects = sheetData ? sheetData.projects : (participant as any).projects || [
     { title: `Tugas Akhir ${participant.name.split(',')[0]}`, desc: "Penelitian akhir yang berfokus pada optimasi sistem di wilayah perbatasan Kalimantan Utara. Lorem ipsum dolor sit amet." },
     { title: "Proyek Kolaboratif Fakultas", desc: "Pengembangan infrastruktur cerdas berbasi IoT dan desain berkelanjutan." }
   ];
-  const organizations = (participant as any).organizations || [
+  const organizations = sheetData ? sheetData.organizations : (participant as any).organizations || [
     { name: "BEM Fakultas Teknik UBT", role: "Ketua Departemen Pendidikan", period: "2024 - 2025" },
     { name: "Himpunan Mahasiswa Program Studi", role: "Anggota Divisi Humas", period: "2023 - 2024" }
   ];
+  const internships = sheetData ? sheetData.internships : (participant as any).internships || [
+    { company: "PT Pertamina EP Tarakan Field", role: "Intern Engineer", period: "Jan 2025 - Mar 2025" }
+  ];
+  const scholarships = sheetData ? sheetData.scholarships : (participant as any).scholarships || ["Beasiswa KIP Kuliah"];
+  const awards = sheetData ? sheetData.awards : (participant as any).awards || ["Mahasiswa Berprestasi Fakultas Teknik 2025"];
+  const publications = sheetData ? sheetData.publications : (participant as any).publications || [];
+  const job = sheetData ? sheetData.job : (participant as any).job || null;
+  const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin;
+  const instagramUrl = sheetData?.instagram || (participant as any).instagram;
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
@@ -93,11 +105,42 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">NPM / NIM</p>
                 <p className="font-mono text-text-muted">{participant.nim || "Dirahasiakan"}</p>
               </div>
+
+              {scholarships && scholarships.length > 0 && (
+                <div className="pt-4 border-t border-glass">
+                  <p className="text-xs font-mono text-gold uppercase tracking-widest mb-2">Penerima Beasiswa</p>
+                  <ul className="text-text-muted space-y-2 list-disc list-outside ml-4 text-sm">
+                    {scholarships.map((item: string, idx: number) => (
+                      <li key={idx} className="leading-relaxed">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {awards && awards.length > 0 && (
+                <div className="pt-4 border-t border-glass">
+                  <p className="text-xs font-mono text-gold uppercase tracking-widest mb-2">Penghargaan</p>
+                  <ul className="text-text-muted space-y-2 list-disc list-outside ml-4 text-sm">
+                    {awards.map((item: string, idx: number) => (
+                      <li key={idx} className="leading-relaxed">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               
               <div className="pt-4 border-t border-glass">
                 <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">Status Kelulusan</p>
                 <p className="text-text-muted">Yudisium Ke-41 (Juli 2026)</p>
               </div>
+
+              {job && (
+                <div className="pt-4 border-t border-glass">
+                  <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">Pekerjaan Saat Ini</p>
+                  <p className="font-semibold text-text-primary">{job.role}</p>
+                  <p className="text-sm text-text-muted">{job.company}</p>
+                  <p className="text-xs text-text-muted/60 mt-1">Diterima: {job.date}</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -144,6 +187,26 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               </div>
             )}
 
+            {/* Pengalaman Magang */}
+            {internships && internships.length > 0 && (
+              <div className="space-y-6 pt-6 border-t border-glass">
+                <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
+                  <Briefcase className="text-gold" size={24} />
+                  Pengalaman Magang
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {internships.map((intern: any, idx: number) => (
+                    <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
+                      <h3 className="font-semibold text-text-primary mb-1">{intern.company}</h3>
+                      <p className="text-sm text-gold font-mono tracking-widest uppercase mb-2">{intern.role}</p>
+                      <p className="text-xs text-text-muted">{intern.period}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Proyek & Publikasi */}
             <div className="space-y-6 pt-6 border-t border-glass">
               <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
@@ -159,6 +222,22 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                   </div>
                 ))}
               </div>
+
+              {publications && publications.length > 0 && (
+                <div className="mt-8 pt-6 border-t border-glass/30 space-y-3">
+                  <p className="text-sm font-mono text-gold uppercase tracking-widest">Tautan Publikasi</p>
+                  <ul className="space-y-2">
+                    {publications.map((pub: string, idx: number) => (
+                      <li key={idx}>
+                        <a href={pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
+                          <LinkIcon size={14} className="shrink-0" />
+                          <span>{pub}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Social Media */}
@@ -168,8 +247,8 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               </h2>
               
               <div className="flex flex-wrap gap-4">
-                {(participant as any).linkedin ? (
-                  <a href={(participant as any).linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
+                {linkedinUrl ? (
+                  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
                     <LinkedinIcon size={18} />
                     <span>LinkedIn Profile</span>
                   </a>
@@ -180,8 +259,8 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                   </div>
                 )}
                 
-                {(participant as any).instagram ? (
-                  <a href={(participant as any).instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
+                {instagramUrl ? (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
                     <InstagramIcon size={18} />
                     <span>Instagram</span>
                   </a>
