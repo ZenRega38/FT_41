@@ -28,7 +28,7 @@ export function Messages() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {messages.map((msg, idx) => (
             <div key={idx} className="bg-charcoal border border-glass p-8 md:p-10 rounded-2xl relative group">
-              <span className="absolute top-6 left-6 text-6xl text-gold/20 font-serif leading-none select-none">"</span>
+              <span className="absolute top-6 left-6 text-6xl text-gold/20 font-serif leading-none select-none">&quot;</span>
               
               <div className="relative z-10 space-y-6 pt-4">
                 <p className="text-lg text-text-primary leading-relaxed font-serif italic">

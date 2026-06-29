@@ -109,7 +109,7 @@ export function GraduateModal({ participant, onClose }: GraduateModalProps) {
             {/* Quote */}
             {participant.quote && (
               <div className="py-6 border-y border-glass relative">
-                <span className="absolute top-4 left-0 text-4xl text-gold/20 font-serif leading-none select-none">"</span>
+                <span className="absolute top-4 left-0 text-4xl text-gold/20 font-serif leading-none select-none">&quot;</span>
                 <p className="text-lg text-text-primary italic font-serif leading-relaxed relative z-10">
                   {participant.quote}
                 </p>

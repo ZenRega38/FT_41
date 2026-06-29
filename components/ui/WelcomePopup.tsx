@@ -10,7 +10,7 @@ export function WelcomePopup() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    setTimeout(() => setMounted(true), 0);
     const hasSeenPopup = localStorage.getItem('ft41_welcome_dismissed');
     if (!hasSeenPopup) {
       // Add a slight delay for dramatic effect

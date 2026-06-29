@@ -3,15 +3,13 @@
 import React, { useState, useMemo } from 'react';
 import { Container } from '@/components/ui/Container';
 import { GraduateCard } from './GraduateCard';
-import { GraduateModal } from './GraduateModal';
 import { Participant } from '@/types/site';
 import participantsData from '@/data/participants.json';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export function GraduateWall() {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<string>('All');
-  const [selectedParticipant, setSelectedParticipant] = useState<Participant | null>(null);
 
   const participants: Participant[] = participantsData as Participant[];
 
@@ -75,16 +73,13 @@ export function GraduateWall() {
         {/* Graduate Grid */}
         {filteredParticipants.length > 0 ? (
           <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            <AnimatePresence>
-              {filteredParticipants.map((participant, index) => (
-                <GraduateCard
-                  key={participant.id}
-                  participant={participant}
-                  onClick={setSelectedParticipant}
-                  index={index}
-                />
-              ))}
-            </AnimatePresence>
+            {filteredParticipants.map((participant, index) => (
+              <GraduateCard
+                key={participant.id}
+                participant={participant}
+                index={index}
+              />
+            ))}
           </motion.div>
         ) : (
           <motion.div 
@@ -95,15 +90,6 @@ export function GraduateWall() {
             <p className="text-text-muted">Tidak ada peserta yang sesuai dengan pencarian.</p>
           </motion.div>
         )}
-
-        <AnimatePresence>
-          {selectedParticipant && (
-            <GraduateModal 
-              participant={selectedParticipant} 
-              onClose={() => setSelectedParticipant(null)} 
-            />
-          )}
-        </AnimatePresence>
       </Container>
     </section>
   );

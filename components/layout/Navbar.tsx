@@ -11,7 +11,8 @@ const navLinks = [
   { href: '#tentang', label: 'Tentang' },
   { href: '#prodi', label: 'Program Studi' },
   { href: '#peserta', label: 'Lulusan' },
-  { href: '#galeri', label: 'Galeri' },
+  { href: '/galeri', label: 'Galeri' },
+  { href: '/transparansi', label: 'Keuangan' },
 ];
 
 export function Navbar() {

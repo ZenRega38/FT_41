@@ -14,7 +14,7 @@ export function FeaturedGraduates() {
     { ...participantsData[0], title: "Lulusan Terbaik Fakultas", icon: Star, quote: "Semua jerih payah terbayar dengan hasil yang memuaskan." },
     { ...participantsData[28], title: "Pujian Akademik (Cumlaude)", icon: Award, quote: "Teruslah bermimpi dan wujudkan dengan usaha tanpa henti." },
     { ...participantsData[44], title: "Peneliti Muda Terbaik", icon: TrendingUp, quote: "Riset adalah kunci membuka pintu perbatasan." },
-  ] as (Participant & { title: string, icon: any, quote: string })[];
+  ] as (Participant & { title: string, icon: React.ElementType, quote: string })[];
 
   return (
     <section className="py-32 bg-black-primary relative overflow-x-clip" >
@@ -64,7 +64,7 @@ export function FeaturedGraduates() {
                 
                 <div className="mt-8 border-l-2 border-gold/50 pl-4 py-1">
                   <p className="text-lg md:text-xl text-text-muted italic font-serif leading-relaxed max-w-2xl">
-                    "{featured[0].quote}"
+                    &quot;{featured[0].quote}&quot;
                   </p>
                 </div>
               </div>

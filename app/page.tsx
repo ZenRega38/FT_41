@@ -4,6 +4,7 @@ import { siteConfig } from "@/data/site";
 import { OpeningStory } from "@/components/sections/OpeningStory";
 import { Stats } from "@/components/sections/Stats";
 import { Programs } from "@/components/sections/Programs";
+import { GalleryPreview } from "@/components/sections/GalleryPreview";
 import { Countdown } from "@/components/sections/Countdown";
 import { Agenda } from "@/components/sections/Agenda";
 import { Trailer } from "@/components/sections/Trailer";
@@ -107,7 +108,7 @@ export default function Home() {
             className="space-y-3 uppercase tracking-[0.25em] text-xs md:text-sm text-text-muted font-medium"
           >
             <p className="text-gold tracking-[0.3em] font-mono">[ YUDISIUM KE-{siteConfig.stats.chapter} ]</p>
-            <p className="tracking-[0.2em]">// {siteConfig.institution.faculty}</p>
+            <p className="tracking-[0.2em]">{"//"} {siteConfig.institution.faculty}</p>
             <p className="text-text-muted opacity-50 tracking-[0.2em]">{siteConfig.institution.name}</p>
           </motion.div>
           
@@ -129,6 +130,7 @@ export default function Home() {
       <CohortGraph />
       <Stats />
       <Programs />
+      <GalleryPreview />
       <FeaturedGraduates />
       <Timeline />
       <GraduateWall />

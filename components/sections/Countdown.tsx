@@ -19,7 +19,7 @@ export function Countdown() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
+    setTimeout(() => setIsMounted(true), 0);
     
     const calculateTimeLeft = () => {
       const difference = TARGET_DATE - new Date().getTime();

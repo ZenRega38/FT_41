@@ -1,64 +1,26 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Participant } from '@/types/site';
 import { motion } from 'framer-motion';
 
 interface GraduateCardProps {
   participant: Participant;
-  onClick: (participant: Participant) => void;
   index?: number;
 }
 
-export function GraduateCard({ participant, onClick, index = 0 }: GraduateCardProps) {
-  // Simple 3D tilt effect on hover
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const box = card.getBoundingClientRect();
-    const x = e.clientX - box.left;
-    const y = e.clientY - box.top;
-    const centerX = box.width / 2;
-    const centerY = box.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-    
-    setRotateX(rotateX);
-    setRotateY(rotateY);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-  };
-
+export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: (index % 10) * 0.05, ease: [0.16, 1, 0.3, 1] }}
-      onClick={() => onClick(participant)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="group relative cursor-pointer rounded-xl overflow-hidden"
-      style={{ perspective: 1000 }}
-      tabIndex={0}
-      role="button"
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          onClick(participant);
-        }
-      }}
     >
-      <motion.div 
-        animate={{ rotateX, rotateY }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="w-full h-full bg-charcoal border border-glass group-hover:border-gold/50 transition-colors duration-300 rounded-xl overflow-hidden"
+      <Link 
+        href={`/peserta/${participant.slug}`}
+        className="group relative block w-full bg-charcoal border border-glass group-hover:border-gold/50 transition-colors duration-300 rounded-xl overflow-hidden"
       >
         <div className="aspect-[3/4] relative bg-black-soft w-full overflow-hidden">
           
@@ -99,7 +61,7 @@ export function GraduateCard({ participant, onClick, index = 0 }: GraduateCardPr
             </h3>
           </div>
         </div>
-      </motion.div>
+      </Link>
     </motion.div>
   );
 }
