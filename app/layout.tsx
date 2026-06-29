@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Manrope, JetBrains_Mono } from "next/font/google";
+import { Chakra_Petch, Titillium_Web, Share_Tech_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { WelcomePopup } from "@/components/ui/WelcomePopup";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const chakraPetch = Chakra_Petch({
+  weight: ['400', '500', '600', '700'],
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const manrope = Manrope({
+const titilliumWeb = Titillium_Web({
+  weight: ['300', '400', '600', '700'],
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const shareTechMono = Share_Tech_Mono({
+  weight: '400',
   subsets: ["latin"],
   variable: "--font-mono",
   display: "swap",
@@ -35,8 +39,9 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
-        className={`${manrope.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
+        className={`${titilliumWeb.variable} ${chakraPetch.variable} ${shareTechMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
       >
+        <WelcomePopup />
         <Navbar />
         {children}
         <Footer />

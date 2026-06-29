@@ -92,7 +92,7 @@ export function GraduateCard({ participant, onClick, index = 0 }: GraduateCardPr
           
           <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 z-30 translate-y-4 transition-transform duration-500 group-hover:translate-y-0 ease-out">
             <div className="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-gold mb-2 opacity-80 group-hover:opacity-100 transition-opacity">
-              {participant.programCode}
+              {participant.program}
             </div>
             <h3 className="font-serif text-lg md:text-xl text-text-primary group-hover:text-champagne transition-colors line-clamp-2 leading-tight drop-shadow-md">
               {participant.name}

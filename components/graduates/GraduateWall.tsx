@@ -39,17 +39,23 @@ export function GraduateWall() {
         {/* Filters and Search - To be extracted to GraduateFilters.tsx later */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
           <div className="flex gap-2 bg-charcoal p-1 rounded-lg border border-glass">
-            {['All', 'TE', 'TM', 'TS', 'TK'].map((code) => (
+            {[
+              { code: 'All', name: 'Semua Prodi' },
+              { code: 'TE', name: 'Teknik Elektro' },
+              { code: 'TM', name: 'Teknik Mesin' },
+              { code: 'TS', name: 'Teknik Sipil' },
+              { code: 'TK', name: 'Teknik Komputer' }
+            ].map((prog) => (
               <button
-                key={code}
-                onClick={() => setFilter(code)}
+                key={prog.code}
+                onClick={() => setFilter(prog.code)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  filter === code
+                  filter === prog.code
                     ? 'bg-gold/20 text-gold border border-gold/30'
                     : 'text-text-muted hover:text-text-primary hover:bg-glass'
                 }`}
               >
-                {code === 'All' ? 'Semua Prodi' : code}
+                {prog.name}
               </button>
             ))}
           </div>

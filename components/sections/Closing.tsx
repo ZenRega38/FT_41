@@ -11,9 +11,9 @@ export function Closing() {
       <Container className="relative z-10 text-center">
         <div className="max-w-4xl mx-auto space-y-8">
           <h2 className="hero-title font-serif text-text-primary leading-tight">
-            Yudisium bukan akhir perjalanan.<br />
+            Fondasi telah dipancangkan.<br />Rancang bangun telah diuji.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted">
-              Ia adalah peluncuran.
+              Kini saatnya membangun peradaban.
             </span>
           </h2>
           
