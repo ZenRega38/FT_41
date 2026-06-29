@@ -36,15 +36,13 @@ export function Trailer() {
                 <div className="absolute inset-0 rounded-full border border-gold/20 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
               </motion.button>
             ) : (
-              <div className="relative z-20 w-full h-full bg-black-primary flex flex-col items-center justify-center p-8 text-center space-y-6">
-                <p className="text-gold font-mono tracking-widest text-lg">[ VIDEO AKAN DATANG ]</p>
-                <p className="text-text-muted">Ruang ini siap digunakan untuk menyisipkan embed YouTube atau file MP4 dari panitia.</p>
-                <button 
-                  onClick={() => setIsPlaying(false)}
-                  className="px-6 py-2 border border-glass rounded-full text-text-muted hover:text-white hover:border-gold transition-colors"
-                >
-                  Tutup Video
-                </button>
+              <div className="relative z-20 w-full h-full bg-black-primary">
+                <iframe
+                  src="https://drive.google.com/file/d/1DGUUqj4-i1ekn_DQa-F3hoQ5W-pDIOIP/preview"
+                  className="w-full h-full border-0"
+                  allow="autoplay"
+                  allowFullScreen
+                ></iframe>
               </div>
             )}
           </div>
