@@ -3,8 +3,24 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import participantsData from '@/data/participants.json';
 import { Container } from '@/components/ui/Container';
-import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code } from 'lucide-react';
+import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users } from 'lucide-react';
 import Link from 'next/link';
+
+const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const InstagramIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
 
 // Tell Next.js to pre-render these dynamic routes at build time
 export function generateStaticParams() {
@@ -26,6 +42,10 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const projects = (participant as any).projects || [
     { title: `Tugas Akhir ${participant.name.split(',')[0]}`, desc: "Penelitian akhir yang berfokus pada optimasi sistem di wilayah perbatasan Kalimantan Utara. Lorem ipsum dolor sit amet." },
     { title: "Proyek Kolaboratif Fakultas", desc: "Pengembangan infrastruktur cerdas berbasi IoT dan desain berkelanjutan." }
+  ];
+  const organizations = (participant as any).organizations || [
+    { name: "BEM Fakultas Teknik UBT", role: "Ketua Departemen Pendidikan", period: "2024 - 2025" },
+    { name: "Himpunan Mahasiswa Program Studi", role: "Anggota Divisi Humas", period: "2023 - 2024" }
   ];
 
   return (
@@ -104,8 +124,28 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               </p>
             </div>
 
+            {/* Pengalaman Organisasi */}
+            {organizations && organizations.length > 0 && (
+              <div className="space-y-6 pt-6 border-t border-glass">
+                <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
+                  <Users className="text-gold" size={24} />
+                  Pengalaman Organisasi
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {organizations.map((org: any, idx: number) => (
+                    <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
+                      <h3 className="font-semibold text-text-primary mb-1">{org.name}</h3>
+                      <p className="text-sm text-gold font-mono tracking-widest uppercase mb-2">{org.role}</p>
+                      <p className="text-xs text-text-muted">{org.period}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Proyek & Publikasi */}
-            <div className="space-y-6">
+            <div className="space-y-6 pt-6 border-t border-glass">
               <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
                 <Code className="text-gold" size={24} />
                 Proyek & Publikasi Akhir
@@ -130,24 +170,24 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <div className="flex flex-wrap gap-4">
                 {(participant as any).linkedin ? (
                   <a href={(participant as any).linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
-                    <LinkIcon size={18} />
+                    <LinkedinIcon size={18} />
                     <span>LinkedIn Profile</span>
                   </a>
                 ) : (
                   <div className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass opacity-50 cursor-not-allowed text-text-muted">
-                    <LinkIcon size={18} />
+                    <LinkedinIcon size={18} />
                     <span>LinkedIn (Belum Ditambahkan)</span>
                   </div>
                 )}
                 
                 {(participant as any).instagram ? (
                   <a href={(participant as any).instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
-                    <Camera size={18} />
+                    <InstagramIcon size={18} />
                     <span>Instagram</span>
                   </a>
                 ) : (
                   <div className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass opacity-50 cursor-not-allowed text-text-muted">
-                    <Camera size={18} />
+                    <InstagramIcon size={18} />
                     <span>Instagram (Belum Ditambahkan)</span>
                   </div>
                 )}
