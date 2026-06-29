@@ -3,7 +3,7 @@ import { Container } from '@/components/ui/Container';
 
 export function OpeningStory() {
   return (
-    <section id="tentang" className="py-24 md:py-32 bg-black-primary relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-black-primary relative overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
         <div className="w-[80vw] h-[80vw] md:w-[40vw] md:h-[40vw] rounded-full bg-gold/5 blur-[120px]"></div>
       </div>

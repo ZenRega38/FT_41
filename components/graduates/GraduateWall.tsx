@@ -1,21 +1,35 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Container } from '@/components/ui/Container';
 import { GraduateCard } from './GraduateCard';
 import { Participant } from '@/types/site';
 import participantsData from '@/data/participants.json';
 import { motion } from 'framer-motion';
+import { ArrowRight, ArrowUp } from 'lucide-react';
 
-export function GraduateWall() {
+const PAGE_SIZE = 10;
+
+function GraduateWallContent() {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<string>('All');
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
+
+  useEffect(() => {
+    const prodi = searchParams.get('prodi');
+    if (prodi && ['TE', 'TM', 'TS', 'TK'].includes(prodi)) {
+      setFilter(prodi);
+    }
+  }, [searchParams]);
 
   const participants: Participant[] = participantsData as Participant[];
 
   const filteredParticipants = useMemo(() => {
+    // Reset visible count whenever filter or search changes
     return participants
-      .filter((p) => p.displayConsent) // Ensure only approved ones are shown
+      .filter((p) => p.displayConsent)
       .filter((p) => {
         const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
         const matchesFilter = filter === 'All' || p.programCode === filter;
@@ -23,6 +37,14 @@ export function GraduateWall() {
       })
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [search, filter, participants]);
+
+  // Reset visibleCount whenever filter/search changes
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [filter, search]);
+
+  const hasMore = visibleCount < filteredParticipants.length;
+  const hasLess = visibleCount > PAGE_SIZE;
 
   return (
     <section id="peserta" className="py-24 bg-black-soft min-h-screen">
@@ -34,28 +56,30 @@ export function GraduateWall() {
           </p>
         </div>
 
-        {/* Filters and Search - To be extracted to GraduateFilters.tsx later */}
+        {/* Filters and Search */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
-          <div className="flex gap-2 bg-charcoal p-1 rounded-lg border border-glass">
-            {[
-              { code: 'All', name: 'Semua Prodi' },
-              { code: 'TE', name: 'Teknik Elektro' },
-              { code: 'TM', name: 'Teknik Mesin' },
-              { code: 'TS', name: 'Teknik Sipil' },
-              { code: 'TK', name: 'Teknik Komputer' }
-            ].map((prog) => (
-              <button
-                key={prog.code}
-                onClick={() => setFilter(prog.code)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                  filter === prog.code
-                    ? 'bg-gold/20 text-gold border border-gold/30'
-                    : 'text-text-muted hover:text-text-primary hover:bg-glass'
-                }`}
-              >
-                {prog.name}
-              </button>
-            ))}
+          <div className="relative w-full md:w-auto">
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="w-full md:w-64 appearance-none bg-charcoal border border-glass focus:border-gold/50 rounded-lg py-2.5 pl-4 pr-10 text-sm text-text-primary outline-none transition-colors cursor-pointer"
+              aria-label="Filter Prodi"
+            >
+              {[
+                { code: 'All', name: 'Semua Prodi' },
+                { code: 'TE', name: 'Teknik Elektro' },
+                { code: 'TM', name: 'Teknik Mesin' },
+                { code: 'TS', name: 'Teknik Sipil' },
+                { code: 'TK', name: 'Teknik Komputer' }
+              ].map((prog) => (
+                <option key={prog.code} value={prog.code}>
+                  {prog.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-text-muted">
+              <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path></svg>
+            </div>
           </div>
 
           <div className="relative w-full md:w-64">
@@ -72,15 +96,48 @@ export function GraduateWall() {
 
         {/* Graduate Grid */}
         {filteredParticipants.length > 0 ? (
-          <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-            {filteredParticipants.map((participant, index) => (
-              <GraduateCard
-                key={participant.id}
-                participant={participant}
-                index={index}
-              />
-            ))}
-          </motion.div>
+          <>
+            <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+              {filteredParticipants.slice(0, visibleCount).map((participant, index) => (
+                <GraduateCard
+                  key={participant.id}
+                  participant={participant}
+                  index={index}
+                />
+              ))}
+            </motion.div>
+
+            {/* Gallery-style text + arrow controls */}
+            <div className="flex flex-col items-center gap-4 mt-14">
+              {/* Show count info */}
+              <p className="text-xs text-text-muted tracking-widest uppercase">
+                Menampilkan {Math.min(visibleCount, filteredParticipants.length)} dari {filteredParticipants.length} lulusan
+              </p>
+
+              {/* Only one action at a time */}
+              {hasMore && (
+                <button
+                  onClick={() => setVisibleCount(prev => prev + PAGE_SIZE)}
+                  className="inline-flex items-center gap-3 text-gold hover:text-champagne font-mono tracking-widest uppercase text-sm group transition-colors"
+                >
+                  <span>Lihat Lebih Banyak</span>
+                  <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform duration-300" />
+                </button>
+              )}
+              {!hasMore && hasLess && (
+                <button
+                  onClick={() => {
+                    setVisibleCount(PAGE_SIZE);
+                    document.getElementById('peserta')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-3 text-text-muted hover:text-text-primary font-mono tracking-widest uppercase text-sm group transition-colors"
+                >
+                  <ArrowUp size={16} className="group-hover:-translate-y-1 transition-transform duration-300" />
+                  <span>Lihat Lebih Sedikit</span>
+                </button>
+              )}
+            </div>
+          </>
         ) : (
           <motion.div 
             initial={{ opacity: 0 }}
@@ -92,5 +149,13 @@ export function GraduateWall() {
         )}
       </Container>
     </section>
+  );
+}
+
+export function GraduateWall() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black-soft flex items-center justify-center">Loading...</div>}>
+      <GraduateWallContent />
+    </Suspense>
   );
 }

@@ -52,10 +52,15 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
           <div className="lg:col-span-4 space-y-6">
             <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-glass bg-black-soft relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-transparent to-transparent z-10"></div>
-              {/* Photo placeholder until images are added */}
-              <div className="absolute inset-0 flex items-center justify-center text-text-muted/20 z-0">
-                 FOTO FORMAL
-              </div>
+              {participant.photo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={participant.photo} alt={participant.name} className="w-full h-full object-cover object-top relative z-0" />
+              ) : (
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-text-muted/30 z-0">
+                  <Camera size={48} className="mb-4 opacity-50" />
+                  <span className="font-mono text-sm tracking-widest uppercase">Coming Soon</span>
+                </div>
+              )}
             </div>
 
             <div className="p-6 rounded-2xl bg-charcoal border border-glass space-y-4">

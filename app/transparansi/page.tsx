@@ -57,7 +57,7 @@ export default function TransparansiPage() {
               <PieChart size={14} />
               <span>Laporan Publik</span>
             </div>
-            <h1 className="hero-title font-serif text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted drop-shadow-sm">
+            <h1 className="hero-title font-serif text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted drop-shadow-sm pb-3">
               Transparansi Anggaran
             </h1>
             <p className="text-text-muted text-lg font-light max-w-xl leading-relaxed">

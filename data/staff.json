@@ -1,0 +1,192 @@
+{
+  "university": [
+    {
+      "id": "u1",
+      "name": "Prof. Dr. Yahya Ahmad Zein, S.H., M.H.",
+      "role": "Rektor",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=u1knO0MAAAAJ"
+    },
+    {
+      "id": "u2",
+      "name": "Dr. Heppi Iromo, S.Pi., M.Si.",
+      "role": "Wakil Rektor Bidang Akademik",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=iD6KKkkAAAAJ"
+    },
+    {
+      "id": "u3",
+      "name": "Dr. Etty Wahyuni MS., S.Hut., M.P.",
+      "role": "Wakil Rektor Bidang Umum & Keuangan",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=ZdK8KTAAAAAJ"
+    },
+    {
+      "id": "u4",
+      "name": "Rukisah, S.Pi., MP., Ph.D.",
+      "role": "Wakil Rektor Bidang Kemahasiswaan",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Gz1IcRAAAAAJ"
+    }
+  ],
+  "faculty": [
+    {
+      "id": "f1",
+      "name": "Dr. Syahfrizal Tachfulloh, S.T., M.T.",
+      "role": "Dekan Fakultas Teknik",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=Ay9-xxMAAAAJ"
+    },
+    {
+      "id": "f2",
+      "name": "Ir. Rosmalia Handayani, S.T., M.T.",
+      "role": "Wakil Dekan Bidang Akademik",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=sZxPEwgAAAAJ"
+    },
+    {
+      "id": "f3",
+      "name": "Dr. Achmad Zultan Mansur, S.T., M.T.",
+      "role": "Wakil Dekan Bidang Umum & Keuangan",
+      "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=JcYvtr8AAAAJ"
+    }
+  ],
+  "departments": [
+    {
+      "name": "Teknik Elektro",
+      "head": {
+        "id": "d1_h",
+        "name": "Dr. Ir. Patria Julianto, S.T., M.T., IPM.",
+        "role": "Ketua Program Studi",
+        "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=I6RztUIAAAAJ"
+      },
+      "lecturers": [
+        {
+          "id": "d1_l1",
+          "name": "Abdul Muis Prasetia, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=F-rhdV4AAAAJ"
+        },
+        {
+          "id": "d1_l2",
+          "name": "Linda Sartika, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=URaxJQoAAAAJ"
+        },
+        {
+          "id": "d1_l3",
+          "name": "Achmad Budiman, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=gwhCOggAAAAJ"
+        }
+      ]
+    },
+    {
+      "name": "Teknik Mesin",
+      "head": {
+        "id": "d2_h",
+        "name": "Marhadi Budi Waluyo, S.T., M.T.",
+        "role": "Ketua Program Studi",
+        "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=JL9mOWAAAAAJ"
+      },
+      "lecturers": [
+        {
+          "id": "d2_l1",
+          "name": "Andi Ard Maidhah, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=z9Jsh70AAAAJ"
+        },
+        {
+          "id": "d2_l2",
+          "name": "Deny Murdianto, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=PMz_2MUAAAAJ"
+        },
+        {
+          "id": "d2_l3",
+          "name": "Dwi Santoso, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=PETvek0AAAAJ"
+        }
+      ]
+    },
+    {
+      "name": "Teknik Sipil",
+      "head": {
+        "id": "d3_h",
+        "name": "Eko Prihartanto, S.T., M.T.",
+        "role": "Ketua Program Studi",
+        "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=XEF2o6EAAAAJ"
+      },
+      "lecturers": [
+        {
+          "id": "d3_l1",
+          "name": "Prof. Dr-Ing. Ir. Daud Nawir, M.T.",
+          "role": "Dosen / Guru Besar",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=jqrLZpUAAAAJ"
+        },
+        {
+          "id": "d3_l2",
+          "name": "Ir. Ahmad Hernadi, M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=LEbthbcAAAAJ"
+        },
+        {
+          "id": "d3_l3",
+          "name": "Budi Setiawan, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://ui-avatars.com/api/?name=Budi%20Setiawan&background=141416&color=d4af37&size=256&font-size=0.33"
+        },
+        {
+          "id": "d3_l4",
+          "name": "Noerman Adi Prasetya, M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=nSY2MIYAAAAJ"
+        }
+      ]
+    },
+    {
+      "name": "Teknik Komputer",
+      "head": {
+        "id": "d4_h",
+        "name": "Arif Fadllullah, S.Kom., M.Kom.",
+        "role": "Ketua Program Studi",
+        "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=5-cHx9cAAAAJ"
+      },
+      "lecturers": [
+        {
+          "id": "d4_l2",
+          "name": "Dedy Harto, S.T., M.T.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=0CV-r0YAAAAJ"
+        },
+        {
+          "id": "d4_l3",
+          "name": "Awang Pradana, S.Kom., M.Kom.",
+          "role": "Dosen",
+          "image": "https://scholar.googleusercontent.com/citations?view_op=medium_photo&user=vw04eyEAAAAJ"
+        },
+        {
+          "id": "d4_l4",
+          "name": "Kharis Hudaiby Hanif, S.Pd., M.Kom.",
+          "role": "Dosen",
+          "image": "https://ui-avatars.com/api/?name=Kharis%20Hudaiby%20Hanif&background=141416&color=d4af37&size=256&font-size=0.33"
+        }
+      ]
+    }
+  ],
+  "committee": [
+    {
+      "id": "c1",
+      "name": "Sebril Angi, S.T.",
+      "role": "Ketua Panitia",
+      "image": "https://drive.google.com/thumbnail?id=1AQTYfPL20gLfUAZkbG74RxQsGCEW8_Vn&sz=w1000"
+    },
+    {
+      "id": "c2",
+      "name": "[Belum Diketahui]",
+      "role": "Sekretaris",
+      "image": "https://ui-avatars.com/api/?name=Sekretaris&background=141416&color=d4af37&size=256&font-size=0.33"
+    },
+    {
+      "id": "c3",
+      "name": "Senia Rombe Pabuntang, S.T.",
+      "role": "Bendahara",
+      "image": "https://ui-avatars.com/api/?name=Senia%20Rombe%20Pabuntang&background=141416&color=d4af37&size=256&font-size=0.33"
+    }
+  ]
+}

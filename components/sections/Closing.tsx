@@ -10,7 +10,7 @@ export function Closing() {
       
       <Container className="relative z-10 text-center">
         <div className="max-w-4xl mx-auto space-y-8">
-          <h2 className="hero-title font-serif text-text-primary leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-text-primary leading-tight">
             Fondasi telah dipancangkan.<br />Rancang bangun telah diuji.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted">
               Kini saatnya membangun peradaban.

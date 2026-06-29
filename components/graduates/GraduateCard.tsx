@@ -25,30 +25,33 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
         <div className="aspect-[3/4] relative bg-black-soft w-full overflow-hidden">
           
           {/* Animated Mesh Placeholder */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-charcoal via-black-primary to-[#1a150b]">
-            <motion.div 
-              animate={{ 
-                opacity: [0.3, 0.5, 0.3],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-gold)_0%,_transparent_50%)] opacity-10 mix-blend-screen pointer-events-none"
-            />
-            <div className="text-4xl md:text-5xl font-serif text-gold/30 group-hover:text-gold/50 transition-colors duration-500 z-10">
-              {participant.name.charAt(0).toUpperCase()}
+          {!participant.photo ? (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-charcoal via-black-primary to-[#1a150b]">
+              <motion.div 
+                animate={{ 
+                  opacity: [0.3, 0.5, 0.3],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-gold)_0%,_transparent_50%)] opacity-10 mix-blend-screen pointer-events-none"
+              />
+              <div className="text-4xl md:text-5xl font-serif text-gold/30 group-hover:text-gold/50 transition-colors duration-500 z-10">
+                {participant.name.charAt(0).toUpperCase()}
+              </div>
+              <div className="mt-4 w-12 h-[1px] bg-gold/20 group-hover:bg-gold/50 transition-colors duration-500 z-10"></div>
+              <div className="absolute bottom-1/4 text-[10px] font-mono tracking-widest text-gold/40 uppercase">Coming Soon</div>
             </div>
-            <div className="mt-4 w-12 h-[1px] bg-gold/20 group-hover:bg-gold/50 transition-colors duration-500 z-10"></div>
-          </div>
-          
-          {/* Uncomment when images are ready */}
-          {/* <Image
-            src={participant.photo}
-            alt={participant.photoAlt}
-            fill
-            className="object-cover object-top transition-transform duration-700 group-hover:scale-110 z-10"
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-            loading="lazy"
-          /> */}
+          ) : (
+            <Image
+              src={participant.photo}
+              alt={participant.photoAlt || participant.name}
+              fill
+              className="object-cover object-top transition-transform duration-700 group-hover:scale-110 z-10"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+              loading="lazy"
+              unoptimized={true}
+            />
+          )}
           
           <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/50 to-transparent opacity-90 z-20 transition-opacity duration-300 group-hover:opacity-100" />
           

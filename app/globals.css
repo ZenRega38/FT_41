@@ -32,12 +32,13 @@
 
   /* Typography scale */
   .hero-title {
-    font-size: clamp(3.5rem, 10vw, 10rem);
+    font-size: clamp(2.5rem, 8vw, 8rem);
     line-height: 1.1;
+    padding-bottom: 0.1em;
     font-family: var(--font-heading);
   }
   .section-title {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2rem, 5vw, 4rem);
     line-height: 1.2;
     font-family: var(--font-heading);
   }
@@ -53,5 +54,15 @@
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

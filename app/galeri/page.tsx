@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { ArrowLeft, Image as ImageIcon } from 'lucide-react';
 
 export default function GaleriPage() {
-  // Adaptive array mapping to different aspect ratios
+  // Each photo has a natural aspect ratio — masonry will respect them
   const photos = [
     { id: 1, ratio: "aspect-[4/3]", label: "Coming Soon" },
     { id: 2, ratio: "aspect-[3/4]", label: "Coming Soon" },
@@ -42,23 +42,29 @@ export default function GaleriPage() {
           </p>
         </MotionReveal>
 
-        {/* Adaptive Grid / Masonry-like Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-auto">
+        {/* Masonry via CSS columns — tiles naturally per aspect ratio, no empty row gaps */}
+        <div
+          style={{
+            columns: 'var(--masonry-cols)',
+            gap: '14px',
+          } as React.CSSProperties}
+          className="[--masonry-cols:2] md:[--masonry-cols:3] lg:[--masonry-cols:4]"
+        >
           {photos.map((photo, idx) => (
-            <MotionReveal 
+            <MotionReveal
               key={photo.id}
-              delay={idx * 0.1}
+              delay={idx * 0.08}
               direction="up"
-              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center`}
+              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-glass to-transparent opacity-50 group-hover:opacity-100 transition-opacity"></div>
-              
-              <ImageIcon size={32} className="text-gold/30 mb-4 group-hover:scale-110 group-hover:text-gold transition-all duration-500" />
-              <p className="text-text-muted/50 font-mono tracking-widest uppercase text-xs group-hover:text-gold transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-br from-glass to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+
+              <ImageIcon size={28} className="text-gold/30 mb-3 group-hover:scale-110 group-hover:text-gold transition-all duration-500 relative z-10" />
+              <p className="text-text-muted/50 font-mono tracking-widest uppercase text-xs group-hover:text-gold transition-colors relative z-10">
                 {photo.label}
               </p>
-              
-              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
+
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
             </MotionReveal>
           ))}
         </div>

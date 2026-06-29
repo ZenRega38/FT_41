@@ -7,10 +7,10 @@ import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { href: '#home', label: 'Beranda' },
-  { href: '#tentang', label: 'Tentang' },
-  { href: '#prodi', label: 'Program Studi' },
-  { href: '#peserta', label: 'Lulusan' },
+  { href: '/', label: 'Beranda' },
+  { href: '/tentang', label: 'Tentang' },
+  { href: '/#prodi', label: 'Program Studi' },
+  { href: '/#peserta', label: 'Lulusan' },
   { href: '/galeri', label: 'Galeri' },
   { href: '/transparansi', label: 'Keuangan' },
 ];

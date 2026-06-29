@@ -23,10 +23,10 @@ export function FeaturedGraduates() {
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-champagne/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <Container>
-        <MotionReveal direction="up" className="mb-20 space-y-4">
+        <MotionReveal direction="up" className="mb-20 space-y-4 text-center">
           <p className="text-gold tracking-[0.2em] uppercase text-xs md:text-sm font-semibold">Hall of Fame</p>
           <h2 className="section-title text-text-primary">Prestasi & Dedikasi</h2>
-          <p className="text-text-muted max-w-2xl text-lg">
+          <p className="text-text-muted max-w-2xl mx-auto text-lg">
             Angkatan ke-41 telah menorehkan standar baru. Inilah representasi terbaik dari dedikasi dan kerja keras para mahasiswa.
           </p>
         </MotionReveal>

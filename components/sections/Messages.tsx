@@ -4,12 +4,12 @@ import { Container } from '@/components/ui/Container';
 export function Messages() {
   const messages = [
     {
-      author: "Dr. Eng. Nama Dekan, S.T., M.T.",
+      author: "Dr. Syahfrizal Tachfulloh, S.T., M.T.",
       role: "Dekan Fakultas Teknik",
       body: "Lulusan Fakultas Teknik Universitas Borneo Tarakan diharapkan tidak hanya menjadi insinyur yang handal secara teknis, tetapi juga memiliki integritas dan kepedulian terhadap pengembangan kawasan perbatasan dan pesisir. Jadilah pelita di mana pun kalian berkarya."
     },
     {
-      author: "Nama Wakil Dekan, S.T., M.Sc.",
+      author: "Ir. Rosmalia Handayani, S.T., M.T.",
       role: "Wakil Dekan Bidang Akademik",
       body: "Sebuah perjalanan akademik yang penuh dengan tantangan telah berhasil kalian lewati. Hari ini bukan garis akhir, melainkan titik awal untuk memberikan dampak nyata bagi masyarakat."
     }
