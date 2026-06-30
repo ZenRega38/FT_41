@@ -63,7 +63,14 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
       {/* Hero Background */}
-      <div className="absolute top-0 left-0 right-0 h-[40vh] bg-charcoal border-b border-glass pointer-events-none">
+      <div className="absolute top-0 left-0 right-0 h-[40vh] bg-charcoal border-b border-glass pointer-events-none overflow-hidden">
+        {(participant as any).banner && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity"
+            style={{ backgroundImage: `url('${(participant as any).banner}')` }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black-primary/50 to-black-primary"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--color-gold)_0%,_transparent_60%)] blur-[120px] opacity-10"></div>
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.05] mix-blend-overlay"></div>
       </div>
