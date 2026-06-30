@@ -41,26 +41,24 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const sheetData = participant.nim ? await fetchStudentDetails(participant.nim) : null;
 
   // Fallback dummy data for missing properties
-  const bio = sheetData ? sheetData.bio : (participant as any).bio || `Halo, saya ${participant.name.split(',')[0]}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Berkomitmen untuk mengaplikasikan ilmu keteknikan dalam membangun peradaban dan memajukan kawasan pesisir laut tropis.`;
+  const bio = sheetData ? sheetData.bio : (participant as any).bio || "[N/A]";
   const projects = sheetData ? sheetData.projects : (participant as any).projects || [
-    { title: `Tugas Akhir ${participant.name.split(',')[0]}`, desc: "Penelitian akhir yang berfokus pada optimasi sistem di wilayah perbatasan Kalimantan Utara. Lorem ipsum dolor sit amet." },
-    { title: "Proyek Kolaboratif Fakultas", desc: "Pengembangan infrastruktur cerdas berbasi IoT dan desain berkelanjutan." }
+    { title: "[N/A]", desc: "[N/A]" }
   ];
   const organizations = sheetData ? sheetData.organizations : (participant as any).organizations || [
-    { name: "BEM Fakultas Teknik UBT", role: "Ketua Departemen Pendidikan", period: "2024 - 2025" },
-    { name: "Himpunan Mahasiswa Program Studi", role: "Anggota Divisi Humas", period: "2023 - 2024" }
+    { name: "[N/A]", role: "[N/A]", period: "[N/A]" }
   ];
   const internships = sheetData ? sheetData.internships : (participant as any).internships || [
-    { company: "PT Pertamina EP Tarakan Field", role: "Intern Engineer", period: "Jan 2025 - Mar 2025" }
+    { company: "[N/A]", role: "[N/A]", period: "[N/A]" }
   ];
-  const scholarships = sheetData ? sheetData.scholarships : (participant as any).scholarships || ["Beasiswa KIP Kuliah"];
-  const awards = sheetData ? sheetData.awards : (participant as any).awards || ["Mahasiswa Berprestasi Fakultas Teknik 2025"];
-  const publications = sheetData ? sheetData.publications : (participant as any).publications || [];
-  const job = sheetData ? sheetData.job : (participant as any).job || null;
+  const scholarships = sheetData ? sheetData.scholarships : (participant as any).scholarships || ["[N/A]"];
+  const awards = sheetData ? sheetData.awards : (participant as any).awards || ["[N/A]"];
+  const publications = sheetData ? sheetData.publications : (participant as any).publications || [{ title: "[N/A]", url: "#" }];
+  const job = sheetData ? sheetData.job : (participant as any).job || { company: "[N/A]", role: "[N/A]", date: "[N/A]" };
   const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin;
   const instagramUrl = sheetData?.instagram || (participant as any).instagram;
-  const ipk = sheetData?.ipk || (participant as any).gpa;
-  const motto = sheetData?.motto || (participant as any).quote;
+  const ipk = sheetData?.ipk || (participant as any).gpa || "[N/A]";
+  const motto = sheetData?.motto || (participant as any).quote || "[N/A]";
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
