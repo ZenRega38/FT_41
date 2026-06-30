@@ -38,7 +38,7 @@ if (headerIndex !== -1) {
                     // Convert Google Drive view link to direct link
                     const match = rawPhoto.match(/d\/([a-zA-Z0-9_-]+)\/view/);
                     if (match && match[1]) {
-                        finalPhoto = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                        finalPhoto = `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1000`;
                     }
                     
                     const participant = existingJson.find(p => p.nim === nim);
