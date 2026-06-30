@@ -41,24 +41,20 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const sheetData = participant.nim ? await fetchStudentDetails(participant.nim) : null;
 
   // Fallback dummy data for missing properties
-  const bio = sheetData ? sheetData.bio : (participant as any).bio || "[N/A]";
-  const projects = sheetData ? sheetData.projects : (participant as any).projects || [
-    { title: "[N/A]", desc: "[N/A]" }
-  ];
-  const organizations = sheetData ? sheetData.organizations : (participant as any).organizations || [
-    { name: "[N/A]", role: "[N/A]", period: "[N/A]" }
-  ];
-  const internships = sheetData ? sheetData.internships : (participant as any).internships || [
-    { company: "[N/A]", role: "[N/A]", period: "[N/A]" }
-  ];
-  const scholarships = sheetData ? sheetData.scholarships : (participant as any).scholarships || ["[N/A]"];
-  const awards = sheetData ? sheetData.awards : (participant as any).awards || ["[N/A]"];
-  const publications = sheetData ? sheetData.publications : (participant as any).publications || [{ title: "[N/A]", url: "#" }];
-  const job = sheetData ? sheetData.job : (participant as any).job || { company: "[N/A]", role: "[N/A]", date: "[N/A]" };
+  const bio = sheetData?.bio || (participant as any).bio;
+  const projects = sheetData?.projects || (participant as any).projects || [];
+  const organizations = sheetData?.organizations || (participant as any).organizations || [];
+  const internships = sheetData?.internships || (participant as any).internships || [];
+  const scholarships = sheetData?.scholarships || (participant as any).scholarships || [];
+  const awards = sheetData?.awards || (participant as any).awards || [];
+  const publications = sheetData?.publications || (participant as any).publications || [];
+  const job = sheetData?.job || (participant as any).job;
   const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin;
   const instagramUrl = sheetData?.instagram || (participant as any).instagram;
-  const ipk = sheetData?.ipk || (participant as any).gpa || "[N/A]";
-  const motto = sheetData?.motto || (participant as any).quote || "[N/A]";
+  const ipk = sheetData?.ipk || (participant as any).gpa;
+  
+  const rawMotto = sheetData?.motto || (participant as any).quote;
+  const motto = rawMotto && rawMotto !== "[N/A]" ? rawMotto : null;
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
@@ -113,7 +109,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 <p className="font-mono text-text-muted">{participant.nim || "Dirahasiakan"}</p>
               </div>
 
-              {scholarships && scholarships.length > 0 && (
+              {scholarships && scholarships.length > 0 && scholarships[0] !== "[N/A]" && (
                 <div className="pt-4 border-t border-glass">
                   <p className="text-xs font-mono text-gold uppercase tracking-widest mb-2">Penerima Beasiswa</p>
                   <ul className="text-text-muted space-y-2 list-disc list-outside ml-4 text-sm">
@@ -124,7 +120,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 </div>
               )}
 
-              {awards && awards.length > 0 && (
+              {awards && awards.length > 0 && awards[0] !== "[N/A]" && (
                 <div className="pt-4 border-t border-glass">
                   <p className="text-xs font-mono text-gold uppercase tracking-widest mb-2">Penghargaan</p>
                   <ul className="text-text-muted space-y-2 list-disc list-outside ml-4 text-sm">
@@ -138,15 +134,15 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <div className="pt-4 border-t border-glass">
                 <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">Status Kelulusan</p>
                 <p className="text-text-muted">Yudisium Ke-41 (Juli 2026)</p>
-                {ipk && <p className="text-text-muted mt-1">IPK {ipk}</p>}
+                {ipk && ipk !== "[N/A]" && <p className="text-text-muted mt-1">IPK {ipk}</p>}
               </div>
 
-              {job && (
+              {job && job.company !== "[N/A]" && (
                 <div className="pt-4 border-t border-glass">
                   <p className="text-xs font-mono text-gold uppercase tracking-widest mb-1">Pekerjaan Saat Ini</p>
                   <p className="font-semibold text-text-primary">{job.role}</p>
                   <p className="text-sm text-text-muted">{job.company}</p>
-                  <p className="text-xs text-text-muted/60 mt-1">Diterima: {job.date}</p>
+                  {job.date && job.date !== "[N/A]" && <p className="text-xs text-text-muted/60 mt-1">Diterima: {job.date}</p>}
                 </div>
               )}
             </div>
@@ -172,18 +168,20 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
             </div>
 
             {/* Riwayat Hidup */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
-                <BookOpen className="text-gold" size={24} />
-                Riwayat Hidup
-              </h2>
-              <p className="text-text-muted leading-relaxed text-lg">
-                {bio}
-              </p>
-            </div>
+            {bio && bio !== "[N/A]" && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
+                  <BookOpen className="text-gold" size={24} />
+                  Riwayat Hidup
+                </h2>
+                <p className="text-text-muted leading-relaxed text-lg whitespace-pre-line">
+                  {bio}
+                </p>
+              </div>
+            )}
 
             {/* Pengalaman Organisasi */}
-            {organizations && organizations.length > 0 && (
+            {organizations && organizations.length > 0 && organizations[0].name !== "[N/A]" && (
               <div className="space-y-6 pt-6 border-t border-glass">
                 <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
                   <Users className="text-gold" size={24} />
@@ -203,7 +201,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
             )}
 
             {/* Pengalaman Magang */}
-            {internships && internships.length > 0 && (
+            {internships && internships.length > 0 && internships[0].company !== "[N/A]" && (
               <div className="space-y-6 pt-6 border-t border-glass">
                 <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
                   <Briefcase className="text-gold" size={24} />
@@ -223,37 +221,41 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
             )}
 
             {/* Proyek & Publikasi */}
-            <div className="space-y-6 pt-6 border-t border-glass">
-              <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
-                <Code className="text-gold" size={24} />
-                Proyek & Publikasi Akhir
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {projects.map((proj: any, idx: number) => (
-                  <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
-                    <h3 className="font-semibold text-text-primary mb-2">{proj.title}</h3>
-                    <p className="text-sm text-text-muted">{proj.desc}</p>
-                  </div>
-                ))}
-              </div>
-
-              {publications && publications.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-glass/30 space-y-3">
-                  <p className="text-sm font-mono text-gold uppercase tracking-widest">Tautan Publikasi</p>
-                  <ul className="space-y-2">
-                    {publications.map((pub: any, idx: number) => (
-                      <li key={idx}>
-                        <a href={pub.url || pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
-                          <LinkIcon size={14} className="shrink-0" />
-                          <span>{pub.title || pub.url || pub}</span>
-                        </a>
-                      </li>
+            {((projects && projects.length > 0 && projects[0].title !== "[N/A]") || (publications && publications.length > 0 && publications[0].title !== "[N/A]")) && (
+              <div className="space-y-6 pt-6 border-t border-glass">
+                <h2 className="text-2xl font-serif flex items-center gap-3 border-b border-glass pb-4">
+                  <Code className="text-gold" size={24} />
+                  Proyek & Publikasi Akhir
+                </h2>
+                
+                {projects && projects.length > 0 && projects[0].title !== "[N/A]" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {projects.map((proj: any, idx: number) => (
+                      <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
+                        <h3 className="font-semibold text-text-primary mb-2">{proj.title}</h3>
+                        <p className="text-sm text-text-muted">{proj.desc}</p>
+                      </div>
                     ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+                  </div>
+                )}
+
+                {publications && publications.length > 0 && publications[0].title !== "[N/A]" && (
+                  <div className="mt-8 pt-6 border-t border-glass/30 space-y-3">
+                    <p className="text-sm font-mono text-gold uppercase tracking-widest">Tautan Publikasi</p>
+                    <ul className="space-y-2">
+                      {publications.map((pub: any, idx: number) => (
+                        <li key={idx}>
+                          <a href={pub.url || pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
+                            <LinkIcon size={14} className="shrink-0" />
+                            <span>{pub.title || pub.url || pub}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Social Media */}
             <div className="space-y-4 pt-8 border-t border-glass">
