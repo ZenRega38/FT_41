@@ -10,6 +10,7 @@ interface MotionRevealProps {
   delay?: number;
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
   duration?: number;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export function MotionReveal({ 
@@ -17,7 +18,8 @@ export function MotionReveal({
   className, 
   delay = 0, 
   direction = 'up',
-  duration = 0.8
+  duration = 0.8,
+  onClick
 }: MotionRevealProps) {
   const getVariants = () => {
     switch (direction) {
@@ -38,6 +40,7 @@ export function MotionReveal({
       viewport={{ once: true, margin: "0px 0px -50px 0px" }}
       transition={{ duration, delay, ease: [0.16, 1, 0.3, 1] }}
       className={cn(className)}
+      onClick={onClick}
     >
       {children}
     </motion.div>
