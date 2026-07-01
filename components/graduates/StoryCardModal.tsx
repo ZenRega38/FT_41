@@ -20,27 +20,27 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   const exportRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const pinchStartRef = useRef<{ distance: number; scale: number } | null>(null);
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isShareSupported, setIsShareSupported] = useState(false);
-  
+
   // Display mode state: 'motto' or 'thesis'
   const [displayMode, setDisplayMode] = useState<'motto' | 'thesis'>('motto');
-  
+
   // Interactive gesture values
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
   const [imageScale, setImageScale] = useState(1.1); // Start with minor zoom so they can drag instantly
-  
+
   // Track image natural dimensions to strictly enforce boundaries
   const [imageAspectRatio, setImageAspectRatio] = useState(850 / 750); // Default to container aspect ratio
-  
+
   // Drag handling state
   const isDragging = useRef(false);
   const startPointer = useRef({ x: 0, y: 0 });
   const startTranslation = useRef({ x: 0, y: 0 });
-  
+
   // Live scaling factor for preview rendering
   const [scale, setScale] = useState(0.3);
 
@@ -90,7 +90,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     const Rc = 850 / 750; // Aspect ratio of container (1.13)
     let wRendered = 850;
     let hRendered = 750;
-    
+
     if (imageAspectRatio > Rc) {
       // Image is wider than container
       hRendered = 750;
@@ -177,11 +177,11 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     if (!isDragging.current) return;
     const deltaX = clientX - startPointer.current.x;
     const deltaY = clientY - startPointer.current.y;
-    
+
     // Map screen movement back to card layout space and apply strict boundary clamps
     const rawX = startTranslation.current.x + deltaX / scale;
     const rawY = startTranslation.current.y + deltaY / scale;
-    
+
     const clamped = getClampedTranslation(rawX, rawY, imageScale);
     setTranslateX(clamped.x);
     setTranslateY(clamped.y);
@@ -235,7 +235,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       const distance = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
       const factor = distance / pinchStartRef.current.distance;
       const newScale = Math.max(1, Math.min(4, pinchStartRef.current.scale * factor));
-      
+
       // Clamp coordinates instantly on scale change
       const clamped = getClampedTranslation(translateX, translateY, newScale);
       setImageScale(newScale);
@@ -254,7 +254,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     const zoomIntensity = 0.05;
     const factor = e.deltaY < 0 ? (1 + zoomIntensity) : (1 - zoomIntensity);
     const newScale = Math.max(1, Math.min(4, imageScale * factor));
-    
+
     // Clamp coordinates instantly on scale change
     const clamped = getClampedTranslation(translateX, translateY, newScale);
     setImageScale(newScale);
@@ -264,7 +264,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
 
   return (
     <>
-      <button 
+      <button
         onClick={() => setIsOpen(true)}
         className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gold text-black-primary font-bold hover:bg-gold-muted transition-colors"
       >
@@ -275,18 +275,18 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       {/* Off-screen/Hidden high-res container for exporting */}
       <div className="fixed top-0 left-[-9999px] opacity-0 pointer-events-none">
         <div ref={exportRef} style={{ width: 1080, height: 1920, backgroundColor: '#050505', position: 'relative', overflow: 'hidden' }}>
-          
+
           {/* Background Photos */}
-          <div 
-            style={{ 
-              position: 'absolute', 
-              top: '-50%', left: '-50%', 
-              width: '200%', height: '200%', 
-              transform: 'rotate(-35deg)', 
-              display: 'flex', flexDirection: 'column', 
-              gap: '20px', 
+          <div
+            style={{
+              position: 'absolute',
+              top: '-50%', left: '-50%',
+              width: '200%', height: '200%',
+              transform: 'rotate(-35deg)',
+              display: 'flex', flexDirection: 'column',
+              gap: '20px',
               alignItems: 'center', justifyContent: 'center',
-              opacity: 0.25, 
+              opacity: 0.25,
               filter: 'blur(8px)',
               pointerEvents: 'none',
               zIndex: 0
@@ -296,27 +296,27 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
               const allPhotos = participantsData
                 .map(p => p.photo)
                 .filter(photo => photo && photo.trim() !== '');
-                
+
               const repeatedPhotos: string[] = [];
-              for(let i=0; i < 6; i++) {
+              for (let i = 0; i < 6; i++) {
                 repeatedPhotos.push(...allPhotos);
               }
-              
+
               const rows = [];
-              for(let i=0; i < 16; i++) {
+              for (let i = 0; i < 16; i++) {
                 const rowPhotos = repeatedPhotos.slice(i * 25, (i + 1) * 25);
                 rows.push(
-                  <div key={i} style={{ 
-                    display: 'flex', gap: '20px', 
-                    marginLeft: i % 2 === 1 ? '-100px' : '0' 
+                  <div key={i} style={{
+                    display: 'flex', gap: '20px',
+                    marginLeft: i % 2 === 1 ? '-100px' : '0'
                   }}>
                     {rowPhotos.map((photo, idx) => (
-                      <img 
-                        key={idx} 
-                        src={photo} 
-                        alt="" 
+                      <img
+                        key={idx}
+                        src={photo}
+                        alt=""
                         crossOrigin="anonymous"
-                        style={{ width: '180px', height: '260px', objectFit: 'cover', borderRadius: '16px' }} 
+                        style={{ width: '180px', height: '260px', objectFit: 'cover', borderRadius: '16px' }}
                       />
                     ))}
                   </div>
@@ -325,10 +325,10 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
               return rows;
             })()}
           </div>
-          
+
           {/* Overlay to darken the background further */}
           <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(5, 5, 5, 0.4)', zIndex: 1 }} />
-          
+
           {/* The Story Card itself, scaled down */}
           <div style={{
             position: 'absolute',
@@ -340,9 +340,9 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
             overflow: 'hidden',
             zIndex: 10
           }}>
-            <StoryCard 
-              participant={participant} 
-              motto={motto} 
+            <StoryCard
+              participant={participant}
+              motto={motto}
               thesis={thesisTitle}
               displayMode={displayMode}
               translateX={translateX}
@@ -352,7 +352,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
               isExporting={true} // Hides missing placeholders and links in download PNG
             />
           </div>
-          
+
         </div>
       </div>
 
@@ -369,7 +369,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
             >
               {/* Close Button */}
               <div className="absolute top-6 right-6 z-10">
-                <button 
+                <button
                   onClick={(e) => { e.stopPropagation(); setIsOpen(false); }}
                   disabled={isExporting}
                   className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors disabled:opacity-50"
@@ -379,12 +379,12 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
               </div>
 
               {/* Main Content Box */}
-              <div 
+              <div
                 className="w-full max-w-sm flex flex-col items-center gap-6 cursor-default py-8"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Live scaled preview container */}
-                <div 
+                <div
                   ref={containerRef}
                   className="w-full aspect-[9/16] bg-[#050505] rounded-2xl border border-white/20 overflow-hidden relative shadow-2xl"
                 >
@@ -392,7 +392,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     Live Render at Custom Scale. 
                     We remove pointer-events-none here to make links inside the card clickable!
                   */}
-                  <div 
+                  <div
                     style={{
                       width: '1080px',
                       height: '1920px',
@@ -401,9 +401,9 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     }}
                     className="absolute top-0 left-0 select-none"
                   >
-                    <StoryCard 
-                      participant={participant} 
-                      motto={motto} 
+                    <StoryCard
+                      participant={participant}
+                      motto={motto}
                       thesis={thesisTitle}
                       displayMode={displayMode}
                       translateX={translateX}
@@ -415,7 +415,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                   </div>
 
                   {/* Gesture Overlay Target for Photo Region */}
-                  <div 
+                  <div
                     style={{
                       position: 'absolute',
                       left: `${115 * scale}px`,
@@ -476,7 +476,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                       <Share2 size={24} />
                     </button>
                   )}
-                  
+
                   <button
                     onClick={handleDownload}
                     disabled={isExporting}
@@ -487,7 +487,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                   </button>
 
                   {/* Labeled Segmented Slider with Gold highlight and text overlays */}
-                  <div 
+                  <div
                     onClick={() => {
                       if (!isExporting) {
                         setDisplayMode(prev => prev === 'motto' ? 'thesis' : 'motto');
@@ -496,27 +496,24 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     className="relative w-[22rem] h-14 bg-black/40 border border-gold/30 rounded-full flex items-center p-1 cursor-pointer select-none"
                   >
                     {/* Sliding active gold bubble */}
-                    <div 
-                      className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-gold rounded-full transition-transform duration-300 ease-out ${
-                        displayMode === 'thesis' ? 'translate-x-full' : 'translate-x-0'
-                      }`}
+                    <div
+                      className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-gold rounded-full transition-transform duration-300 ease-out ${displayMode === 'thesis' ? 'translate-x-full' : 'translate-x-0'
+                        }`}
                       style={{
                         left: '2px',
                         width: 'calc(50% - 2px)'
                       }}
                     />
-                    
+
                     {/* Motto label overlay */}
-                    <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${
-                      displayMode === 'motto' ? 'text-black-primary' : 'text-gold'
-                    }`}>
+                    <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${displayMode === 'motto' ? 'text-black-primary' : 'text-gold'
+                      }`}>
                       Motto Hidup
                     </span>
 
                     {/* Thesis label overlay */}
-                    <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${
-                      displayMode === 'thesis' ? 'text-black-primary' : 'text-gold'
-                    }`}>
+                    <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${displayMode === 'thesis' ? 'text-black-primary' : 'text-gold'
+                      }`}>
                       Judul Skripsi
                     </span>
                   </div>
