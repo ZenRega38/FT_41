@@ -411,7 +411,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                         setDisplayMode(prev => prev === 'motto' ? 'thesis' : 'motto');
                       }
                     }}
-                    className="relative w-56 h-14 bg-black/40 border border-gold/30 rounded-full flex items-center p-1 cursor-pointer select-none"
+                    className="relative w-[22rem] h-14 bg-black/40 border border-gold/30 rounded-full flex items-center p-1 cursor-pointer select-none"
                   >
                     {/* Sliding active gold bubble */}
                     <div 
@@ -428,14 +428,14 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${
                       displayMode === 'motto' ? 'text-black-primary' : 'text-gold'
                     }`}>
-                      Motto
+                      Motto Hidup
                     </span>
 
                     {/* Thesis label overlay */}
                     <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${
                       displayMode === 'thesis' ? 'text-black-primary' : 'text-gold'
                     }`}>
-                      Skripsi
+                      Judul Skripsi
                     </span>
                   </div>
                 </div>
