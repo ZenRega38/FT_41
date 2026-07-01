@@ -4,6 +4,7 @@ import React from 'react';
 import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import Link from 'next/link';
+import { TransparansiPopup } from '@/components/ui/TransparansiPopup';
 import { ArrowLeft, Calculator, FileText, PieChart } from 'lucide-react';
 
 export default function TransparansiPage() {
@@ -28,6 +29,7 @@ export default function TransparansiPage() {
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
+      <TransparansiPopup />
       {/* Background Effect */}
       <div className="absolute top-0 left-0 right-0 h-[50vh] pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--color-gold)_0%,_transparent_50%)] blur-[120px] opacity-[0.15]"></div>
