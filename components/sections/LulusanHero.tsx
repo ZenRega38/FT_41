@@ -1,0 +1,181 @@
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
+import { ChevronDown } from 'lucide-react';
+import participantsData from '@/data/participants.json';
+
+const SHIFT_DELAY   = 3000;   // 3s before layout shifts
+const PHOTO_INTERVAL = 3500;  // 3.5s per photo
+
+type Participant = typeof participantsData[0];
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+export function LulusanHero() {
+  const [shifted, setShifted]             = useState(false);
+  const [currentParticipant, setCurrentParticipant] = useState<Participant | null>(null);
+  const queueRef = useRef<Participant[]>([]);
+
+  // Track page scroll to fade hero elements as GraduateWall rises
+  const { scrollY } = useScroll();
+  const photoOpacity   = useTransform(scrollY, [0, 250, 650], [1, 1, 0]);
+  const photoX         = useTransform(scrollY, [0, 650], [0, -70]);
+  const subtitleOpacity = useTransform(scrollY, [0, 150, 450], [1, 1, 0]);
+  const labelOpacity   = useTransform(scrollY, [0, 100, 320], [1, 1, 0]);
+  const contentY       = useTransform(scrollY, [0, 650], [0, -40]);
+
+  const eligibleParticipants = participantsData.filter(
+    (p) => p.displayConsent && p.photo && p.photo.trim() !== ''
+  );
+
+  const getNext = useCallback((): Participant => {
+    if (queueRef.current.length === 0) {
+      queueRef.current = shuffleArray(eligibleParticipants);
+    }
+    return queueRef.current.pop()!;
+  }, [eligibleParticipants]);
+
+  // Trigger layout shift after 3s
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShifted(true);
+      setCurrentParticipant(getNext());
+    }, SHIFT_DELAY);
+    return () => clearTimeout(timer);
+  }, [getNext]);
+
+  // Cycle photos every 3.5s
+  useEffect(() => {
+    if (!shifted) return;
+    const interval = setInterval(() => setCurrentParticipant(getNext()), PHOTO_INTERVAL);
+    return () => clearInterval(interval);
+  }, [shifted, getNext]);
+
+  return (
+    <div className="relative w-full h-full flex items-center overflow-hidden bg-black-primary">
+      {/* Background glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[420px] bg-gold/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-champagne/4 rounded-full blur-[100px] pointer-events-none" />
+
+      <motion.div
+        style={{ y: contentY }}
+        className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12"
+      >
+        <div className="flex flex-row items-center gap-10 md:gap-16">
+
+          {/* ── Photo Card — slides in after 3s, fades on scroll ── */}
+          <AnimatePresence>
+            {shifted && currentParticipant && (
+              <motion.div
+                key="photo-container"
+                style={{ opacity: photoOpacity, x: photoX }}
+                initial={{ x: -100, opacity: 0, width: 0, minWidth: 0 }}
+                animate={{ x: 0, opacity: 1, width: 'auto', minWidth: 'auto' }}
+                exit={{ x: -100, opacity: 0, width: 0, minWidth: 0 }}
+                transition={{ duration: 1.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="flex-shrink-0 self-stretch"
+              >
+                <div className="relative w-64 md:w-80 lg:w-96 h-full min-h-[55vh] md:min-h-[65vh] rounded-2xl overflow-hidden border border-gold/20 shadow-2xl shadow-black/70">
+                  <AnimatePresence mode="sync">
+                    <motion.div
+                      key={currentParticipant.id}
+                      initial={{ opacity: 0, scale: 1.08 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.94 }}
+                      transition={{ duration: 1.1, ease: [0.4, 0, 0.2, 1] }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={currentParticipant.photo}
+                        alt={currentParticipant.photoAlt || currentParticipant.name}
+                        fill
+                        className="object-cover object-top"
+                        priority
+                      />
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/15 to-transparent" />
+                      {/* Name tag */}
+                      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                        <p className="text-text-primary font-serif text-sm md:text-base leading-snug line-clamp-2">
+                          {currentParticipant.name}
+                        </p>
+                        <p className="text-gold text-[10px] font-mono tracking-[0.15em] uppercase mt-1.5">
+                          {currentParticipant.program}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* ── Text block — shifts left after 3s, fades on scroll ── */}
+          <motion.div
+            layout
+            transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className={`flex-1 space-y-5 transition-[text-align] duration-700 ${
+              shifted ? 'text-left' : 'text-center'
+            }`}
+          >
+            <motion.p
+              layout
+              style={{ opacity: labelOpacity }}
+              className="text-gold tracking-[0.25em] uppercase text-xs md:text-sm font-semibold"
+            >
+              Yudisium Ke-41 · Fakultas Teknik UBT
+            </motion.p>
+
+            <motion.h1
+              layout
+              className="hero-title text-text-primary leading-none"
+            >
+              Daftar{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold via-champagne to-gold">
+                Lulusan
+              </span>
+            </motion.h1>
+
+            <motion.p
+              layout
+              style={{ opacity: subtitleOpacity }}
+              className={`text-text-muted text-base md:text-xl max-w-xl transition-[margin] duration-700 ${
+                shifted ? 'ml-0 mr-auto' : 'mx-auto'
+              }`}
+            >
+              Selamat kepada seluruh peserta Yudisium Ke-41<br />
+              Fakultas Teknik Universitas Borneo Tarakan.
+            </motion.p>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        style={{ opacity: labelOpacity }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      >
+        <div className="w-16 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+        <p className="text-text-muted/60 text-[10px] tracking-[0.25em] uppercase font-mono">
+          Gulir untuk melihat
+        </p>
+        <motion.div
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          className="text-gold/50"
+        >
+          <ChevronDown size={18} strokeWidth={1.5} />
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
