@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WelcomePopup } from "@/components/ui/WelcomePopup";
 import { GlobalPreloader } from "@/components/ui/GlobalPreloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { Suspense } from "react";
 import "./globals.css";
 
 const chakraPetch = Chakra_Petch({
@@ -50,7 +51,9 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${titilliumWeb.variable} ${chakraPetch.variable} ${shareTechMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
       >
-        <GlobalPreloader />
+        <Suspense fallback={null}>
+          <GlobalPreloader />
+        </Suspense>
         <CustomCursor />
         <WelcomePopup />
         <Navbar />

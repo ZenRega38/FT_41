@@ -16,7 +16,7 @@ import { Messages } from "@/components/sections/Messages";
 import { Guestbook } from "@/components/sections/Guestbook";
 import { Closing } from "@/components/sections/Closing";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
 import { section } from "framer-motion/client";
 
 export default function Home() {
@@ -135,7 +135,9 @@ export default function Home() {
       <GalleryPreview />
       <FeaturedGraduates />
       <Timeline />
-      <GraduateWall />
+      <Suspense fallback={<div className="h-96 flex items-center justify-center font-mono text-gold tracking-widest uppercase text-sm">Memuat Data Peserta...</div>}>
+        <GraduateWall />
+      </Suspense>
       <Messages />
       <Guestbook />
       <Closing />
