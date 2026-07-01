@@ -25,6 +25,7 @@ export interface Participant {
   social?: {
     instagram?: string;
     linkedin?: string;
+    email?: string;
   };
 }
 

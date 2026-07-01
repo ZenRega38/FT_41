@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Participant } from '@/types/site';
-import { X, ExternalLink } from 'lucide-react';
+import { X, ExternalLink, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -142,11 +142,16 @@ export function GraduateModal({ participant, onClose }: GraduateModalProps) {
             </div>
 
             {/* Social Links */}
-            {(participant.social?.instagram || participant.social?.linkedin) && (
-              <div className="pt-4 flex items-center gap-4">
+            {(participant.social?.instagram || participant.social?.linkedin || participant.social?.email) && (
+              <div className="pt-4 flex flex-wrap items-center gap-4">
                 {participant.social.instagram && (
                   <a href={`https://instagram.com/${participant.social.instagram}`} target="_blank" rel="noopener noreferrer" className="text-text-muted hover:text-gold transition-colors inline-flex items-center gap-2 text-sm">
                     Instagram <ExternalLink size={14} />
+                  </a>
+                )}
+                {participant.social.email && (
+                  <a href={`mailto:${participant.social.email}`} className="text-text-muted hover:text-gold transition-colors inline-flex items-center gap-2 text-sm">
+                    Email <Mail size={14} />
                   </a>
                 )}
                 {participant.social.linkedin && (

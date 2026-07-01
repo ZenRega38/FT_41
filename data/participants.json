@@ -9,7 +9,11 @@
     "photoAlt": "Foto formal FENY MERLIANI, S.T.",
     "displayConsent": true,
     "nim": "1940301001",
-    "gender": "P"
+    "gender": "P",
+    "social": {
+      "email": "feny.merliani@example.com",
+      "instagram": "fenymerliani"
+    }
   },
   {
     "id": 2,

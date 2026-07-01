@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import participantsData from '@/data/participants.json';
 import { fetchStudentDetails } from '@/lib/sheets';
 import { Container } from '@/components/ui/Container';
-import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase } from 'lucide-react';
+import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
@@ -49,8 +49,9 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const awards = sheetData?.awards || (participant as any).awards || [];
   const publications = sheetData?.publications || (participant as any).publications || [];
   const job = sheetData?.job || (participant as any).job;
-  const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin;
-  const instagramUrl = sheetData?.instagram || (participant as any).instagram;
+  const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin || (participant as any).social?.linkedin;
+  const instagramUrl = sheetData?.instagram || (participant as any).instagram || (participant as any).social?.instagram;
+  const emailUrl = sheetData?.email || (participant as any).email || (participant as any).social?.email;
   const ipk = sheetData?.ipk || (participant as any).gpa;
   
   const rawMotto = sheetData?.motto || (participant as any).quote;
@@ -285,6 +286,18 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                   <div className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass opacity-50 cursor-not-allowed text-text-muted">
                     <InstagramIcon size={18} />
                     <span>Instagram (Belum Ditambahkan)</span>
+                  </div>
+                )}
+                
+                {emailUrl ? (
+                  <a href={`mailto:${emailUrl}`} className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass hover:border-gold hover:text-gold transition-colors">
+                    <Mail size={18} />
+                    <span>Email</span>
+                  </a>
+                ) : (
+                  <div className="flex items-center gap-2 px-5 py-3 rounded-lg bg-charcoal border border-glass opacity-50 cursor-not-allowed text-text-muted">
+                    <Mail size={18} />
+                    <span>Email (Belum Ditambahkan)</span>
                   </div>
                 )}
               </div>

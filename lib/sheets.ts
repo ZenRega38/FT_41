@@ -4,6 +4,7 @@ export const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/1lSZmNE-9Sf
 
 export interface StudentSheetData {
   npm: string;
+  email?: string;
   bio?: string;
   linkedin?: string;
   instagram?: string;
@@ -171,6 +172,7 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
 
           resolve({
             npm: studentRow["NPM"].trim(),
+            email: isValidValue(studentRow["Email address"]) ? studentRow["Email address"].trim() : undefined,
             bio: isValidValue(studentRow["Riwayat Hidup"]) ? studentRow["Riwayat Hidup"].trim() : undefined,
             linkedin: isValidValue(studentRow["Link Profil LinkedIn"]) ? studentRow["Link Profil LinkedIn"].trim() : undefined,
             instagram: isValidValue(studentRow["Link Profil Instagram"]) ? studentRow["Link Profil Instagram"].trim() : undefined,
