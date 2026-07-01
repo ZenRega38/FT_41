@@ -12,7 +12,7 @@ const navLinks = [
   { href: '/', label: 'Beranda' },
   { href: '/tentang', label: 'Tentang' },
   { href: '/#prodi', label: 'Program Studi' },
-  { href: '/#peserta', label: 'Lulusan' },
+  { href: '/lulusan', label: 'Lulusan' },
   { href: '/galeri', label: 'Galeri' },
   { href: '/transparansi', label: 'Keuangan' },
 ];

@@ -12,7 +12,7 @@ import { useIsPostYudisium } from '@/lib/hooks';
 
 const PAGE_SIZE = 10;
 
-function GraduateWallContent() {
+function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?: boolean }) {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<string>('All');
@@ -91,12 +91,14 @@ function GraduateWallContent() {
   return (
     <section id="peserta" className="py-24 bg-black-soft min-h-screen">
       <Container>
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="section-title text-text-primary">Lulusan</h2>
-          <p className="text-text-muted max-w-2xl mx-auto">
-            Mengenal lebih dekat 71 {isPost ? 'lulusan' : 'calon lulusan'} Fakultas Teknik.
-          </p>
-        </div>
+        {!hideSectionHeader && (
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="section-title text-text-primary">Lulusan</h2>
+            <p className="text-text-muted max-w-2xl mx-auto">
+              Mengenal lebih dekat 71 {isPost ? 'lulusan' : 'calon lulusan'} Fakultas Teknik.
+            </p>
+          </div>
+        )}
 
         {/* Filters, Sort, and Search */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-12">
@@ -251,10 +253,10 @@ function GraduateWallContent() {
   );
 }
 
-export function GraduateWall() {
+export function GraduateWall({ hideSectionHeader = false }: { hideSectionHeader?: boolean }) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-black-soft flex items-center justify-center">Loading...</div>}>
-      <GraduateWallContent />
+      <GraduateWallContent hideSectionHeader={hideSectionHeader} />
     </Suspense>
   );
 }
