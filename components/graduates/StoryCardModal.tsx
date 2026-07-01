@@ -50,7 +50,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
 
   useEffect(() => {
     // Check Web Share API
-    if (typeof window !== 'undefined' && navigator.share && navigator.canShare) {
+    if (typeof window !== 'undefined' && typeof navigator.share === 'function') {
       setIsShareSupported(true);
     }
   }, []);
