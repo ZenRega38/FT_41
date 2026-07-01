@@ -52,7 +52,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   const hasThesis = Boolean(thesisTitle && thesisTitle !== "[N/A]" && thesisTitle.trim() !== "");
 
   useEffect(() => {
-    // Check Web Share API
+    // Detect if Web Share API is available
     if (typeof window !== 'undefined' && typeof navigator.share === 'function') {
       setIsShareSupported(true);
     }
@@ -129,26 +129,32 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     }
   };
 
-  const handleDownload = async () => {
+  // ---------- Two‑step share flow ----------
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [shareReady, setShareReady] = useState(false);
+
+  // Generate image once, store it, download & open preview
+  const handlePrepareAndDownload = async () => {
     setIsExporting(true);
     const dataUrl = await generateImage();
     setIsExporting(false);
     if (!dataUrl) return;
-
-    const link = document.createElement('a');
-    link.download = `yudisium-${participant.slug}.png`;
-    link.href = dataUrl;
-    link.click();
+    setGeneratedImage(dataUrl);
+    setShareReady(true);
+    // automatic download
+    const dlLink = document.createElement('a');
+    dlLink.download = `yudisium-${participant.slug}.png`;
+    dlLink.href = dataUrl;
+    dlLink.click();
+    // open image in a new tab (popup)
+    window.open(dataUrl, '_blank');
   };
 
-  const handleShare = async () => {
-    setIsExporting(true);
-    const dataUrl = await generateImage();
-    setIsExporting(false);
-    if (!dataUrl) return;
-
+  // Final share – uses the already‑generated image, no extra rendering delay
+  const handleShareNow = async () => {
+    if (!generatedImage) return;
     try {
-      const res = await fetch(dataUrl);
+      const res = await fetch(generatedImage);
       const blob = await res.blob();
       const file = new File([blob], `yudisium-${participant.slug}.png`, { type: 'image/png' });
 
@@ -159,29 +165,20 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       };
 
       if (navigator.share) {
-        if (typeof navigator.canShare === 'function' && !navigator.canShare(shareData)) {
-          // If browser explicitly says it cannot share this file, just share text/url
+        if (typeof navigator.canShare === 'function' && navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+        } else {
           await navigator.share({
             title: shareData.title,
             text: shareData.text,
-            url: window.location.href
+            url: window.location.href,
           });
-        } else {
-          await navigator.share(shareData);
         }
       } else {
-        alert("Perangkat tidak mendukung fitur bagikan.");
+        alert('Perangkat tidak mendukung fitur bagikan.');
       }
     } catch (err: any) {
-      if (err.name !== 'AbortError') {
-        console.error('Share failed:', err);
-        // Fallback to download if share fails (e.g., due to user activation timeout)
-        alert("Gagal membagikan langsung (kemungkinan browser memblokir). Gambar akan diunduh otomatis agar bisa Anda bagikan manual.");
-        const link = document.createElement('a');
-        link.download = `yudisium-${participant.slug}.png`;
-        link.href = dataUrl;
-        link.click();
-      }
+      if (err.name !== 'AbortError') console.error('Share failed:', err);
     }
   };
 
@@ -493,26 +490,15 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                   )}
                 </div>
 
-                {/* Action Buttons (Share, Download, and Labeled Segmented Slider) */}
+                {/* Action Buttons (Download/Share) */}
                 <div className="flex gap-3 justify-center items-center mt-2 w-full px-1">
-                  {isShareSupported && (
-                    <button
-                      onClick={handleShare}
-                      disabled={isExporting}
-                      title="Bagikan ke IG Story"
-                      className="w-14 h-14 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <Share2 size={24} />
-                    </button>
-                  )}
-
                   <button
-                    onClick={handleDownload}
+                    onClick={shareReady && isShareSupported ? handleShareNow : handlePrepareAndDownload}
                     disabled={isExporting}
-                    title="Unduh Gambar"
+                    title={shareReady && isShareSupported ? "Bagikan Sekarang" : "Unduh & Pratinjau"}
                     className="w-14 h-14 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Download size={24} />
+                    {shareReady && isShareSupported ? <Share2 size={24} /> : <Download size={24} />}
                   </button>
 
                   {/* Labeled Segmented Slider with Gold highlight and text overlays */}
