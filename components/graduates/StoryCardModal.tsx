@@ -44,6 +44,9 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   // Live scaling factor for preview rendering
   const [scale, setScale] = useState(0.3);
 
+  // Track if user has interacted with the photo (to hide mobile tooltip)
+  const [hasInteracted, setHasInteracted] = useState(false);
+
   // Check if participant has motto / thesis
   const hasMotto = Boolean(motto && motto !== "[N/A]" && motto.trim() !== "");
   const hasThesis = Boolean(thesisTitle && thesisTitle !== "[N/A]" && thesisTitle.trim() !== "");
@@ -117,7 +120,6 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       const dataUrl = await htmlToImage.toPng(exportRef.current, {
         quality: 1.0,
         pixelRatio: 2,
-        cacheBust: true,
       });
       return dataUrl;
     } catch (err) {
@@ -150,18 +152,35 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       const blob = await res.blob();
       const file = new File([blob], `yudisium-${participant.slug}.png`, { type: 'image/png' });
 
-      if (navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: `Kartu Yudisium - ${participant.name}`,
-          text: `Kartu Yudisium Ke-41 Fakultas Teknik UBT - ${participant.name}`,
-          files: [file]
-        });
+      const shareData = {
+        title: `Kartu Yudisium - ${participant.name}`,
+        text: `Kartu Yudisium Ke-41 Fakultas Teknik UBT - ${participant.name}`,
+        files: [file]
+      };
+
+      if (navigator.share) {
+        if (typeof navigator.canShare === 'function' && !navigator.canShare(shareData)) {
+          // If browser explicitly says it cannot share this file, just share text/url
+          await navigator.share({
+            title: shareData.title,
+            text: shareData.text,
+            url: window.location.href
+          });
+        } else {
+          await navigator.share(shareData);
+        }
       } else {
-        alert("Perangkat tidak mendukung bagikan gambar langsung. Silakan gunakan tombol unduh.");
+        alert("Perangkat tidak mendukung fitur bagikan.");
       }
     } catch (err: any) {
       if (err.name !== 'AbortError') {
         console.error('Share failed:', err);
+        // Fallback to download if share fails (e.g., due to user activation timeout)
+        alert("Gagal membagikan langsung (kemungkinan browser memblokir). Gambar akan diunduh otomatis agar bisa Anda bagikan manual.");
+        const link = document.createElement('a');
+        link.download = `yudisium-${participant.slug}.png`;
+        link.href = dataUrl;
+        link.click();
       }
     }
   };
@@ -194,6 +213,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   // Event handlers for the gesture overlay
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    setHasInteracted(true);
     dragStart(e.clientX, e.clientY);
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -210,6 +230,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    setHasInteracted(true);
     if (e.touches.length === 1) {
       const touch = e.touches[0];
       dragStart(touch.clientX, touch.clientY);
@@ -251,6 +272,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
 
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
+    setHasInteracted(true);
     const zoomIntensity = 0.05;
     const factor = e.deltaY < 0 ? (1 + zoomIntensity) : (1 - zoomIntensity);
     const newScale = Math.max(1, Math.min(4, imageScale * factor));
@@ -293,18 +315,20 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
             }}
           >
             {(() => {
+              // Optimize mobile rendering by using only 12 unique photos
               const allPhotos = participantsData
                 .map(p => p.photo)
-                .filter(photo => photo && photo.trim() !== '');
+                .filter(photo => photo && photo.trim() !== '')
+                .slice(0, 12);
 
               const repeatedPhotos: string[] = [];
-              for (let i = 0; i < 6; i++) {
+              for (let i = 0; i < 15; i++) {
                 repeatedPhotos.push(...allPhotos);
               }
 
               const rows = [];
-              for (let i = 0; i < 16; i++) {
-                const rowPhotos = repeatedPhotos.slice(i * 25, (i + 1) * 25);
+              for (let i = 0; i < 12; i++) {
+                const rowPhotos = repeatedPhotos.slice(i * 12, (i + 1) * 12);
                 rows.push(
                   <div key={i} style={{
                     display: 'flex', gap: '20px',
@@ -433,8 +457,12 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     onWheel={handleWheel}
                     className="group rounded-[1.2rem] overflow-hidden"
                   >
-                    {/* Help tooltip showing on hover */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center pointer-events-none text-white text-center p-4">
+                    {/* Help tooltip showing on hover (desktop) or default (mobile until interaction) */}
+                    <div className={`absolute inset-0 bg-black/50 transition-opacity flex flex-col items-center justify-center pointer-events-none text-white text-center p-4 ${
+                      !hasInteracted 
+                        ? 'opacity-100 lg:opacity-0 lg:group-hover:opacity-100' 
+                        : 'opacity-0 lg:group-hover:opacity-100'
+                    }`}>
                       <p className="font-mono text-[10px] uppercase tracking-widest font-bold mb-1 text-gold">Navigasi Crop</p>
                       <p className="text-[10px] text-white/80 font-light leading-normal max-w-[150px]">
                         Seret foto untuk menggeser. Scroll/Cubit layar untuk zoom.
@@ -466,7 +494,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                 </div>
 
                 {/* Action Buttons (Share, Download, and Labeled Segmented Slider) */}
-                <div className="flex gap-4 justify-center items-center mt-2 flex-wrap">
+                <div className="flex gap-3 justify-center items-center mt-2 w-full px-1">
                   {isShareSupported && (
                     <button
                       onClick={handleShare}
@@ -494,7 +522,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                         setDisplayMode(prev => prev === 'motto' ? 'thesis' : 'motto');
                       }
                     }}
-                    className="relative w-[22rem] h-14 bg-black/40 border border-gold/30 rounded-full flex items-center p-1 cursor-pointer select-none"
+                    className="relative flex-1 h-14 bg-black/40 border border-gold/30 rounded-full flex items-center p-1 cursor-pointer select-none"
                   >
                     {/* Sliding active gold bubble */}
                     <div
@@ -509,13 +537,13 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     {/* Motto label overlay */}
                     <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${displayMode === 'motto' ? 'text-black-primary' : 'text-gold'
                       }`}>
-                      Motto Hidup
+                      MOTTO
                     </span>
 
                     {/* Thesis label overlay */}
                     <span className={`w-1/2 z-10 text-center font-mono text-sm uppercase tracking-wider font-extrabold transition-colors duration-300 ${displayMode === 'thesis' ? 'text-black-primary' : 'text-gold'
                       }`}>
-                      Judul Skripsi
+                      SKRIPSI
                     </span>
                   </div>
                 </div>
