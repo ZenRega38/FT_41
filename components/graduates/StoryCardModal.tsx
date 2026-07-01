@@ -7,6 +7,7 @@ import * as htmlToImage from 'html-to-image';
 import { StoryCard } from './StoryCard';
 import { Participant } from '@/types/site';
 import { motion, AnimatePresence } from 'framer-motion';
+import participantsData from '@/data/participants.json';
 
 interface Props {
   participant: Participant;
@@ -273,18 +274,85 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
 
       {/* Off-screen/Hidden high-res container for exporting */}
       <div className="fixed top-0 left-[-9999px] opacity-0 pointer-events-none">
-        <div ref={exportRef}>
-          <StoryCard 
-            participant={participant} 
-            motto={motto} 
-            thesis={thesisTitle}
-            displayMode={displayMode}
-            translateX={translateX}
-            translateY={translateY}
-            imageScale={imageScale}
-            imageAspectRatio={imageAspectRatio}
-            isExporting={true} // Hides missing placeholders and links in download PNG
-          />
+        <div ref={exportRef} style={{ width: 1080, height: 1920, backgroundColor: '#050505', position: 'relative', overflow: 'hidden' }}>
+          
+          {/* Background Photos */}
+          <div 
+            style={{ 
+              position: 'absolute', 
+              top: '-50%', left: '-50%', 
+              width: '200%', height: '200%', 
+              transform: 'rotate(-35deg)', 
+              display: 'flex', flexDirection: 'column', 
+              gap: '20px', 
+              alignItems: 'center', justifyContent: 'center',
+              opacity: 0.25, 
+              filter: 'blur(8px)',
+              pointerEvents: 'none',
+              zIndex: 0
+            }}
+          >
+            {(() => {
+              const allPhotos = participantsData
+                .map(p => p.photo)
+                .filter(photo => photo && photo.trim() !== '');
+                
+              const repeatedPhotos: string[] = [];
+              for(let i=0; i < 6; i++) {
+                repeatedPhotos.push(...allPhotos);
+              }
+              
+              const rows = [];
+              for(let i=0; i < 16; i++) {
+                const rowPhotos = repeatedPhotos.slice(i * 25, (i + 1) * 25);
+                rows.push(
+                  <div key={i} style={{ 
+                    display: 'flex', gap: '20px', 
+                    marginLeft: i % 2 === 1 ? '-100px' : '0' 
+                  }}>
+                    {rowPhotos.map((photo, idx) => (
+                      <img 
+                        key={idx} 
+                        src={photo} 
+                        alt="" 
+                        crossOrigin="anonymous"
+                        style={{ width: '180px', height: '260px', objectFit: 'cover', borderRadius: '16px' }} 
+                      />
+                    ))}
+                  </div>
+                );
+              }
+              return rows;
+            })()}
+          </div>
+          
+          {/* Overlay to darken the background further */}
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(5, 5, 5, 0.4)', zIndex: 1 }} />
+          
+          {/* The Story Card itself, scaled down */}
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%) scale(0.85)',
+            boxShadow: '0 0 100px rgba(0, 0, 0, 0.9)',
+            borderRadius: '48px',
+            overflow: 'hidden',
+            zIndex: 10
+          }}>
+            <StoryCard 
+              participant={participant} 
+              motto={motto} 
+              thesis={thesisTitle}
+              displayMode={displayMode}
+              translateX={translateX}
+              translateY={translateY}
+              imageScale={imageScale}
+              imageAspectRatio={imageAspectRatio}
+              isExporting={true} // Hides missing placeholders and links in download PNG
+            />
+          </div>
+          
         </div>
       </div>
 
