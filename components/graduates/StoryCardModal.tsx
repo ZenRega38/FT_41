@@ -130,49 +130,49 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   };
 
   // ---------- Two‑step share flow ----------
-  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
-  const [shareReady, setShareReady] = useState(false);
 
   // Generate image once, store it, download & open preview
+  // Download button – generate image, download, and open preview
   const handlePrepareAndDownload = async () => {
     setIsExporting(true);
     const dataUrl = await generateImage();
     setIsExporting(false);
     if (!dataUrl) return;
-    setGeneratedImage(dataUrl);
-    setShareReady(true);
-    // automatic download
+    // Trigger download
     const dlLink = document.createElement('a');
     dlLink.download = `yudisium-${participant.slug}.png`;
     dlLink.href = dataUrl;
     dlLink.click();
-    // open image in a new tab (popup)
+    // Open preview in new tab
     window.open(dataUrl, '_blank');
   };
 
-  // Final share – uses the already‑generated image, no extra rendering delay
-  const handleShareNow = async () => {
-    if (!generatedImage) return;
+  // Share button – generate image, download silently, then open native share sheet
+  const handleShareProcess = async () => {
+    setIsExporting(true);
+    const dataUrl = await generateImage();
+    setIsExporting(false);
+    if (!dataUrl) return;
+    // Silent download
+    const dlLink = document.createElement('a');
+    dlLink.download = `yudisium-${participant.slug}.png`;
+    dlLink.href = dataUrl;
+    dlLink.click();
+    // Share via Web Share API
     try {
-      const res = await fetch(generatedImage);
+      const res = await fetch(dataUrl);
       const blob = await res.blob();
       const file = new File([blob], `yudisium-${participant.slug}.png`, { type: 'image/png' });
-
       const shareData = {
         title: `Kartu Yudisium - ${participant.name}`,
         text: `Kartu Yudisium Ke-41 Fakultas Teknik UBT - ${participant.name}`,
-        files: [file]
+        files: [file],
       };
-
       if (navigator.share) {
         if (typeof navigator.canShare === 'function' && navigator.canShare(shareData)) {
           await navigator.share(shareData);
         } else {
-          await navigator.share({
-            title: shareData.title,
-            text: shareData.text,
-            url: window.location.href,
-          });
+          await navigator.share({ title: shareData.title, text: shareData.text, url: window.location.href });
         }
       } else {
         alert('Perangkat tidak mendukung fitur bagikan.');
@@ -493,12 +493,20 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                 {/* Action Buttons (Download/Share) */}
                 <div className="flex gap-3 justify-center items-center mt-2 w-full px-1">
                   <button
-                    onClick={shareReady && isShareSupported ? handleShareNow : handlePrepareAndDownload}
-                    disabled={isExporting}
-                    title={shareReady && isShareSupported ? "Bagikan Sekarang" : "Unduh & Pratinjau"}
+                    onClick={handleShareProcess}
+                    disabled={isExporting || !isShareSupported}
+                    title="Bagikan Sekarang"
                     className="w-14 h-14 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {shareReady && isShareSupported ? <Share2 size={24} /> : <Download size={24} />}
+                    <Share2 size={24} />
+                  </button>
+                  <button
+                    onClick={handlePrepareAndDownload}
+                    disabled={isExporting}
+                    title="Unduh & Pratinjau"
+                    className="w-14 h-14 flex items-center justify-center rounded-full border border-gold text-gold hover:bg-gold hover:text-black-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <Download size={24} />
                   </button>
 
                   {/* Labeled Segmented Slider with Gold highlight and text overlays */}
