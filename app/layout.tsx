@@ -3,6 +3,7 @@ import { Chakra_Petch, Titillium_Web, Share_Tech_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WelcomePopup } from "@/components/ui/WelcomePopup";
+import { GlobalPreloader } from "@/components/ui/GlobalPreloader";
 import "./globals.css";
 
 const chakraPetch = Chakra_Petch({
@@ -48,6 +49,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${titilliumWeb.variable} ${chakraPetch.variable} ${shareTechMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
       >
+        <GlobalPreloader />
         <WelcomePopup />
         <Navbar />
         {children}

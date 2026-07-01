@@ -1,0 +1,10 @@
+[
+  { "id": 1, "ratio": "aspect-[4/3]", "label": "Coming Soon", "src": "", "category": "behind-the-scene" },
+  { "id": 2, "ratio": "aspect-[3/4]", "label": "Coming Soon", "src": "", "category": "prosesi" },
+  { "id": 3, "ratio": "aspect-square", "label": "Coming Soon", "src": "", "category": "peserta" },
+  { "id": 4, "ratio": "aspect-video", "label": "Coming Soon", "src": "", "category": "keluarga" },
+  { "id": 5, "ratio": "aspect-square", "label": "Coming Soon", "src": "", "category": "pimpinan" },
+  { "id": 6, "ratio": "aspect-[4/3]", "label": "Coming Soon", "src": "", "category": "prosesi" },
+  { "id": 7, "ratio": "aspect-video", "label": "Coming Soon", "src": "", "category": "peserta" },
+  { "id": 8, "ratio": "aspect-[3/4]", "label": "Coming Soon", "src": "", "category": "keluarga" }
+]
