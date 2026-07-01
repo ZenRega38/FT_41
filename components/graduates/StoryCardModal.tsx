@@ -424,6 +424,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                       height: `${750 * scale}px`,
                       cursor: isDragging.current ? 'grabbing' : 'grab',
                       zIndex: 30,
+                      touchAction: 'none',
                     }}
                     onMouseDown={handleMouseDown}
                     onTouchStart={handleTouchStart}
