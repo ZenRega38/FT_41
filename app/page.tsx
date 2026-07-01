@@ -13,6 +13,7 @@ import { FeaturedGraduates } from "@/components/sections/FeaturedGraduates";
 import { GraduateWall } from "@/components/graduates/GraduateWall";
 import { Timeline } from "@/components/sections/Timeline";
 import { Messages } from "@/components/sections/Messages";
+import { Guestbook } from "@/components/sections/Guestbook";
 import { Closing } from "@/components/sections/Closing";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -136,6 +137,7 @@ export default function Home() {
       <Timeline />
       <GraduateWall />
       <Messages />
+      <Guestbook />
       <Closing />
     </main>
   );

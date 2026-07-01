@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import participantsData from '@/data/participants.json';
@@ -37,6 +37,30 @@ export function LulusanHero() {
   const subtitleOpacity = useTransform(scrollY, [0, 150, 450], [1, 1, 0]);
   const labelOpacity   = useTransform(scrollY, [0, 100, 320], [1, 1, 0]);
   const contentY       = useTransform(scrollY, [0, 650], [0, -40]);
+
+  // Mouse Parallax for Background Glows
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Parallax constraints (how far the glows move)
+  const glowX1 = useTransform(mouseX, [-1, 1], [-500, 500]);
+  const glowY1 = useTransform(mouseY, [-1, 1], [-500, 500]);
+  
+  const glowX2 = useTransform(mouseX, [-1, 1], [500, -500]); // Moves opposite direction
+  const glowY2 = useTransform(mouseY, [-1, 1], [500, -500]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      // Normalize mouse coordinates between -1 and 1
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [mouseX, mouseY]);
 
   const getNext = useCallback((): Participant => {
     if (queueRef.current.length === 0) {
@@ -74,8 +98,18 @@ export function LulusanHero() {
   return (
     <div className="relative w-full h-full flex items-center overflow-hidden bg-black-primary">
       {/* Background glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[420px] bg-gold/8 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-champagne/4 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none z-0">
+        <motion.div 
+          style={{ x: glowX1, y: glowY1 }}
+          className="w-[700px] h-[420px] bg-gold/8 rounded-full blur-[140px]" 
+        />
+      </div>
+      <div className="absolute bottom-0 right-1/4 pointer-events-none z-0">
+        <motion.div 
+          style={{ x: glowX2, y: glowY2 }}
+          className="w-80 h-80 bg-champagne/4 rounded-full blur-[100px]" 
+        />
+      </div>
 
       <motion.div
         style={{ y: contentY }}

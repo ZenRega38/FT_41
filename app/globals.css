@@ -65,4 +65,10 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
+  @media (pointer: fine) {
+    body.hide-cursor, body.hide-cursor * {
+      cursor: none !important;
+    }
+  }
 }

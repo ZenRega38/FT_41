@@ -6,6 +6,7 @@ import { fetchStudentDetails } from '@/lib/sheets';
 import { Container } from '@/components/ui/Container';
 import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { StoryCardModal } from '@/components/graduates/StoryCardModal';
 
 const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -158,6 +159,13 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 border border-gold/30 text-gold text-sm font-medium mb-6">
                 <GraduationCap size={16} />
                 <span>Calon Insinyur</span>
+              </div>
+              <div className="mb-8">
+                {/* Extract thesis title from projects dynamic sheet data */}
+                {(() => {
+                  const thesisTitle = projects && projects.length > 0 ? projects[0].title : null;
+                  return <StoryCardModal participant={participant} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
+                })()}
               </div>
               {motto && (
                 <div className="border-l-2 border-gold/40 pl-5 py-2">

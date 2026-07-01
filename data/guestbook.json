@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "BEM Fakultas Teknik",
+    "relation": "Organisasi",
+    "message": "Selamat dan sukses untuk Kanda dan Yunda sekalian! Terima kasih atas bimbingannya selama ini. Semoga gelar yang diraih membawa berkah dan kebaikan bagi bangsa."
+  },
+  {
+    "id": 2,
+    "name": "Rizky Dwi",
+    "relation": "Adik Tingkat",
+    "message": "Bang, selamat yudisium! Jangan lupa traktiran ya bang, hehe. Sukses terus di dunia kerja!"
+  },
+  {
+    "id": 3,
+    "name": "Anonim",
+    "relation": "Pengagum Rahasia",
+    "message": "Akhirnya lulus juga. Selamat ya! Semoga cita-citamu membangun jembatan di daerah perbatasan segera terwujud."
+  },
+  {
+    "id": 4,
+    "name": "Ibu Tari",
+    "relation": "Dosen Pembimbing",
+    "message": "Selamat untuk semua peserta Yudisium. Khususnya anak-anak bimbingan saya, kalian luar biasa! Teruslah belajar dan jangan pernah puas."
+  },
+  {
+    "id": 5,
+    "name": "Keluarga Bapak Budi",
+    "relation": "Orang Tua",
+    "message": "Alhamdulillah, nak. Papa dan Mama sangat bangga melihat kamu di titik ini. Doa kami selalu menyertai langkahmu selanjutnya."
+  },
+  {
+    "id": 6,
+    "name": "Alumni FT Angkatan 37",
+    "relation": "Kakak Tingkat",
+    "message": "Selamat datang di dunia nyata, adik-adik! Siapkan mental baja, dunia kerja teknik itu keras tapi seru. Gas!"
+  },
+  {
+    "id": 7,
+    "name": "HMTK UBT",
+    "relation": "Himpunan",
+    "message": "Selamat atas kelulusannya Kanda/Yunda Teknik Komputer! Salam satu korsa, jayalah selalu HMTK!"
+  }
+]

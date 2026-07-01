@@ -1,16 +1,18 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import galleryData from '@/data/gallery.json';
 
 export default function GaleriPage() {
   // Each photo has a natural aspect ratio — masonry will respect them
   const photos = galleryData;
+  const [selectedImage, setSelectedImage] = useState<typeof photos[0] | null>(null);
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
@@ -40,7 +42,8 @@ export default function GaleriPage() {
               key={photo.id}
               delay={idx * 0.08}
               direction="up"
-              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${!photo.src ? 'animate-pulse' : ''}`}
+              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${!photo.src ? 'animate-pulse' : 'cursor-pointer'}`}
+              onClick={() => photo.src && setSelectedImage(photo)}
             >
               {photo.src ? (
                 <>
@@ -72,6 +75,61 @@ export default function GaleriPage() {
           ))}
         </div>
       </Container>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && selectedImage.src && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 cursor-zoom-out bg-black/40 backdrop-blur-md"
+          >
+            {/* Blurred dominant color background */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+              <Image
+                src={selectedImage.src}
+                alt="blur background"
+                fill
+                className="object-cover scale-150 blur-[100px] opacity-40 saturate-200"
+              />
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 md:top-10 md:right-10 z-20 p-3 rounded-full bg-black/50 text-white hover:bg-gold hover:text-black transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Main Image */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative z-10 w-full max-w-5xl max-h-[90vh] rounded-xl overflow-hidden shadow-2xl border border-glass"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.label}
+                width={1920}
+                height={1080}
+                className="w-full h-full object-contain bg-black-soft/50 backdrop-blur-sm"
+              />
+              <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black-primary/90 to-transparent">
+                <p className="text-white font-serif text-xl">{selectedImage.label}</p>
+                <p className="text-gold font-mono tracking-widest uppercase text-xs mt-2">
+                  {selectedImage.category.replace(/-/g, ' ')}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WelcomePopup } from "@/components/ui/WelcomePopup";
 import { GlobalPreloader } from "@/components/ui/GlobalPreloader";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 import "./globals.css";
 
 const chakraPetch = Chakra_Petch({
@@ -50,6 +51,7 @@ export default function RootLayout({
         className={`${titilliumWeb.variable} ${chakraPetch.variable} ${shareTechMono.variable} font-sans antialiased bg-black-primary text-text-primary selection:bg-gold selection:text-black-primary`}
       >
         <GlobalPreloader />
+        <CustomCursor />
         <WelcomePopup />
         <Navbar />
         {children}
