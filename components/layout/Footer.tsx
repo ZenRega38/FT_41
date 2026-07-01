@@ -34,11 +34,28 @@ export function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="space-y-5">
-            <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold">Alamat</h4>
-            <address className="text-sm text-text-muted not-italic leading-relaxed">
-              {siteConfig.institution.address}
-            </address>
+          <div className="space-y-6">
+            <div>
+              <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3">Alamat</h4>
+              <address className="text-sm text-text-muted not-italic leading-relaxed">
+                {siteConfig.institution.address}
+              </address>
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3">Pengembang</h4>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="/peserta/rega-rizkan-azizan" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">
+                    Tentang Pengembang
+                  </Link>
+                </li>
+                <li>
+                  <a href="https://zenrega38.github.io/rega/" target="_blank" rel="noopener noreferrer" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">
+                    Website Pribadi Pengembang
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
