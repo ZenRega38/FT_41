@@ -6,15 +6,15 @@ import { MotionReveal } from '@/components/ui/MotionReveal';
 import { Participant } from '@/types/site';
 import { Award, Star, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import participantsData from '@/data/participants.json';
 
 export function FeaturedGraduates() {
-  // Let's pick 3 top participants manually as an example, normally this would come from a flag in JSON.
   const featured = [
-    { ...participantsData[0], title: "Lulusan Terbaik Fakultas", icon: Star, quote: "Semua jerih payah terbayar dengan hasil yang memuaskan." },
-    { ...participantsData[28], title: "Pujian Akademik (Cumlaude)", icon: Award, quote: "Teruslah bermimpi dan wujudkan dengan usaha tanpa henti." },
-    { ...participantsData[44], title: "Peneliti Muda Terbaik", icon: TrendingUp, quote: "Riset adalah kunci membuka pintu perbatasan." },
-  ] as (Participant & { title: string, icon: React.ElementType, quote: string })[];
+    { title: "Lulusan Terbaik Fakultas", icon: Star, name: "[N/A]", program: "[N/A]", quote: "[N/A]", photo: "", photoAlt: "" },
+    { title: "Pujian Akademik (Cumlaude)", icon: Award, name: "[N/A]", program: "[N/A]", quote: "[N/A]", photo: "", photoAlt: "" },
+    { title: "Peneliti Muda Terbaik", icon: TrendingUp, name: "[N/A]", program: "[N/A]", quote: "[N/A]", photo: "", photoAlt: "" },
+  ];
 
   return (
     <section className="py-32 bg-black-primary relative overflow-x-clip" >
@@ -45,10 +45,18 @@ export function FeaturedGraduates() {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="absolute inset-0 flex items-center justify-center bg-black-soft"
               >
-                {/* Fallback for Image */}
-                <div className="text-[12rem] font-serif text-gold/10 select-none">
-                  {featured[0].name.charAt(0)}
-                </div>
+                {featured[0].photo ? (
+                  <Image 
+                    src={featured[0].photo} 
+                    alt={featured[0].photoAlt || featured[0].name} 
+                    fill 
+                    className="object-cover object-top opacity-50 group-hover:opacity-70 transition-opacity duration-700" 
+                  />
+                ) : (
+                  <div className="text-[12rem] font-serif text-gold/10 select-none">
+                    ?
+                  </div>
+                )}
               </motion.div>
 
               <div className="relative z-20 space-y-4">
@@ -77,9 +85,21 @@ export function FeaturedGraduates() {
             {/* Top Secondary */}
             <MotionReveal delay={0.2} direction="up" className="h-[240px] md:h-[288px] group">
               <div className="h-full bg-charcoal rounded-3xl border border-glass p-6 md:p-8 relative overflow-hidden group-hover:border-gold/30 transition-colors duration-500">
-                <div className="absolute inset-0 flex items-center justify-end -translate-y-12 translate-x-12 opacity-5">
-                  <div className="text-[10rem] font-serif">{featured[1].name.charAt(0)}</div>
-                </div>
+                {featured[1].photo ? (
+                  <>
+                    <Image 
+                      src={featured[1].photo} 
+                      alt={featured[1].photoAlt || featured[1].name} 
+                      fill 
+                      className="object-cover object-top opacity-40 group-hover:opacity-60 transition-opacity duration-700 z-0" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent z-0"></div>
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-end -translate-y-12 translate-x-12 opacity-5">
+                    <div className="text-[10rem] font-serif">?</div>
+                  </div>
+                )}
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div className="inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-black-soft/50 border border-gold/20 text-gold text-xs font-medium">
                     {(() => {
@@ -99,9 +119,21 @@ export function FeaturedGraduates() {
             {/* Bottom Secondary */}
             <MotionReveal delay={0.3} direction="up" className="h-[240px] md:h-[288px] group">
               <div className="h-full bg-charcoal rounded-3xl border border-glass p-6 md:p-8 relative overflow-hidden group-hover:border-gold/30 transition-colors duration-500">
-                <div className="absolute inset-0 flex items-center justify-end -translate-y-12 translate-x-12 opacity-5">
-                  <div className="text-[10rem] font-serif">{featured[2].name.charAt(0)}</div>
-                </div>
+                {featured[2].photo ? (
+                  <>
+                    <Image 
+                      src={featured[2].photo} 
+                      alt={featured[2].photoAlt || featured[2].name} 
+                      fill 
+                      className="object-cover object-top opacity-40 group-hover:opacity-60 transition-opacity duration-700 z-0" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent z-0"></div>
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-end -translate-y-12 translate-x-12 opacity-5">
+                    <div className="text-[10rem] font-serif">?</div>
+                  </div>
+                )}
                 <div className="relative z-10 h-full flex flex-col justify-between">
                   <div className="inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-black-soft/50 border border-gold/20 text-gold text-xs font-medium">
                     {(() => {
