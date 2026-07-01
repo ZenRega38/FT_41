@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Download, Loader2, Share2, X, Image as ImageIcon } from 'lucide-react';
+import { Download, Loader2, Share2, X, Image as ImageIcon, CircuitBoard, Settings as SettingsIcon, Building2, Cpu } from 'lucide-react';
 import * as htmlToImage from 'html-to-image';
 import { StoryCard } from './StoryCard';
 import { Participant } from '@/types/site';
@@ -444,8 +444,22 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                   {/* Rendering loader overlay */}
                   {isExporting && (
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center text-gold z-40 pointer-events-none">
-                      <Loader2 size={40} className="animate-spin mb-4" />
-                      <p className="font-mono text-sm uppercase tracking-widest text-text-muted">Membuat Kartu...</p>
+                      {(() => {
+                        const getProgramIcon = () => {
+                          const p = participant.program?.toLowerCase() || '';
+                          const code = (participant as any).programCode;
+                          if (p.includes('elektro') || code === 'TE') return CircuitBoard;
+                          if (p.includes('mesin') || code === 'TM') return SettingsIcon;
+                          if (p.includes('sipil') || code === 'TS') return Building2;
+                          if (p.includes('komputer') || code === 'TK') return Cpu;
+                          return Loader2;
+                        };
+                        const ProgramIcon = getProgramIcon();
+                        return (
+                          <ProgramIcon size={48} strokeWidth={1.5} className="animate-pulse mb-4 text-gold" />
+                        );
+                      })()}
+                      <p className="font-mono text-sm uppercase tracking-widest text-text-muted">Memuat Kartu...</p>
                     </div>
                   )}
                 </div>
