@@ -164,7 +164,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 {/* Extract thesis title from projects dynamic sheet data */}
                 {(() => {
                   const thesisTitle = projects && projects.length > 0 ? projects[0].title : null;
-                  return <StoryCardModal participant={participant} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
+                  return <StoryCardModal participant={participant as any} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
                 })()}
               </div>
               {motto && (
