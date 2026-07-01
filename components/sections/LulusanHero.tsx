@@ -20,9 +20,14 @@ function shuffleArray<T>(arr: T[]): T[] {
   return a;
 }
 
+const eligibleParticipants = participantsData.filter(
+  (p) => p.displayConsent && p.photo && p.photo.trim() !== ''
+);
+
 export function LulusanHero() {
   const [shifted, setShifted]             = useState(false);
   const [currentParticipant, setCurrentParticipant] = useState<Participant | null>(null);
+  const [isMobile, setIsMobile]           = useState(false);
   const queueRef = useRef<Participant[]>([]);
 
   // Track page scroll to fade hero elements as GraduateWall rises
@@ -33,23 +38,29 @@ export function LulusanHero() {
   const labelOpacity   = useTransform(scrollY, [0, 100, 320], [1, 1, 0]);
   const contentY       = useTransform(scrollY, [0, 650], [0, -40]);
 
-  const eligibleParticipants = participantsData.filter(
-    (p) => p.displayConsent && p.photo && p.photo.trim() !== ''
-  );
-
   const getNext = useCallback((): Participant => {
     if (queueRef.current.length === 0) {
       queueRef.current = shuffleArray(eligibleParticipants);
     }
     return queueRef.current.pop()!;
-  }, [eligibleParticipants]);
+  }, []);
 
-  // Trigger layout shift after 3s
+  // Screen size detection
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Trigger layout shift (0.3s on mobile, 3s on desktop)
+  useEffect(() => {
+    const isMob = window.matchMedia('(max-width: 768px)').matches;
+    const delay = isMob ? 300 : SHIFT_DELAY;
     const timer = setTimeout(() => {
       setShifted(true);
       setCurrentParticipant(getNext());
-    }, SHIFT_DELAY);
+    }, delay);
     return () => clearTimeout(timer);
   }, [getNext]);
 
@@ -70,7 +81,7 @@ export function LulusanHero() {
         style={{ y: contentY }}
         className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12"
       >
-        <div className="flex flex-row items-center gap-10 md:gap-16">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-8 md:gap-16 pt-8 md:pt-0">
 
           {/* ── Photo Card — slides in after 3s, fades on scroll ── */}
           <AnimatePresence>
@@ -78,13 +89,13 @@ export function LulusanHero() {
               <motion.div
                 key="photo-container"
                 style={{ opacity: photoOpacity, x: photoX }}
-                initial={{ x: -100, opacity: 0, width: 0, minWidth: 0 }}
-                animate={{ x: 0, opacity: 1, width: 'auto', minWidth: 'auto' }}
-                exit={{ x: -100, opacity: 0, width: 0, minWidth: 0 }}
+                initial={isMobile ? { y: 100, opacity: 0 } : { x: -100, opacity: 0, width: 0, minWidth: 0 }}
+                animate={isMobile ? { y: 0, opacity: 1 } : { x: 0, opacity: 1, width: 'auto', minWidth: 'auto' }}
+                exit={isMobile ? { y: 50, opacity: 0 } : { x: -100, opacity: 0, width: 0, minWidth: 0 }}
                 transition={{ duration: 1.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="flex-shrink-0 self-stretch"
+                className="flex-shrink-0 self-center md:self-stretch"
               >
-                <div className="relative w-64 md:w-80 lg:w-96 h-full min-h-[55vh] md:min-h-[65vh] rounded-2xl overflow-hidden border border-gold/20 shadow-2xl shadow-black/70">
+                <div className="relative w-64 md:w-80 lg:w-96 h-[45vh] md:h-full md:min-h-[65vh] rounded-2xl overflow-hidden border border-gold/20 shadow-2xl shadow-black/70">
                   <AnimatePresence mode="sync">
                     <motion.div
                       key={currentParticipant.id}
@@ -119,12 +130,12 @@ export function LulusanHero() {
             )}
           </AnimatePresence>
 
-          {/* ── Text block — shifts left after 3s, fades on scroll ── */}
+          {/* ── Text block — shifts left after 3s on desktop, stays centered on mobile ── */}
           <motion.div
             layout
             transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
             className={`flex-1 space-y-5 transition-[text-align] duration-700 ${
-              shifted ? 'text-left' : 'text-center'
+              shifted ? 'text-center md:text-left' : 'text-center'
             }`}
           >
             <motion.p
@@ -149,7 +160,7 @@ export function LulusanHero() {
               layout
               style={{ opacity: subtitleOpacity }}
               className={`text-text-muted text-base md:text-xl max-w-xl transition-[margin] duration-700 ${
-                shifted ? 'ml-0 mr-auto' : 'mx-auto'
+                shifted ? 'mx-auto md:ml-0 md:mr-auto' : 'mx-auto'
               }`}
             >
               Selamat kepada seluruh peserta Yudisium Ke-41<br />

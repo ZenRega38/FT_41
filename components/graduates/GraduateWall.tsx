@@ -162,7 +162,7 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
   );
 
   return (
-    <section id="peserta" className={`${hideSectionHeader ? 'rounded-t-3xl' : 'py-24'} bg-black-soft min-h-screen`}>
+    <section id="peserta" className={`${hideSectionHeader ? 'rounded-t-3xl pb-24' : 'py-24'} bg-black-soft min-h-screen`}>
 
       {/* ── Compact sticky header: only on /lulusan dedicated page ── */}
       {hideSectionHeader && (

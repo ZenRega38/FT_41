@@ -22,18 +22,20 @@ export function Footer() {
           </div>
 
           {/* Links */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold tracking-wider uppercase text-text-primary">Navigasi</h4>
-            <ul className="space-y-2">
-              <li><Link href="#tentang" className="text-sm text-text-muted hover:text-gold transition-colors">Tentang</Link></li>
-              <li><Link href="#prodi" className="text-sm text-text-muted hover:text-gold transition-colors">Program Studi</Link></li>
-              <li><Link href="#peserta" className="text-sm text-text-muted hover:text-gold transition-colors">Lulusan</Link></li>
+          <div className="space-y-5">
+            <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold">Navigasi</h4>
+            <ul className="space-y-3">
+              <li><Link href="/" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">Beranda</Link></li>
+              <li><Link href="/tentang" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">Tentang</Link></li>
+              <li><Link href="/#prodi" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">Program Studi</Link></li>
+              <li><Link href="/lulusan" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">Lulusan</Link></li>
+              <li><Link href="/galeri" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">Galeri</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="text-sm font-semibold tracking-wider uppercase text-text-primary">Alamat</h4>
+          <div className="space-y-5">
+            <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold">Alamat</h4>
             <address className="text-sm text-text-muted not-italic leading-relaxed">
               {siteConfig.institution.address}
             </address>
