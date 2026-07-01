@@ -162,13 +162,15 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
           <>
             {/* Unified View (Swipeable Pages for Mobile & Desktop) */}
             <div className="relative w-full">
-              {/* Left Arrow (Desktop only) */}
+              {/* Left Arrow — only shown when multiple pages exist */}
+              {mobileChunks.length > 1 && (
               <button 
                 onClick={scrollPrev}
                 className="hidden md:flex absolute -left-16 lg:-left-20 xl:-left-24 top-1/2 -translate-y-1/2 w-12 h-12 bg-charcoal border border-gold/30 rounded-full items-center justify-center text-gold hover:bg-gold/10 hover:scale-110 transition-all z-10 shadow-xl disabled:opacity-0"
               >
                 <ChevronLeft size={24} />
               </button>
+              )}
 
               <div 
                 id="graduate-slider"
@@ -197,13 +199,15 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
                 })}
               </div>
 
-              {/* Right Arrow (Desktop only) */}
+              {/* Right Arrow — only shown when multiple pages exist */}
+              {mobileChunks.length > 1 && (
               <button 
                 onClick={scrollNext}
                 className="hidden md:flex absolute -right-16 lg:-right-20 xl:-right-24 top-1/2 -translate-y-1/2 w-12 h-12 bg-charcoal border border-gold/30 rounded-full items-center justify-center text-gold hover:bg-gold/10 hover:scale-110 transition-all z-10 shadow-xl disabled:opacity-0"
               >
                 <ChevronRight size={24} />
               </button>
+              )}
             </div>
 
             {/* Controls */}
