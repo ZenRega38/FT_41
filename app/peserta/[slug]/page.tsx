@@ -311,21 +311,23 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               </div>
             </div>
 
-            {/* Banner Lengkapi Data */}
-            <div className="mt-12 p-6 rounded-2xl bg-charcoal/50 border border-dashed border-glass flex flex-col items-center text-center space-y-4">
-              <p className="text-text-muted text-sm md:text-base leading-relaxed">
-                Apakah anda <strong className="text-gold font-semibold">{participant.name}</strong>, pemilik profil ini? segera lengkapi data anda melalui link di bawah!
-              </p>
-              <a 
-                href="https://docs.google.com/forms/d/e/1FAIpQLSch0HhtAAQJ-Cseq_yU2uo0dkffyNkaFVbobQb3JLolGVYLlQ/viewform" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-gold font-mono uppercase tracking-widest text-sm font-bold hover:text-champagne transition-colors group"
-              >
-                KLIK UNTUK MELENGKAPI DATA
-                <span className="ml-2 group-hover:translate-x-1 transition-transform">-&gt;</span>
-              </a>
-            </div>
+            {/* Banner Lengkapi Data — hanya tampil jika belum ada data dari Google Form */}
+            {!sheetData && (
+              <div className="mt-12 p-6 rounded-2xl bg-charcoal/50 border border-dashed border-glass flex flex-col items-center text-center space-y-4">
+                <p className="text-text-muted text-sm md:text-base leading-relaxed">
+                  Apakah anda <strong className="text-gold font-semibold">{participant.name}</strong>, pemilik profil ini? segera lengkapi data anda melalui link di bawah!
+                </p>
+                <a 
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSch0HhtAAQJ-Cseq_yU2uo0dkffyNkaFVbobQb3JLolGVYLlQ/viewform" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-gold font-mono uppercase tracking-widest text-sm font-bold hover:text-champagne transition-colors group"
+                >
+                  KLIK UNTUK MELENGKAPI DATA
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform">-&gt;</span>
+                </a>
+              </div>
+            )}
             
           </div>
         </div>
