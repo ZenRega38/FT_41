@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CircuitBoard, Settings, Building2, Cpu } from 'lucide-react';
 
@@ -11,7 +11,6 @@ export function GlobalPreloader() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentIconIndex, setCurrentIconIndex] = useState(0);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   // Handle Initial Load
   useEffect(() => {

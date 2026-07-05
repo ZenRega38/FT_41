@@ -59,10 +59,15 @@ export function GalleryPreview() {
     .filter(photo => photo && photo.trim() !== ''), []);
 
   // Create three rows of photos for the marquee
-  // We use useMemo to avoid re-randomizing on every state change (e.g. dragging)
-  const row1 = React.useMemo(() => [...photos].sort(() => Math.random() - 0.5), [photos]);
-  const row2 = React.useMemo(() => [...photos].sort(() => Math.random() - 0.5), [photos]);
-  const row3 = React.useMemo(() => [...photos].sort(() => Math.random() - 0.5), [photos]);
+  // Deterministic split to avoid SSR hydration mismatch
+  // Instead of Math.random(), we slice the array differently for each row
+  // This guarantees the server and client render the exact same HTML initially
+  const row1 = React.useMemo(() => [...photos], [photos]);
+  const row2 = React.useMemo(() => [...photos].reverse(), [photos]);
+  const row3 = React.useMemo(() => {
+    const half = Math.floor(photos.length / 2);
+    return [...photos.slice(half), ...photos.slice(0, half)];
+  }, [photos]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -159,7 +164,7 @@ export function GalleryPreview() {
       <Container className="relative z-20 mt-24">
         <MotionReveal direction="up" className="text-center">
           <Link 
-            href="/#peserta"
+            href="/lulusan"
             className="inline-flex items-center gap-3 px-8 py-4 bg-charcoal border border-gold/30 rounded-full text-gold hover:text-black-primary hover:bg-gold font-mono tracking-widest uppercase text-sm md:text-base group transition-all duration-300 shadow-2xl"
           >
             <span>Lihat Profil Peserta</span>

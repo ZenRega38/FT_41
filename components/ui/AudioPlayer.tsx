@@ -9,25 +9,34 @@ export function AudioPlayer() {
   const [isHovered, setIsHovered] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  // Auto-play attempt on mount (browsers usually block this until interaction)
+  // Auto-play on first user interaction to bypass browser restrictions
   useEffect(() => {
-    // If you want it to try autoplaying, you can uncomment below, 
-    // but typically it's better to wait for user interaction to avoid console errors.
-    /*
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3; // Start quiet
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
-      }
-    }
-    */
-    
-    // Just set initial volume
     if (audioRef.current) {
       audioRef.current.volume = 0.3;
     }
-  }, []);
+
+    const handleFirstInteraction = () => {
+      if (audioRef.current && !isPlaying) {
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch((e) => console.log("Autoplay prevented:", e));
+      }
+      // Remove listeners after first interaction
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+    };
+
+    window.addEventListener('click', handleFirstInteraction);
+    window.addEventListener('scroll', handleFirstInteraction, { once: true });
+    window.addEventListener('touchstart', handleFirstInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('scroll', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+    };
+  }, []); // Reverted to empty array to satisfy React hooks consistency rules and Fast Refresh
 
   const togglePlay = () => {
     if (!audioRef.current) return;
@@ -50,7 +59,7 @@ export function AudioPlayer() {
       <audio 
         ref={audioRef}
         loop 
-        src="/audio/bg-music.mp3" 
+        src="/audio/bg-music.m4a" 
         preload="auto"
       />
       
