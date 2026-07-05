@@ -6,24 +6,49 @@ import { Download, Loader2, Share2, X, Image as ImageIcon, CircuitBoard, Setting
 import * as htmlToImage from 'html-to-image';
 import { StoryCard } from './StoryCard';
 import { Participant } from '@/types/site';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useAnimation, PanInfo } from 'framer-motion';
 import participantsData from '@/data/participants.json';
+import { getStudentData } from '@/app/actions';
 
 interface Props {
   participant: Participant;
   motto?: string | null;
   ipk?: string;
   thesisTitle?: string | null; // Passed from parent page
+  prevSlug?: string | null;
+  nextSlug?: string | null;
 }
 
-export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) {
+import { useRouter } from 'next/navigation';
+
+export function StoryCardModal({ participant, motto, ipk, thesisTitle, prevSlug, nextSlug }: Props) {
+  const router = useRouter();
   const exportRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const pinchStartRef = useRef<{ distance: number; scale: number } | null>(null);
 
+  // Sorted list of all participants to match GraduateWall exactly
+  const sortedParticipants = React.useMemo(() => {
+    return [...(participantsData as Participant[])].sort((a, b) => a.name.localeCompare(b.name));
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(() => sortedParticipants.findIndex(p => p.slug === participant.slug));
+  const [currentParticipant, setCurrentParticipant] = useState(participant);
+  const [currentMotto, setCurrentMotto] = useState(motto);
+  const [currentThesis, setCurrentThesis] = useState(thesisTitle);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isShareSupported, setIsShareSupported] = useState(false);
+
+  // Carousel track physics
+  const trackX = useMotionValue(0);
+  const controls = useAnimation();
+  const [isSliding, setIsSliding] = useState(false);
+
+  // Derived adjacent participants
+  const prevP = currentIndex > 0 ? sortedParticipants[currentIndex - 1] : null;
+  const nextP = currentIndex < sortedParticipants.length - 1 ? sortedParticipants[currentIndex + 1] : null;
 
   // Display mode state: 'motto' or 'thesis'
   const [displayMode, setDisplayMode] = useState<'motto' | 'thesis'>('motto');
@@ -40,6 +65,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   const isDragging = useRef(false);
   const startPointer = useRef({ x: 0, y: 0 });
   const startTranslation = useRef({ x: 0, y: 0 });
+  const backdropPointerDown = useRef(false);
 
   // Live scaling factor for preview rendering
   const [scale, setScale] = useState(0.3);
@@ -48,27 +74,35 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
   const [hasInteracted, setHasInteracted] = useState(false);
 
   // Check if participant has motto / thesis
-  const hasMotto = Boolean(motto && motto !== "[N/A]" && motto.trim() !== "");
-  const hasThesis = Boolean(thesisTitle && thesisTitle !== "[N/A]" && thesisTitle.trim() !== "");
+  const hasMotto = Boolean(currentMotto && currentMotto !== "[N/A]" && currentMotto.trim() !== "");
+  const hasThesis = Boolean(currentThesis && currentThesis !== "[N/A]" && currentThesis.trim() !== "");
 
   useEffect(() => {
     // Detect if Web Share API is available
     if (typeof window !== 'undefined' && typeof navigator.share === 'function') {
       setIsShareSupported(true);
     }
+    
+    // Auto-open if query param exists (from swipe)
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get('story') === 'open') {
+        setIsOpen(true);
+      }
+    }
   }, []);
 
-  // Fetch the image natural aspect ratio (fix cached onload bug by setting onload BEFORE src)
+  // Fetch the image natural aspect ratio
   useEffect(() => {
-    if (!participant.photo) return;
+    if (!currentParticipant.photo) return;
     const img = new Image();
     img.onload = () => {
       if (img.naturalWidth && img.naturalHeight) {
         setImageAspectRatio(img.naturalWidth / img.naturalHeight);
       }
     };
-    img.src = participant.photo;
-  }, [participant.photo]);
+    img.src = currentParticipant.photo;
+  }, [currentParticipant.photo]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -140,7 +174,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     if (!dataUrl) return;
     // Trigger download
     const dlLink = document.createElement('a');
-    dlLink.download = `yudisium-${participant.slug}.png`;
+    dlLink.download = `yudisium-${currentParticipant.slug}.png`;
     dlLink.href = dataUrl;
     dlLink.click();
     // Open preview in new tab
@@ -155,17 +189,17 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     if (!dataUrl) return;
     // Silent download
     const dlLink = document.createElement('a');
-    dlLink.download = `yudisium-${participant.slug}.png`;
+    dlLink.download = `yudisium-${currentParticipant.slug}.png`;
     dlLink.href = dataUrl;
     dlLink.click();
     // Share via Web Share API
     try {
       const res = await fetch(dataUrl);
       const blob = await res.blob();
-      const file = new File([blob], `yudisium-${participant.slug}.png`, { type: 'image/png' });
+      const file = new File([blob], `yudisium-${currentParticipant.slug}.png`, { type: 'image/png' });
       const shareData = {
-        title: `Kartu Yudisium - ${participant.name}`,
-        text: `Kartu Yudisium Ke-41 Fakultas Teknik UBT - ${participant.name}`,
+        title: `Kartu Yudisium - ${currentParticipant.name}`,
+        text: `Kartu Yudisium Ke-41 Fakultas Teknik UBT - ${currentParticipant.name}`,
         files: [file],
       };
       if (navigator.share) {
@@ -281,6 +315,90 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
     setTranslateY(clamped.y);
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+    // If we swiped to a new student, push to their page to keep the background in sync!
+    if (currentParticipant.slug !== participant.slug) {
+      router.push(`/peserta/${currentParticipant.slug}`);
+    } else {
+      router.replace(`/peserta/${participant.slug}`, { scroll: false });
+    }
+  };
+
+  const handleDragEnd = async (e: any, info: PanInfo) => {
+    if (isSliding) return;
+
+    const swipeThreshold = 50; 
+    const velocityThreshold = 500;
+    const isLeftSwipe = info.offset.x < -swipeThreshold || info.velocity.x < -velocityThreshold;
+    const isRightSwipe = info.offset.x > swipeThreshold || info.velocity.x > velocityThreshold;
+
+    const width = containerRef.current?.offsetWidth || 384;
+
+    if (isLeftSwipe && nextP) {
+      setIsSliding(true);
+      // Animate track completely off-screen to the left
+      await controls.start({ x: -width, transition: { type: "spring", stiffness: 300, damping: 30 } });
+      
+      // Swap data and reset interaction states
+      setTranslateX(0);
+      setTranslateY(0);
+      setImageScale(1.1);
+      setCurrentIndex(currentIndex + 1);
+      setCurrentParticipant(nextP);
+      
+      // Instantly snap track back to 0 (center) since the new card is now at index 0
+      controls.set({ x: 0 }); 
+      
+      // Load live data
+      setCurrentMotto(nextP.quote || null);
+      setCurrentThesis(null);
+      setIsLoadingDetails(true);
+      if (nextP.nim) {
+        const sheet = await getStudentData(nextP.nim);
+        if (sheet) {
+          if (sheet.motto && sheet.motto !== "[N/A]") setCurrentMotto(sheet.motto);
+          if (sheet.projects && sheet.projects.length > 0) setCurrentThesis(sheet.projects[0].title);
+        }
+      }
+      setIsLoadingDetails(false);
+      setIsSliding(false);
+      
+    } else if (isRightSwipe && prevP) {
+      setIsSliding(true);
+      // Animate track completely off-screen to the right
+      await controls.start({ x: width, transition: { type: "spring", stiffness: 300, damping: 30 } });
+      
+      // Swap data and reset interaction states
+      setTranslateX(0);
+      setTranslateY(0);
+      setImageScale(1.1);
+      setCurrentIndex(currentIndex - 1);
+      setCurrentParticipant(prevP);
+      
+      // Instantly snap track back to 0
+      controls.set({ x: 0 }); 
+      
+      // Load live data
+      setCurrentMotto(prevP.quote || null);
+      setCurrentThesis(null);
+      setIsLoadingDetails(true);
+      if (prevP.nim) {
+        const sheet = await getStudentData(prevP.nim);
+        if (sheet) {
+          if (sheet.motto && sheet.motto !== "[N/A]") setCurrentMotto(sheet.motto);
+          if (sheet.projects && sheet.projects.length > 0) setCurrentThesis(sheet.projects[0].title);
+        }
+      }
+      setIsLoadingDetails(false);
+      setIsSliding(false);
+      
+    } else {
+      // Snap back if swipe threshold wasn't reached
+      controls.start({ x: 0, transition: { type: "spring", stiffness: 400, damping: 40 } });
+    }
+  };
+
   return (
     <>
       <button
@@ -362,9 +480,9 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
             zIndex: 10
           }}>
             <StoryCard
-              participant={participant}
-              motto={motto}
-              thesis={thesisTitle}
+              participant={currentParticipant}
+              motto={currentMotto}
+              thesis={currentThesis}
               displayMode={displayMode}
               translateX={translateX}
               translateY={translateY}
@@ -381,17 +499,27 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       {typeof window !== 'undefined' && createPortal(
         <AnimatePresence>
           {isOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => { if (!isExporting) { setIsOpen(false); } }}
-              className="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-4 bg-black/85 backdrop-blur-sm cursor-zoom-out overflow-y-auto"
-            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onPointerDown={(e) => {
+                  if (e.target === e.currentTarget) {
+                    backdropPointerDown.current = true;
+                  }
+                }}
+                onClick={(e) => { 
+                  if (!isExporting && e.target === e.currentTarget && backdropPointerDown.current) {
+                    handleClose(); 
+                  }
+                  backdropPointerDown.current = false;
+                }}
+                className="fixed inset-0 z-[99999] flex flex-col items-center justify-center p-4 bg-black/85 backdrop-blur-sm cursor-zoom-out overflow-y-auto"
+              >
               {/* Close Button */}
               <div className="absolute top-6 right-6 z-10">
                 <button
-                  onClick={(e) => { e.stopPropagation(); setIsOpen(false); }}
+                  onClick={(e) => { e.stopPropagation(); handleClose(); }}
                   disabled={isExporting}
                   className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors disabled:opacity-50"
                 >
@@ -401,7 +529,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
 
               {/* Main Content Box */}
               <div
-                className="w-full max-w-sm flex flex-col items-center gap-6 cursor-default py-8"
+                className="w-full max-w-sm flex flex-col items-center gap-6 cursor-default py-8 overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Live scaled preview container */}
@@ -409,31 +537,91 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                   ref={containerRef}
                   className="w-full aspect-[9/16] bg-[#050505] rounded-2xl border border-white/20 overflow-hidden relative shadow-2xl"
                 >
-                  {/* 
-                    Live Render at Custom Scale. 
-                    We remove pointer-events-none here to make links inside the card clickable!
-                  */}
-                  <div
-                    style={{
-                      width: '1080px',
-                      height: '1920px',
-                      transform: `scale(${scale})`,
-                      transformOrigin: 'top left',
-                    }}
-                    className="absolute top-0 left-0 select-none"
+                  {/* Physical track rendering 3 adjacent cards simultaneously */}
+                  <motion.div
+                    className="absolute inset-0 w-full h-full"
+                    drag="x"
+                    dragConstraints={{ left: nextP ? -1000 : 0, right: prevP ? 1000 : 0 }}
+                    dragElastic={0.8}
+                    style={{ x: trackX }}
+                    animate={controls}
+                    onDragEnd={handleDragEnd}
                   >
-                    <StoryCard
-                      participant={participant}
-                      motto={motto}
-                      thesis={thesisTitle}
-                      displayMode={displayMode}
-                      translateX={translateX}
-                      translateY={translateY}
-                      imageScale={imageScale}
-                      imageAspectRatio={imageAspectRatio}
-                      isExporting={false} // Renders missing placeholders and form links on screen
-                    />
-                  </div>
+                    {/* PREVIOUS CARD */}
+                    {prevP && (
+                      <div
+                        className="absolute top-0 select-none pointer-events-none"
+                        style={{
+                          left: '-100%',
+                          width: '1080px',
+                          height: '1920px',
+                          transform: `scale(${scale})`,
+                          transformOrigin: 'top left',
+                        }}
+                      >
+                        <StoryCard
+                          participant={prevP}
+                          motto={prevP.quote || null}
+                          thesis={null}
+                          displayMode={displayMode}
+                          translateX={0}
+                          translateY={0}
+                          imageScale={1}
+                          imageAspectRatio={850 / 750}
+                          isExporting={false}
+                        />
+                      </div>
+                    )}
+
+                    {/* CURRENT CARD */}
+                    <div
+                      className="absolute top-0 left-0 select-none"
+                      style={{
+                        width: '1080px',
+                        height: '1920px',
+                        transform: `scale(${scale})`,
+                        transformOrigin: 'top left',
+                      }}
+                    >
+                      <StoryCard
+                        participant={currentParticipant}
+                        motto={currentMotto}
+                        thesis={currentThesis}
+                        displayMode={displayMode}
+                        translateX={translateX}
+                        translateY={translateY}
+                        imageScale={imageScale}
+                        imageAspectRatio={imageAspectRatio}
+                        isExporting={false}
+                      />
+                    </div>
+
+                    {/* NEXT CARD */}
+                    {nextP && (
+                      <div
+                        className="absolute top-0 select-none pointer-events-none"
+                        style={{
+                          left: '100%',
+                          width: '1080px',
+                          height: '1920px',
+                          transform: `scale(${scale})`,
+                          transformOrigin: 'top left',
+                        }}
+                      >
+                        <StoryCard
+                          participant={nextP}
+                          motto={nextP.quote || null}
+                          thesis={null}
+                          displayMode={displayMode}
+                          translateX={0}
+                          translateY={0}
+                          imageScale={1}
+                          imageAspectRatio={850 / 750}
+                          isExporting={false}
+                        />
+                      </div>
+                    )}
+                  </motion.div>
 
                   {/* Gesture Overlay Target for Photo Region */}
                   <div
@@ -472,8 +660,8 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                     <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center text-gold z-40 pointer-events-none">
                       {(() => {
                         const getProgramIcon = () => {
-                          const p = participant.program?.toLowerCase() || '';
-                          const code = participant.programCode;
+                          const p = currentParticipant.program?.toLowerCase() || '';
+                          const code = currentParticipant.programCode;
                           if (p.includes('elektro') || code === 'TE') return CircuitBoard;
                           if (p.includes('mesin') || code === 'TM') return SettingsIcon;
                           if (p.includes('sipil') || code === 'TS') return Building2;
@@ -486,6 +674,13 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                         );
                       })()}
                       <p className="font-mono text-sm uppercase tracking-widest text-text-muted">Memuat Kartu...</p>
+                    </div>
+                  )}
+
+                  {/* Loading spinner specifically for data fetch during swipe */}
+                  {isLoadingDetails && !isExporting && (
+                    <div className="absolute top-4 left-4 z-40 p-2 bg-black/50 backdrop-blur rounded-full text-gold">
+                      <Loader2 size={16} className="animate-spin" />
                     </div>
                   )}
                 </div>

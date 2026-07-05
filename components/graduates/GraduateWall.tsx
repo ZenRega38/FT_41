@@ -20,8 +20,21 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
   const [activeScrollIndex, setActiveScrollIndex] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const isPost = useIsPostYudisium();
+  
+  // Cmd+K / Ctrl+K hotkey to focus search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Hide the compact sticky header once the card grid enters the viewport
   useEffect(() => {
@@ -148,15 +161,21 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
       </div>
 
       {/* Search */}
-      <div className="relative w-full md:w-64">
+      <div className="relative w-full md:w-64 group">
         <input
+          ref={searchInputRef}
           type="text"
           placeholder="Cari nama..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-charcoal border border-glass focus:border-gold/50 rounded-lg py-2 pl-4 pr-10 text-sm text-text-primary outline-none transition-colors"
+          className="w-full bg-charcoal border border-glass focus:border-gold/50 rounded-lg py-2 pl-4 pr-12 text-sm text-text-primary outline-none transition-colors"
           aria-label="Cari nama peserta"
         />
+        <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
+          <kbd className="hidden sm:inline-flex items-center justify-center px-1.5 h-5 text-[10px] font-mono text-text-muted bg-black-soft border border-glass rounded group-focus-within:opacity-0 transition-opacity">
+            ⌘K
+          </kbd>
+        </div>
       </div>
     </div>
   );

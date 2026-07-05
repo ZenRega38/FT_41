@@ -62,6 +62,10 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const rawMotto = sheetData?.motto || participant.quote;
   const motto = rawMotto && rawMotto !== "[N/A]" ? rawMotto : null;
 
+  const currentIndex = typedParticipants.findIndex(p => p.slug === params.slug);
+  const prevSlug = currentIndex > 0 ? typedParticipants[currentIndex - 1].slug : null;
+  const nextSlug = currentIndex < typedParticipants.length - 1 ? typedParticipants[currentIndex + 1].slug : null;
+
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
       {/* Hero Background */}
@@ -166,7 +170,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
               <div className="mb-8">
                 {(() => {
                   const thesisTitle = projects && projects.length > 0 ? projects[0].title : null;
-                  return <StoryCardModal participant={participant} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
+                  return <StoryCardModal participant={participant} motto={motto} ipk={ipk} thesisTitle={thesisTitle} prevSlug={prevSlug} nextSlug={nextSlug} />;
                 })()}
               </div>
               {motto && (
