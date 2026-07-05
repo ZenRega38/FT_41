@@ -57,7 +57,7 @@ export async function fetchStudentDetails(nim: string): Promise<StudentSheetData
   };
 
   try {
-    const res = await fetch(SHEET_CSV_URL, { next: { revalidate: 60 } });
+    const res = await fetch(SHEET_CSV_URL, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error("Failed to fetch sheet");
     
     const csvText = await res.text();

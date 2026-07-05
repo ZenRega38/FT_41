@@ -25,6 +25,7 @@ const InstagramIcon = ({ size = 24, className = "" }: { size?: number, className
 );
 
 // Tell Next.js to pre-render these dynamic routes at build time
+export const dynamic = 'force-static';
 export function generateStaticParams() {
   return participantsData.map((p) => ({
     slug: p.slug,
