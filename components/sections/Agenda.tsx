@@ -18,28 +18,30 @@ export function Agenda() {
 
   const mapLink = "https://www.google.com/maps/search/?api=1&query=Gedung+Rektorat+Universitas+Borneo+Tarakan";
 
+  const fullVenue = "Gedung Rektorat, Lt. 4, Ruang Auditorium, Universitas Borneo Tarakan";
+
   const events = [
     {
       date: "Selasa, 7 Juli 2026",
       title: "Kegiatan Bimbingan Karier",
-      location: "Gedung Rektorat Lantai 4",
-      time: "Menyusul",
-      googleDates: "20260707/20260708"
+      location: fullVenue,
+      time: "08.30 WIB",
+      googleDates: "20260707T003000Z/20260707T043000Z"
     },
     {
       date: "Rabu, 8 Juli 2026",
       title: "Yudisium Ke-41",
-      location: "Gedung Rektorat Lantai 4",
-      time: "Menyusul",
+      location: fullVenue,
+      time: "08.30 WIB",
       highlight: true,
-      googleDates: "20260708/20260709"
+      googleDates: "20260708T003000Z/20260708T043000Z"
     },
     {
       date: "Rabu, 29 Juli 2026",
       title: "Wisuda 43 UBT",
-      location: "Gedung Rektorat Lantai 4",
-      time: "Menyusul",
-      googleDates: "20260729/20260730"
+      location: fullVenue,
+      time: "08.30 WIB",
+      googleDates: "20260729T003000Z/20260729T043000Z"
     }
   ];
 
