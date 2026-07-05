@@ -3,6 +3,7 @@ import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import staffData from '@/data/staff.json';
 import { Building2, GraduationCap, Users, Bookmark } from 'lucide-react';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Tentang | Yudisium Ke-41 Fakultas Teknik UBT',
@@ -14,8 +15,7 @@ function ProfileCard({ name, role, image }: { name: string, role: string, image?
     <div className="bg-charcoal border border-glass rounded-2xl p-6 flex items-center gap-6 hover:border-gold/30 transition-colors group">
       <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-black-soft border border-glass flex-shrink-0 relative">
         {image ? (
-           // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt={name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+          <Image src={image} alt={name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" sizes="96px" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-text-muted/30 text-2xl font-serif">
             {name.charAt(0)}
@@ -36,11 +36,12 @@ export default function TentangPage() {
       {/* Hero Background — Gedung Rektorat UBT */}
       <div className="absolute top-0 left-0 right-0 h-[50vh] pointer-events-none overflow-hidden">
         {/* Building photo */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="https://www.ubt.ac.id/wp-content/uploads/Rektorat-scaled-e1580889029273.jpg"
           alt="Gedung Rektorat Universitas Borneo Tarakan"
-          className="w-full h-full object-cover object-center"
+          fill
+          priority
+          className="object-cover object-center"
         />
         {/* Dark gradient overlay so text is readable */}
         <div className="absolute inset-0 bg-gradient-to-b from-black-primary/70 via-black-primary/50 to-black-primary" />

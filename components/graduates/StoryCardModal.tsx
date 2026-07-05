@@ -177,8 +177,8 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
       } else {
         alert('Perangkat tidak mendukung fitur bagikan.');
       }
-    } catch (err: any) {
-      if (err.name !== 'AbortError') console.error('Share failed:', err);
+    } catch (err: unknown) {
+      if ((err as Error).name !== 'AbortError') console.error('Share failed:', err);
     }
   };
 
@@ -473,7 +473,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle }: Props) 
                       {(() => {
                         const getProgramIcon = () => {
                           const p = participant.program?.toLowerCase() || '';
-                          const code = (participant as any).programCode;
+                          const code = participant.programCode;
                           if (p.includes('elektro') || code === 'TE') return CircuitBoard;
                           if (p.includes('mesin') || code === 'TM') return SettingsIcon;
                           if (p.includes('sipil') || code === 'TS') return Building2;

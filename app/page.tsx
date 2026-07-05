@@ -1,6 +1,7 @@
 "use client";
 
 import { siteConfig } from "@/data/site";
+import Image from 'next/image';
 import { OpeningStory } from "@/components/sections/OpeningStory";
 import { Stats } from "@/components/sections/Stats";
 import { Programs } from "@/components/sections/Programs";
@@ -64,11 +65,12 @@ export default function Home() {
           transition={{ duration: 30, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
           className="absolute inset-0 z-0"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/bg1.jpeg"
             alt="Gedung Rektorat Background"
-            className="w-full h-full object-cover opacity-20"
+            fill
+            priority
+            className="object-cover opacity-20"
           />
         </motion.div>
         <div className="absolute inset-0 z-0 opacity-[0.05] mix-blend-overlay pointer-events-none"

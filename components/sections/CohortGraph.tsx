@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useMemo, useState } from 'react';
@@ -27,7 +26,7 @@ export function CohortGraph() {
           stats[year] = (stats[year] || 0) + 1;
         }
       } else if (activeTab === 'gender') {
-        const genderRaw = (p as any).gender;
+        const genderRaw = p.gender;
         const genderVal = genderRaw === 'L' ? 'Laki-Laki' : genderRaw === 'P' ? 'Perempuan' : 'Tidak Diketahui';
         stats[genderVal] = (stats[genderVal] || 0) + 1;
       } else if (activeTab === 'prodi') {

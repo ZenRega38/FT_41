@@ -5,6 +5,7 @@ import programsData from '@/data/programs.json';
 import staffData from '@/data/staff.json';
 import { ArrowLeft, BookOpen, Users, Cpu, Settings, Building2, CircuitBoard } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Program } from '@/types/site';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 
@@ -27,8 +28,7 @@ function ProfileCard({ name, role, image }: { name: string, role: string, image?
     <div className="bg-charcoal border border-glass rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 hover:border-gold/30 transition-colors group">
       <div className="w-24 h-24 rounded-full overflow-hidden bg-black-soft border border-glass flex-shrink-0 relative">
         {image ? (
-           // eslint-disable-next-line @next/next/no-img-element
-          <img src={image} alt={name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+          <Image src={image} alt={name} fill className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" sizes="96px" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-text-muted/30 text-3xl font-serif">
             {name.charAt(0)}

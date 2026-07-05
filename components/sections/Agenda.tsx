@@ -1,7 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useRef } from 'react';
+
+export interface AgendaEvent {
+  date: string;
+  title: string;
+  location: string;
+  time: string;
+  highlight?: boolean;
+  googleDates: string;
+}
+
 import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import { Calendar, MapPin, ExternalLink, CalendarPlus, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -45,7 +54,7 @@ export function Agenda() {
     }
   ];
 
-  const generateCalendarLink = (event: any) => {
+  const generateCalendarLink = (event: AgendaEvent) => {
     const title = encodeURIComponent(event.title + " | Fakultas Teknik UBT");
     const details = encodeURIComponent("Rangkaian acara Yudisium Fakultas Teknik Universitas Borneo Tarakan.");
     const location = encodeURIComponent("Gedung Rektorat Universitas Borneo Tarakan");
@@ -115,7 +124,7 @@ export function Agenda() {
   );
 }
 
-function EventCardInner({ event, mapLink, calLink }: { event: any; mapLink: string; calLink: string }) {
+function EventCardInner({ event, mapLink, calLink }: { event: AgendaEvent; mapLink: string; calLink: string }) {
   return (
     <>
       {event.highlight && (

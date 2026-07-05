@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { notFound } from 'next/navigation';
 import participantsData from '@/data/participants.json';
@@ -6,7 +5,11 @@ import { fetchStudentDetails } from '@/lib/sheets';
 import { Container } from '@/components/ui/Container';
 import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase, Mail } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { StoryCardModal } from '@/components/graduates/StoryCardModal';
+import { Participant } from '@/types/site';
+
+const typedParticipants = participantsData as unknown as Participant[];
 
 const LinkedinIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -27,14 +30,14 @@ const InstagramIcon = ({ size = 24, className = "" }: { size?: number, className
 // Tell Next.js to pre-render these dynamic routes at build time
 export const dynamic = 'force-static';
 export function generateStaticParams() {
-  return participantsData.map((p) => ({
+  return typedParticipants.map((p) => ({
     slug: p.slug,
   }));
 }
 
 export default async function PesertaDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
-  const participant = participantsData.find(p => p.slug === params.slug);
+  const participant = typedParticipants.find(p => p.slug === params.slug);
 
   if (!participant) {
     notFound();
@@ -43,30 +46,30 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
   const sheetData = participant.nim ? await fetchStudentDetails(participant.nim) : null;
 
   // Fallback dummy data for missing properties
-  const bio = sheetData?.bio || (participant as any).bio;
-  const projects = sheetData?.projects || (participant as any).projects || [];
-  const organizations = sheetData?.organizations || (participant as any).organizations || [];
-  const internships = sheetData?.internships || (participant as any).internships || [];
-  const scholarships = sheetData?.scholarships || (participant as any).scholarships || [];
-  const awards = sheetData?.awards || (participant as any).awards || [];
-  const publications = sheetData?.publications || (participant as any).publications || [];
-  const job = sheetData?.job || (participant as any).job;
-  const linkedinUrl = sheetData?.linkedin || (participant as any).linkedin || (participant as any).social?.linkedin;
-  const instagramUrl = sheetData?.instagram || (participant as any).instagram || (participant as any).social?.instagram;
-  const emailUrl = sheetData?.email || (participant as any).email || (participant as any).social?.email;
-  const ipk = sheetData?.ipk || (participant as any).gpa;
+  const bio = sheetData?.bio || participant.bio;
+  const projects = sheetData?.projects || participant.projects || [];
+  const organizations = sheetData?.organizations || participant.organizations || [];
+  const internships = sheetData?.internships || participant.internships || [];
+  const scholarships = sheetData?.scholarships || participant.scholarships || [];
+  const awards = sheetData?.awards || participant.awards || [];
+  const publications = sheetData?.publications || participant.publications || [];
+  const job = sheetData?.job || participant.job;
+  const linkedinUrl = sheetData?.linkedin || participant.social?.linkedin;
+  const instagramUrl = sheetData?.instagram || participant.social?.instagram;
+  const emailUrl = sheetData?.email || participant.email || participant.social?.email;
+  const ipk = sheetData?.ipk || participant.gpa;
   
-  const rawMotto = sheetData?.motto || (participant as any).quote;
+  const rawMotto = sheetData?.motto || participant.quote;
   const motto = rawMotto && rawMotto !== "[N/A]" ? rawMotto : null;
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-24 pb-24">
       {/* Hero Background */}
       <div className="absolute top-0 left-0 right-0 h-[40vh] bg-charcoal border-b border-glass pointer-events-none overflow-hidden">
-        {(participant as any).banner && (
+        {participant.banner && (
           <div 
             className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity"
-            style={{ backgroundImage: `url('${(participant as any).banner}')` }}
+            style={{ backgroundImage: `url('${participant.banner}')` }}
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black-primary/50 to-black-primary"></div>
@@ -91,8 +94,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
             <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-glass bg-black-soft relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-transparent to-transparent z-10"></div>
               {participant.photo ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={participant.photo} alt={participant.name} className="w-full h-full object-cover object-top relative z-0" />
+                <Image src={participant.photo} alt={participant.name} fill className="object-cover object-top relative z-0" sizes="(max-width: 768px) 100vw, 33vw" priority />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-text-muted/30 z-0">
                   <Camera size={48} className="mb-4 opacity-50" />
@@ -162,10 +164,9 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 <span>Calon Insinyur</span>
               </div>
               <div className="mb-8">
-                {/* Extract thesis title from projects dynamic sheet data */}
                 {(() => {
                   const thesisTitle = projects && projects.length > 0 ? projects[0].title : null;
-                  return <StoryCardModal participant={participant as any} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
+                  return <StoryCardModal participant={participant} motto={motto} ipk={ipk} thesisTitle={thesisTitle} />;
                 })()}
               </div>
               {motto && (
@@ -199,7 +200,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {organizations.map((org: any, idx: number) => (
+                  {organizations.map((org: { name: string; role: string; period: string }, idx: number) => (
                     <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
                       <h3 className="font-semibold text-text-primary mb-1">{org.name}</h3>
                       <p className="text-sm text-gold font-mono tracking-widest uppercase mb-2">{org.role}</p>
@@ -219,7 +220,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {internships.map((intern: any, idx: number) => (
+                  {internships.map((intern: { company: string; role: string; period: string }, idx: number) => (
                     <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
                       <h3 className="font-semibold text-text-primary mb-1">{intern.company}</h3>
                       <p className="text-sm text-gold font-mono tracking-widest uppercase mb-2">{intern.role}</p>
@@ -240,7 +241,7 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                 
                 {projects && projects.length > 0 && projects[0].title !== "[N/A]" && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {projects.map((proj: any, idx: number) => (
+                    {projects.map((proj: { title: string; desc: string }, idx: number) => (
                       <div key={idx} className="p-6 rounded-xl bg-charcoal border border-glass hover:border-gold/30 transition-colors">
                         <h3 className="font-semibold text-text-primary mb-2">{proj.title}</h3>
                         <p className="text-sm text-text-muted">{proj.desc}</p>
@@ -253,14 +254,18 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
                   <div className="mt-8 pt-6 border-t border-glass/30 space-y-3">
                     <p className="text-sm font-mono text-gold uppercase tracking-widest">Tautan Publikasi</p>
                     <ul className="space-y-2">
-                      {publications.map((pub: any, idx: number) => (
+                      {publications.map((pub: { title: string; url: string } | string, idx: number) => {
+                        const title = typeof pub === 'string' ? pub : pub.title;
+                        const url = typeof pub === 'string' ? pub : pub.url;
+                        return (
                         <li key={idx}>
-                          <a href={pub.url || pub} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
+                          <a href={url || title} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-text-muted hover:text-gold transition-colors text-sm break-all">
                             <LinkIcon size={14} className="shrink-0" />
-                            <span>{pub.title || pub.url || pub}</span>
+                            <span>{title || url}</span>
                           </a>
                         </li>
-                      ))}
+                        );
+                      })}
                     </ul>
                   </div>
                 )}

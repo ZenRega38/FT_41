@@ -16,17 +16,28 @@ export interface Participant {
   photoAlt: string;
   displayConsent: boolean;
   nim?: string;
+  gender?: string;
   gpa?: string;
   predicate?: string;
   thesisTitle?: string;
   advisor?: string;
   quote?: string;
   awardTags?: string[];
+  banner?: string;
+  bio?: string;
+  email?: string;
   social?: {
     instagram?: string;
     linkedin?: string;
     email?: string;
   };
+  organizations?: Array<{ name: string; role: string; period: string }>;
+  internships?: Array<{ company: string; role: string; period: string }>;
+  projects?: Array<{ title: string; desc: string }>;
+  scholarships?: string[];
+  awards?: string[];
+  publications?: Array<{ title: string; url: string }>;
+  job?: { company: string; role: string; date: string } | null;
 }
 
 export interface Program {
