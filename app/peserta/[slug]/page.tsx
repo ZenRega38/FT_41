@@ -35,6 +35,18 @@ export function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
+  const participant = typedParticipants.find(p => p.slug === params.slug);
+  
+  if (!participant) return {};
+
+  return {
+    title: `${participant.name} - Yudisium Ke-41 FT UBT`,
+    description: `Profil calon lulusan ${participant.program}, Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.`,
+  };
+}
+
 export default async function PesertaDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const participant = typedParticipants.find(p => p.slug === params.slug);
