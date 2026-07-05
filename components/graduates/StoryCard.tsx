@@ -1,5 +1,41 @@
 import React, { forwardRef } from 'react';
 import { Participant } from '@/types/site';
+import { motion } from 'framer-motion';
+
+const CinematicText = ({ text, className, isExporting }: { text: string; className?: string; isExporting: boolean }) => {
+  if (isExporting || !text) {
+    return <span className={className}>{text}</span>;
+  }
+  
+  const words = text.split(" ");
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+        },
+      }}
+      initial="hidden"
+      animate="visible"
+      className={className}
+    >
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          variants={{
+            hidden: { opacity: 0, y: 15, filter: 'blur(8px)' },
+            visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+          }}
+          className="inline-block mr-[0.25em]"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.div>
+  );
+};
 
 interface StoryCardProps {
   participant: Participant;
@@ -144,9 +180,11 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(({
             motto ? (
               <div className="relative w-full">
                 <span className="absolute top-[-30px] left-0 text-8xl text-white/10 font-serif leading-none select-none pointer-events-none">"</span>
-                <p className={`${mottoClass} italic font-serif text-center max-w-full px-8 overflow-hidden`}>
-                  {motto.replace(/^["'“]+|["'”]+$/g, '')}
-                </p>
+                <CinematicText 
+                  text={motto.replace(/^["'“]+|["'”]+$/g, '')} 
+                  className={`${mottoClass} italic font-serif text-center max-w-full px-8 overflow-hidden inline-block`}
+                  isExporting={isExporting}
+                />
                 <span className="absolute bottom-[-30px] right-0 text-8xl text-white/10 font-serif leading-none rotate-180 select-none pointer-events-none">"</span>
               </div>
             ) : (
@@ -174,9 +212,11 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(({
                 <span className="text-[2rem] text-[#d4af37] font-mono tracking-[0.25em] uppercase mb-4 font-extrabold select-none pointer-events-none">
                   JUDUL SKRIPSI
                 </span>
-                <p className={`${thesisClass} italic font-serif text-center max-w-full px-8 overflow-hidden`}>
-                  {thesis}
-                </p>
+                <CinematicText 
+                  text={thesis} 
+                  className={`${thesisClass} italic font-serif text-center max-w-full px-8 overflow-hidden inline-block`}
+                  isExporting={isExporting}
+                />
               </div>
             ) : (
               !isExporting && (

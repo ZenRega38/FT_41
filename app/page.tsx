@@ -19,6 +19,7 @@ import { Closing } from "@/components/sections/Closing";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, Suspense } from "react";
 import { section } from "framer-motion/client";
+import { HeroParticles } from "@/components/ui/HeroParticles";
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -38,6 +39,7 @@ export default function Home() {
         id="home"
         className="relative flex flex-col items-center justify-center min-h-screen overflow-x-clip px-4 bg-black-primary"
       >
+        <HeroParticles />
         {/* Blueprint Grid Background */}
         <div
           className="absolute inset-0 z-0 opacity-20 pointer-events-none"

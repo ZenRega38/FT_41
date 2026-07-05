@@ -1,0 +1,111 @@
+"use client";
+
+import React, { useState, useRef, useEffect } from 'react';
+import { Volume2, VolumeX } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+export function AudioPlayer() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Auto-play attempt on mount (browsers usually block this until interaction)
+  useEffect(() => {
+    // If you want it to try autoplaying, you can uncomment below, 
+    // but typically it's better to wait for user interaction to avoid console errors.
+    /*
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3; // Start quiet
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+      }
+    }
+    */
+    
+    // Just set initial volume
+    if (audioRef.current) {
+      audioRef.current.volume = 0.3;
+    }
+  }, []);
+
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch(e => console.error("Audio playback failed:", e));
+      setIsPlaying(true);
+    }
+  };
+
+  return (
+    <div 
+      className="fixed bottom-6 right-6 z-[9999]"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <audio 
+        ref={audioRef}
+        loop 
+        src="/audio/bg-music.mp3" 
+        preload="auto"
+      />
+      
+      <button 
+        onClick={togglePlay}
+        className={`relative w-12 h-12 flex items-center justify-center rounded-full bg-black/60 backdrop-blur-md border border-gold/30 text-gold shadow-2xl transition-all duration-500 overflow-hidden group hover:scale-110 hover:border-gold`}
+      >
+        {/* Subtle rotating glow effect */}
+        <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {isPlaying ? (
+          <Volume2 size={20} className="relative z-10" />
+        ) : (
+          <VolumeX size={20} className="relative z-10 text-white/50 group-hover:text-gold transition-colors" />
+        )}
+
+        {/* Audio Bars Animation (Only when playing) */}
+        <AnimatePresence>
+          {isPlaying && (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              className="absolute -bottom-1 flex gap-[2px] h-2 justify-center items-end"
+            >
+              {[1, 2, 3, 4].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-[2px] bg-gold rounded-t-sm"
+                  animate={{ height: [2, Math.random() * 6 + 2, 2] }}
+                  transition={{
+                    duration: 0.5 + Math.random() * 0.5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </button>
+
+      {/* Tooltip */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, x: 10, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, x: 10, filter: 'blur(4px)' }}
+            className="absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-1.5 rounded-lg bg-black/80 backdrop-blur border border-white/10 text-xs font-mono text-white/80 pointer-events-none"
+          >
+            {isPlaying ? 'Jeda Musik' : 'Putar Musik'}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

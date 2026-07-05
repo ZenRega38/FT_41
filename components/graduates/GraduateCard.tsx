@@ -12,6 +12,8 @@ interface GraduateCardProps {
 }
 
 export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
+  const [isLoaded, setIsLoaded] = React.useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -24,7 +26,7 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
       >
         <div className="aspect-[3/4] relative bg-black-soft w-full overflow-hidden">
           
-          {/* Animated Mesh Placeholder */}
+          {/* Animated Mesh Placeholder (Missing Photo) */}
           {!participant.photo ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-charcoal via-black-primary to-[#1a150b]">
               <motion.div 
@@ -42,15 +44,21 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
               <div className="absolute bottom-1/4 text-[10px] font-mono tracking-widest text-gold/40 uppercase">Coming Soon</div>
             </div>
           ) : (
-            <Image
-              src={participant.photo}
-              alt={participant.photoAlt || participant.name}
-              fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-110 z-10"
-              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-              loading="lazy"
-              unoptimized={true}
-            />
+            <>
+              {/* Premium Shimmer Skeleton */}
+              <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
+              
+              <Image
+                src={participant.photo}
+                alt={participant.photoAlt || participant.name}
+                fill
+                className={`object-cover object-top transition-all duration-700 group-hover:scale-110 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
+                loading="lazy"
+                unoptimized={true}
+                onLoad={() => setIsLoaded(true)}
+              />
+            </>
           )}
           
           <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/50 to-transparent opacity-90 z-20 transition-opacity duration-300 group-hover:opacity-100" />

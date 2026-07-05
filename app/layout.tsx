@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WelcomePopup } from "@/components/ui/WelcomePopup";
 import { GlobalPreloader } from "@/components/ui/GlobalPreloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -58,6 +59,7 @@ export default function RootLayout({
         <WelcomePopup />
         <Navbar />
         {children}
+        <AudioPlayer />
         <Footer />
       </body>
     </html>
