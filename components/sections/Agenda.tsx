@@ -34,7 +34,7 @@ export function Agenda() {
       date: "Selasa, 7 Juli 2026",
       title: "Kegiatan Bimbingan Karier",
       location: fullVenue,
-      time: "08.30 WIB",
+      time: "08.00 AM - 14.00 AM",
       googleDates: "20260707T003000Z/20260707T043000Z"
     },
     {
@@ -112,7 +112,7 @@ export function Agenda() {
                 key={idx}
                 delay={idx * 0.1}
                 direction="up"
-                className={`min-w-[min(82vw,320px)] snap-center shrink-0 ${cardClass(event.highlight)}`}
+                className={`w-[85vw] max-w-[320px] snap-center shrink-0 ${cardClass(event.highlight)}`}
               >
                 <EventCardInner event={event} mapLink={mapLink} calLink={generateCalendarLink(event)} />
               </MotionReveal>
@@ -143,12 +143,12 @@ function EventCardInner({ event, mapLink, calLink }: { event: AgendaEvent; mapLi
         <div className="space-y-3 pt-5 border-t border-glass">
           <div className="flex items-start gap-3">
             <MapPin size={15} className="text-text-muted mt-0.5 shrink-0" />
-            <div>
+            <div className="min-w-0 flex-1">
               <p className="text-xs font-mono text-text-primary uppercase tracking-widest mb-1 opacity-50">Tempat</p>
               <a href={mapLink} target="_blank" rel="noopener noreferrer"
-                className="text-text-muted hover:text-gold transition-colors inline-flex items-center gap-1 group/link text-sm">
-                <span className="group-hover/link:underline underline-offset-4 decoration-gold/50">{event.location}</span>
-                <ExternalLink size={11} className="opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                className="text-text-muted hover:text-gold transition-colors flex items-start gap-1.5 group/link text-sm">
+                <span className="group-hover/link:underline underline-offset-4 decoration-gold/50 break-words">{event.location}</span>
+                <ExternalLink size={11} className="opacity-0 group-hover/link:opacity-100 transition-opacity shrink-0 mt-1" />
               </a>
             </div>
           </div>
@@ -156,9 +156,9 @@ function EventCardInner({ event, mapLink, calLink }: { event: AgendaEvent; mapLi
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted mt-0.5 shrink-0">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
-            <div>
+            <div className="min-w-0 flex-1">
               <p className="text-xs font-mono text-text-primary uppercase tracking-widest mb-1 opacity-50">Waktu</p>
-              <p className="text-text-muted text-sm">{event.time}</p>
+              <p className="text-text-muted text-sm break-words">{event.time}</p>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ function EventCardInner({ event, mapLink, calLink }: { event: AgendaEvent; mapLi
               : 'bg-black-soft border border-glass text-gold hover:border-gold/50 hover:bg-gold/5'
           }`}>
           <CalendarPlus size={13} />
-          <span>[+] Tambahkan ke Kalender</span>
+          <span>Tambahkan ke Kalender</span>
         </a>
       </div>
     </>
