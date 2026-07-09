@@ -15,10 +15,19 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export function EventGalleryPreview() {
-  const kirabPhotos = galleryData.filter(p => p.category === 'kirab' && !p.isVideo);
-  const yudisiumPhotos = galleryData.filter(p => p.category === 'yudisium' && !p.isVideo);
+  const photos = galleryData as Array<{
+    id: number | string;
+    ratio: string;
+    label: string;
+    src?: string;
+    category: string;
+    isVideo?: boolean;
+    url?: string;
+  }>;
+  const kirabPhotos = photos.filter(p => p.category === 'kirab' && !p.isVideo);
+  const yudisiumPhotos = photos.filter(p => p.category === 'yudisium' && !p.isVideo);
 
-  const [displayedPhotos, setDisplayedPhotos] = useState<typeof galleryData>([]);
+  const [displayedPhotos, setDisplayedPhotos] = useState<typeof photos>([]);
 
   useEffect(() => {
     const pickPhotos = () => {
@@ -61,7 +70,7 @@ export function EventGalleryPreview() {
                     className="absolute inset-0 group"
                   >
                     <img
-                      src={getAsset(photo.src)}
+                      src={getAsset(photo.src || '')}
                       alt={photo.label}
                       className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
                     />

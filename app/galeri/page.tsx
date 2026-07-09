@@ -10,7 +10,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import galleryData from '@/data/gallery.json';
 
 export default function GaleriPage() {
-  const photos = galleryData;
+  const photos = galleryData as Array<{
+    id: number | string;
+    ratio: string;
+    label: string;
+    src?: string;
+    category: string;
+    isVideo?: boolean;
+    url?: string;
+  }>;
   const [selectedImage, setSelectedImage] = useState<typeof photos[0] | null>(null);
   const [activeTab, setActiveTab] = useState<string>('all');
 
