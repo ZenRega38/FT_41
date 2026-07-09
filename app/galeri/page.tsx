@@ -77,7 +77,7 @@ export default function GaleriPage() {
               key={photo.id}
               delay={(idx % 12) * 0.05}
               direction="up"
-              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${!photo.src ? 'animate-pulse' : 'cursor-pointer'}`}
+              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${(!photo.src && !photo.isVideo) ? 'animate-pulse' : 'cursor-pointer hover:border-gold/50'}`}
               onClick={() => {
                 if (photo.isVideo && (photo as any).url) {
                   window.open((photo as any).url, '_blank');
@@ -102,12 +102,25 @@ export default function GaleriPage() {
                     </p>
                   </div>
                 </>
+              ) : photo.isVideo ? (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-black-soft transition-opacity" />
+                  <div className="w-16 h-16 rounded-full bg-gold/20 flex items-center justify-center group-hover:scale-110 group-hover:bg-gold/40 transition-all duration-500 relative z-10 border border-gold/30">
+                    <div className="w-0 h-0 border-t-8 border-t-transparent border-l-[14px] border-l-gold border-b-8 border-b-transparent ml-1"></div>
+                  </div>
+                  <p className="text-white mt-4 font-serif text-lg group-hover:text-gold transition-colors relative z-10 text-center px-4">
+                    {photo.label}
+                  </p>
+                  <p className="text-gold/70 text-xs font-mono uppercase mt-2 relative z-10">
+                    Buka di Google Drive
+                  </p>
+                </>
               ) : (
                 <>
                   <div className="absolute inset-0 bg-gradient-to-br from-glass to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
                   <ImageIcon size={28} className="text-gold/30 mb-3 group-hover:scale-110 group-hover:text-gold transition-all duration-500 relative z-10" />
-                  <p className="text-text-muted/50 font-mono tracking-widest uppercase text-xs group-hover:text-gold transition-colors relative z-10">
-                    {photo.label}
+                  <p className="text-text-muted/50 font-mono tracking-widest uppercase text-xs group-hover:text-gold transition-colors relative z-10 text-center px-4">
+                    Memproses Foto...
                   </p>
                   <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </>

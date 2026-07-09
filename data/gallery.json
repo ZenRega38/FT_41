@@ -1,71 +1,481 @@
 [
   {
     "id": 1,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 1",
     "src": "/gallery/yudisium_FKTK0175.webp",
     "category": "yudisium"
   },
   {
     "id": 2,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 2",
     "src": "/gallery/yudisium_FKTK0177.webp",
     "category": "yudisium"
   },
   {
     "id": 3,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 3",
     "src": "/gallery/yudisium_FKTK0178.webp",
     "category": "yudisium"
   },
   {
     "id": 4,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 4",
     "src": "/gallery/yudisium_FKTK0179.webp",
     "category": "yudisium"
   },
   {
     "id": 5,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 5",
     "src": "/gallery/yudisium_FKTK0181.webp",
     "category": "yudisium"
   },
   {
     "id": 6,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 6",
     "src": "/gallery/yudisium_FKTK0182.webp",
     "category": "yudisium"
   },
   {
     "id": 7,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 7",
     "src": "/gallery/yudisium_FKTK0183.webp",
     "category": "yudisium"
   },
   {
     "id": 8,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 8",
     "src": "/gallery/yudisium_FKTK0185.webp",
     "category": "yudisium"
   },
   {
     "id": 9,
-    "ratio": "aspect-video",
-    "label": "Momen Yudisium",
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 9",
     "src": "/gallery/yudisium_FKTK0186.webp",
     "category": "yudisium"
   },
   {
     "id": 10,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 10",
+    "src": "/gallery/FKTK0238.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 11,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 11",
+    "src": "/gallery/FKTK0240.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 12,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 12",
+    "src": "/gallery/FKTK0243.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 13,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 13",
+    "src": "/gallery/DEFC7611.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 14,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 14",
+    "src": "/gallery/DEFC7612.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 15,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 15",
+    "src": "/gallery/yudisium_FKTK0175.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 16,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 16",
+    "src": "/gallery/yudisium_FKTK0177.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 17,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 17",
+    "src": "/gallery/yudisium_FKTK0178.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 18,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 18",
+    "src": "/gallery/yudisium_FKTK0179.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 19,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 19",
+    "src": "/gallery/yudisium_FKTK0181.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 20,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 20",
+    "src": "/gallery/yudisium_FKTK0182.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 21,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 21",
+    "src": "/gallery/yudisium_FKTK0183.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 22,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 22",
+    "src": "/gallery/yudisium_FKTK0185.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 23,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 23",
+    "src": "/gallery/yudisium_FKTK0186.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 24,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 24",
+    "src": "/gallery/FKTK0238.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 25,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 25",
+    "src": "/gallery/FKTK0240.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 26,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 26",
+    "src": "/gallery/FKTK0243.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 27,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 27",
+    "src": "/gallery/DEFC7611.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 28,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 28",
+    "src": "/gallery/DEFC7612.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 29,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 29",
+    "src": "/gallery/yudisium_FKTK0175.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 30,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 30",
+    "src": "/gallery/yudisium_FKTK0177.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 31,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 31",
+    "src": "/gallery/yudisium_FKTK0178.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 32,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 32",
+    "src": "/gallery/yudisium_FKTK0179.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 33,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 33",
+    "src": "/gallery/yudisium_FKTK0181.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 34,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 34",
+    "src": "/gallery/yudisium_FKTK0182.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 35,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 35",
+    "src": "/gallery/yudisium_FKTK0183.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 36,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 36",
+    "src": "/gallery/yudisium_FKTK0185.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 37,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 37",
+    "src": "/gallery/yudisium_FKTK0186.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 38,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 38",
+    "src": "/gallery/FKTK0238.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 39,
+    "ratio": "aspect-square",
+    "label": "Momen Yudisium 39",
+    "src": "/gallery/FKTK0240.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 40,
+    "ratio": "aspect-[4/3]",
+    "label": "Momen Yudisium 40",
+    "src": "/gallery/FKTK0243.webp",
+    "category": "yudisium"
+  },
+  {
+    "id": 41,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 1",
+    "src": "/gallery/yudisium_FKTK0182.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 42,
     "ratio": "aspect-video",
-    "label": "Trailer Yudisium Ke-41",
+    "label": "Momen Kirab 2",
+    "src": "/gallery/yudisium_FKTK0183.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 43,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 3",
+    "src": "/gallery/yudisium_FKTK0185.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 44,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 4",
+    "src": "/gallery/yudisium_FKTK0186.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 45,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 5",
+    "src": "/gallery/FKTK0238.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 46,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 6",
+    "src": "/gallery/FKTK0240.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 47,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 7",
+    "src": "/gallery/FKTK0243.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 48,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 8",
+    "src": "/gallery/DEFC7611.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 49,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 9",
+    "src": "/gallery/DEFC7612.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 50,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 10",
+    "src": "/gallery/yudisium_FKTK0175.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 51,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 11",
+    "src": "/gallery/yudisium_FKTK0177.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 52,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 12",
+    "src": "/gallery/yudisium_FKTK0178.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 53,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 13",
+    "src": "/gallery/yudisium_FKTK0179.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 54,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 14",
+    "src": "/gallery/yudisium_FKTK0181.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 55,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 15",
+    "src": "/gallery/yudisium_FKTK0182.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 56,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 16",
+    "src": "/gallery/yudisium_FKTK0183.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 57,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 17",
+    "src": "/gallery/yudisium_FKTK0185.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 58,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 18",
+    "src": "/gallery/yudisium_FKTK0186.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 59,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 19",
+    "src": "/gallery/FKTK0238.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 60,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 20",
+    "src": "/gallery/FKTK0240.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 61,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 21",
+    "src": "/gallery/FKTK0243.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 62,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 22",
+    "src": "/gallery/DEFC7611.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 63,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 23",
+    "src": "/gallery/DEFC7612.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 64,
+    "ratio": "aspect-video",
+    "label": "Momen Kirab 24",
+    "src": "/gallery/yudisium_FKTK0175.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 65,
+    "ratio": "aspect-[3/4]",
+    "label": "Momen Kirab 25",
+    "src": "/gallery/yudisium_FKTK0177.webp",
+    "category": "kirab"
+  },
+  {
+    "id": 66,
+    "ratio": "aspect-video",
+    "label": "Video Dokumentasi Yudisium 1",
+    "src": "",
+    "url": "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw",
+    "category": "video",
+    "isVideo": true
+  },
+  {
+    "id": 67,
+    "ratio": "aspect-video",
+    "label": "Video Dokumentasi Yudisium 2",
+    "src": "",
+    "url": "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw",
+    "category": "video",
+    "isVideo": true
+  },
+  {
+    "id": 68,
+    "ratio": "aspect-video",
+    "label": "Video Dokumentasi Kirab",
     "src": "",
     "url": "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw",
     "category": "video",
