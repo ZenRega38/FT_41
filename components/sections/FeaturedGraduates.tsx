@@ -67,11 +67,11 @@ const CATEGORIES: Category[] = [
 const RANK_COLORS = ['text-gold', 'text-text-muted', 'text-[#cd7f32]'];
 const RANK_LABELS = ['I', 'II', 'III'];
 
-function AwardeeCard({ awardee, i }: { awardee: Awardee, i: number }) {
+function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isBento?: boolean }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <Link href={`/peserta/${awardee.slug}`}>
+    <Link href={`/peserta/${awardee.slug}`} className={isBento && i === 0 ? 'row-span-2 sm:row-span-1' : ''}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -81,7 +81,7 @@ function AwardeeCard({ awardee, i }: { awardee: Awardee, i: number }) {
         }`}
       >
         {/* Photo */}
-        <div className="aspect-[3/4] relative bg-black-soft overflow-hidden">
+        <div className={`relative bg-black-soft overflow-hidden ${isBento && i === 0 ? 'h-full min-h-[280px]' : isBento ? 'aspect-square sm:aspect-[3/4]' : 'aspect-[3/4]'}`}>
           {awardee.photo ? (
             <>
               {/* Premium Shimmer Skeleton */}
@@ -177,13 +177,13 @@ export function FeaturedGraduates() {
               {active.sublabel}
             </p>
 
-            <div className={`grid gap-6 max-w-5xl mx-auto ${
+            <div className={`grid gap-3 max-w-5xl mx-auto ${
               active.awardees.length === 1 ? 'grid-cols-1 max-w-sm' :
               active.awardees.length === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl' :
-              'grid-cols-1 sm:grid-cols-3'
+              'grid-cols-2 sm:grid-cols-3'
             }`}>
               {active.awardees.map((awardee, i) => (
-                <AwardeeCard key={awardee.slug} awardee={awardee} i={i} />
+                <AwardeeCard key={awardee.slug} awardee={awardee} i={i} isBento={active.awardees.length === 3} />
               ))}
             </div>
           </motion.div>
