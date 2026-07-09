@@ -3,93 +3,21 @@
 import React, { useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
-import { ExternalLink, FolderOpen, Film, Camera } from 'lucide-react';
-import { motion } from 'framer-motion';
-
-interface AlbumFolder {
-  id: string;
-  title: string;
-  description: string;
-  category: 'yudisium' | 'kirab' | 'video';
-  url: string;
-  icon: 'camera' | 'film';
-  count?: string;
-}
-
-const ALBUMS: AlbumFolder[] = [
-  {
-    id: 'yudisium-1',
-    title: 'Liputan Yudisium — Sesi 1',
-    description: 'Dokumentasi prosesi dan momen acara Yudisium Ke-41 Fakultas Teknik UBT.',
-    category: 'yudisium',
-    url: 'https://drive.google.com/drive/folders/1wKga1ch3MDRncGWrTVvwtm6cl1Kma9ei',
-    icon: 'camera',
-  },
-  {
-    id: 'yudisium-2',
-    title: 'Liputan Yudisium — Sesi 2',
-    description: 'Koleksi foto tambahan dari rangkaian acara Yudisium Ke-41.',
-    category: 'yudisium',
-    url: 'https://drive.google.com/drive/folders/1Gyo49jQZtfL3wuNlccHQObNveMUxbj1-',
-    icon: 'camera',
-  },
-  {
-    id: 'yudisium-3',
-    title: 'Liputan Yudisium — Sesi 3',
-    description: 'Momen spesial keluarga dan peserta Yudisium Ke-41.',
-    category: 'yudisium',
-    url: 'https://drive.google.com/drive/folders/1TxLfklZ5cEMNJSFuEZaiNU4GcMNKB2mY',
-    icon: 'camera',
-  },
-  {
-    id: 'kirab-1',
-    title: 'Kirab (Arak-Arakan) — Sesi 1',
-    description: 'Dokumentasi prosesi kirab kelulusan para peserta Yudisium Ke-41.',
-    category: 'kirab',
-    url: 'https://drive.google.com/drive/folders/1MS9AdOIdfSPahDBlJKdfFoZQ0qOgW5xv',
-    icon: 'camera',
-  },
-  {
-    id: 'kirab-2',
-    title: 'Kirab (Arak-Arakan) — Sesi 2',
-    description: 'Koleksi foto arak-arakan dan perayaan kelulusan bersama keluarga.',
-    category: 'kirab',
-    url: 'https://drive.google.com/drive/folders/1PdTOdqZVkIHDYATub4XO-NUKo-cuWEsC',
-    icon: 'camera',
-  },
-  {
-    id: 'video',
-    title: 'Koleksi Video',
-    description: 'Kumpulan video dokumentasi acara Yudisium Ke-41 Fakultas Teknik UBT.',
-    category: 'video',
-    url: 'https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw',
-    icon: 'film',
-  },
-];
-
-const FILTERS = [
-  { id: 'all',      label: 'Semua' },
-  { id: 'yudisium', label: 'Yudisium' },
-  { id: 'kirab',    label: 'Kirab' },
-  { id: 'video',    label: 'Video' },
-];
-
-const CATEGORY_COLORS: Record<string, string> = {
-  yudisium: 'border-gold/30 text-gold',
-  kirab:    'border-champagne/30 text-champagne',
-  video:    'border-white/20 text-text-muted',
-};
+import Link from 'next/link';
+import { getAsset } from '@/lib/asset';
+import { ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import galleryData from '@/data/gallery.json';
 
 export default function GaleriPage() {
-  const [activeFilter, setActiveFilter] = useState('all');
-
-  const filtered = activeFilter === 'all'
-    ? ALBUMS
-    : ALBUMS.filter(a => a.category === activeFilter);
+  // Each photo has a natural aspect ratio — masonry will respect them
+  const photos = galleryData;
+  const [selectedImage, setSelectedImage] = useState<typeof photos[0] | null>(null);
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
       <Container>
+
 
         <MotionReveal direction="up" className="mb-16 space-y-4">
           <p className="text-gold tracking-[0.2em] uppercase text-xs md:text-sm font-semibold">Dokumentasi</p>
@@ -98,81 +26,108 @@ export default function GaleriPage() {
           </h1>
           <p className="text-text-muted max-w-2xl font-light">
             Kumpulan momen bersejarah dari acara Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
-            Klik album untuk membuka koleksi lengkap.
           </p>
         </MotionReveal>
 
-        {/* Filter pills */}
-        <MotionReveal direction="up" delay={0.1}>
-          <div className="flex flex-wrap gap-3 mb-12">
-            {FILTERS.map(f => (
-              <button
-                key={f.id}
-                onClick={() => setActiveFilter(f.id)}
-                className={`px-5 py-2 rounded-full text-sm font-mono tracking-wide border transition-all duration-300 ${
-                  activeFilter === f.id
-                    ? 'bg-gold text-black-primary border-gold font-bold'
-                    : 'bg-transparent text-text-muted border-white/15 hover:border-gold/40 hover:text-gold'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </MotionReveal>
-
-        {/* Album grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((album, idx) => (
-            <MotionReveal key={album.id} delay={idx * 0.08} direction="up">
-              <motion.a
-                href={album.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`group flex flex-col gap-5 p-7 rounded-3xl bg-charcoal border transition-all duration-500 hover:shadow-[0_0_40px_rgba(212,175,55,0.08)] hover:border-gold/30 ${CATEGORY_COLORS[album.category] || 'border-glass'}`}
-              >
-                {/* Icon area */}
-                <div className="w-14 h-14 rounded-2xl bg-black-soft border border-glass flex items-center justify-center text-gold group-hover:bg-gold/10 group-hover:border-gold/30 transition-all duration-300">
-                  {album.icon === 'film'
-                    ? <Film size={26} />
-                    : <Camera size={26} />
-                  }
-                </div>
-
-                {/* Meta */}
-                <div className="flex-1 space-y-2">
-                  <span className={`text-[10px] font-mono tracking-widest uppercase px-2 py-0.5 rounded border ${CATEGORY_COLORS[album.category]}`}>
-                    {album.category}
-                  </span>
-                  <h2 className="font-serif text-xl text-text-primary group-hover:text-champagne transition-colors leading-snug">
-                    {album.title}
-                  </h2>
-                  <p className="text-text-muted text-sm leading-relaxed">
-                    {album.description}
+        {/* Masonry via CSS columns — tiles naturally per aspect ratio, no empty row gaps */}
+        <div
+          style={{
+            columns: 'var(--masonry-cols)',
+            gap: '14px',
+          } as React.CSSProperties}
+          className="[--masonry-cols:2] md:[--masonry-cols:3] lg:[--masonry-cols:4]"
+        >
+          {photos.map((photo, idx) => (
+            <MotionReveal
+              key={photo.id}
+              delay={idx * 0.08}
+              direction="up"
+              className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${!photo.src ? 'animate-pulse' : 'cursor-pointer'}`}
+              onClick={() => photo.src && setSelectedImage(photo)}
+            >
+              {photo.src ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={getAsset(photo.src)}
+                    alt={photo.label}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute bottom-4 left-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                    <p className="text-gold font-mono tracking-widest uppercase text-[10px] drop-shadow-md">
+                      {photo.category.replace(/-/g, ' ')}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-glass to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+                  <ImageIcon size={28} className="text-gold/30 mb-3 group-hover:scale-110 group-hover:text-gold transition-all duration-500 relative z-10" />
+                  <p className="text-text-muted/50 font-mono tracking-widest uppercase text-xs group-hover:text-gold transition-colors relative z-10">
+                    {photo.label}
                   </p>
-                </div>
-
-                {/* CTA */}
-                <div className="flex items-center gap-2 text-gold font-mono text-xs tracking-widest uppercase group-hover:gap-3 transition-all duration-300">
-                  <FolderOpen size={14} />
-                  <span>Buka Album</span>
-                  <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              </motion.a>
+                  <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/30 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </>
+              )}
             </MotionReveal>
           ))}
         </div>
-
-        {/* Note */}
-        <MotionReveal direction="up" delay={0.3}>
-          <p className="mt-16 text-center text-text-muted/50 text-xs font-mono tracking-widest uppercase">
-            Foto dibuka melalui Google Drive — koneksi internet diperlukan
-          </p>
-        </MotionReveal>
-
       </Container>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && selectedImage.src && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 cursor-zoom-out bg-black/40 backdrop-blur-md"
+          >
+            {/* Blurred dominant color background */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={getAsset(selectedImage.src)}
+                alt="blur background"
+                className="absolute inset-0 w-full h-full object-cover scale-150 blur-[100px] opacity-40 saturate-200"
+              />
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 md:top-10 md:right-10 z-20 p-3 rounded-full bg-black/50 text-white hover:bg-gold hover:text-black transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Main Image */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative z-10 w-full max-w-5xl max-h-[90vh] rounded-xl overflow-hidden shadow-2xl border border-glass"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={getAsset(selectedImage.src)}
+                alt={selectedImage.label}
+                className="w-full h-full object-contain bg-black-soft/50 backdrop-blur-sm"
+              />
+              <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-black-primary/90 to-transparent">
+                <p className="text-white font-serif text-xl">{selectedImage.label}</p>
+                <p className="text-gold font-mono tracking-widest uppercase text-xs mt-2">
+                  {selectedImage.category.replace(/-/g, ' ')}
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
