@@ -6,6 +6,7 @@ import { OpeningStory } from "@/components/sections/OpeningStory";
 import { Stats } from "@/components/sections/Stats";
 import { Programs } from "@/components/sections/Programs";
 import { GalleryPreview } from "@/components/sections/GalleryPreview";
+import { EventGalleryPreview } from "@/components/sections/EventGalleryPreview";
 import { Countdown } from "@/components/sections/Countdown";
 import { Agenda } from "@/components/sections/Agenda";
 import { Trailer } from "@/components/sections/Trailer";
@@ -138,6 +139,7 @@ export default function Home() {
       <Stats />
       <Programs />
       <GalleryPreview />
+      <EventGalleryPreview />
       <FeaturedGraduates />
       <Timeline />
       <Suspense fallback={<div className="h-96 flex items-center justify-center font-mono text-gold tracking-widest uppercase text-sm">Memuat Data Peserta...</div>}>
