@@ -10,23 +10,58 @@ import { motion, AnimatePresence } from 'framer-motion';
 import galleryData from '@/data/gallery.json';
 
 export default function GaleriPage() {
-  // Each photo has a natural aspect ratio — masonry will respect them
   const photos = galleryData;
   const [selectedImage, setSelectedImage] = useState<typeof photos[0] | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('all');
+  const [visibleCount, setVisibleCount] = useState<number>(12);
+
+  const filteredPhotos = photos.filter(photo => activeTab === 'all' || photo.category === activeTab);
+  const visiblePhotos = filteredPhotos.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 12);
+  };
+
+  const tabs = [
+    { id: 'all', label: 'Semua' },
+    { id: 'yudisium', label: 'Yudisium' },
+    { id: 'kirab', label: 'Kirab' },
+    { id: 'video', label: 'Video' }
+  ];
 
   return (
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
       <Container>
 
 
-        <MotionReveal direction="up" className="mb-16 space-y-4">
+        <MotionReveal direction="up" className="mb-12 space-y-4">
           <p className="text-gold tracking-[0.2em] uppercase text-xs md:text-sm font-semibold">Dokumentasi</p>
           <h1 className="hero-title font-serif text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted drop-shadow-sm">
-            Galeri Yudisium
+            Galeri Momen
           </h1>
           <p className="text-text-muted max-w-2xl font-light">
-            Kumpulan momen bersejarah dari acara Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
+            Kumpulan momen bersejarah dari rangkaian acara Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
           </p>
+        </MotionReveal>
+
+        {/* Filter Tabs */}
+        <MotionReveal delay={0.1} direction="up" className="mb-10 flex flex-wrap gap-3">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                setActiveTab(tab.id);
+                setVisibleCount(12);
+              }}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                activeTab === tab.id
+                  ? 'bg-gold/10 text-gold border-gold shadow-[0_0_15px_rgba(212,175,55,0.15)]'
+                  : 'bg-charcoal text-text-muted border-glass hover:text-text-primary hover:border-gold/50'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </MotionReveal>
 
         {/* Masonry via CSS columns — tiles naturally per aspect ratio, no empty row gaps */}
@@ -37,13 +72,19 @@ export default function GaleriPage() {
           } as React.CSSProperties}
           className="[--masonry-cols:2] md:[--masonry-cols:3] lg:[--masonry-cols:4]"
         >
-          {photos.map((photo, idx) => (
+          {visiblePhotos.map((photo, idx) => (
             <MotionReveal
               key={photo.id}
-              delay={idx * 0.08}
+              delay={(idx % 12) * 0.05}
               direction="up"
               className={`w-full ${photo.ratio} rounded-2xl border border-glass bg-charcoal relative overflow-hidden group flex flex-col items-center justify-center mb-[14px] break-inside-avoid ${!photo.src ? 'animate-pulse' : 'cursor-pointer'}`}
-              onClick={() => photo.src && setSelectedImage(photo)}
+              onClick={() => {
+                if (photo.isVideo && (photo as any).url) {
+                  window.open((photo as any).url, '_blank');
+                } else if (photo.src) {
+                  setSelectedImage(photo);
+                }
+              }}
             >
               {photo.src ? (
                 <>
@@ -51,6 +92,7 @@ export default function GaleriPage() {
                   <img
                     src={getAsset(photo.src)}
                     alt={photo.label}
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -73,6 +115,20 @@ export default function GaleriPage() {
             </MotionReveal>
           ))}
         </div>
+
+        {visibleCount < filteredPhotos.length && (
+          <MotionReveal direction="up" className="mt-12 flex justify-center">
+            <button
+              onClick={handleLoadMore}
+              className="px-8 py-3 rounded-full bg-charcoal border border-glass text-text-primary hover:border-gold hover:text-gold transition-all duration-300 flex items-center gap-2 group"
+            >
+              <span>Tampilkan Lebih Banyak</span>
+              <span className="text-xs text-text-muted group-hover:text-gold/70 transition-colors">
+                ({filteredPhotos.length - visibleCount} tersisa)
+              </span>
+            </button>
+          </MotionReveal>
+        )}
       </Container>
 
       {/* Lightbox Modal */}

@@ -2,78 +2,73 @@
   {
     "id": 1,
     "ratio": "aspect-video",
-    "label": "Momen Yudisium 1",
-    "src": "/gallery/FKTK0175.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0175.webp",
     "category": "yudisium"
   },
   {
     "id": 2,
     "ratio": "aspect-video",
-    "label": "Momen Yudisium 2",
-    "src": "/gallery/FKTK0177.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0177.webp",
     "category": "yudisium"
   },
   {
     "id": 3,
     "ratio": "aspect-video",
-    "label": "Momen Yudisium 3",
-    "src": "/gallery/FKTK0178.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0178.webp",
     "category": "yudisium"
   },
   {
     "id": 4,
     "ratio": "aspect-video",
-    "label": "Momen Acara 4",
-    "src": "/gallery/DEFC7611.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0179.webp",
     "category": "yudisium"
   },
   {
     "id": 5,
     "ratio": "aspect-video",
-    "label": "Momen Acara 5",
-    "src": "/gallery/DEFC7612.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0181.webp",
     "category": "yudisium"
   },
   {
     "id": 6,
     "ratio": "aspect-video",
-    "label": "Momen Acara 6",
-    "src": "/gallery/FKTK0179.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0182.webp",
     "category": "yudisium"
   },
   {
     "id": 7,
     "ratio": "aspect-video",
-    "label": "Momen Acara 7",
-    "src": "/gallery/FKTK0238.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0183.webp",
     "category": "yudisium"
   },
   {
     "id": 8,
     "ratio": "aspect-video",
-    "label": "Momen Acara 8",
-    "src": "/gallery/FKTK0240.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0185.webp",
     "category": "yudisium"
   },
   {
     "id": 9,
     "ratio": "aspect-video",
-    "label": "Momen Acara 9",
-    "src": "/gallery/FKTK0243.webp",
+    "label": "Momen Yudisium",
+    "src": "/gallery/yudisium_FKTK0186.webp",
     "category": "yudisium"
   },
   {
     "id": 10,
     "ratio": "aspect-video",
-    "label": "Momen Acara 10",
-    "src": "/gallery/FKTK0630.webp",
-    "category": "yudisium"
-  },
-  {
-    "id": 11,
-    "ratio": "aspect-video",
-    "label": "Momen Acara 11",
-    "src": "/gallery/FKTK0631.webp",
-    "category": "yudisium"
+    "label": "Trailer Yudisium Ke-41",
+    "src": "",
+    "url": "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw",
+    "category": "video",
+    "isVideo": true
   }
 ]
