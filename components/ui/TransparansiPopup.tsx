@@ -64,7 +64,7 @@ export function TransparansiPopup() {
               <h2 className="text-2xl md:text-3xl font-serif text-text-primary">Perhatian</h2>
               
               <p className="text-text-muted leading-relaxed">
-                Data Rencana Anggaran Biaya (RAB) yang ditampilkan pada halaman ini adalah <strong>data contoh (mock data)</strong>. Data ini belum mewakili dokumen keuangan resmi kepanitiaan Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
+                Data Laporan Pengeluaran Keuangan yang ditampilkan pada halaman ini adalah <strong>laporan resmi dari panitia</strong>. Namun, laporan ini dapat berubah sewaktu-waktu jika terdapat penyesuaian, perbaikan kesalahan input, atau laporan tambahan.
               </p>
 
               <div className="pt-6 border-t border-glass flex flex-col items-center gap-4">
