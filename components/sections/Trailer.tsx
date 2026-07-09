@@ -11,24 +11,28 @@ const VIDEOS = [
     label: 'Trailer',
     src: 'https://drive.google.com/file/d/1DGUUqj4-i1ekn_DQa-F3hoQ5W-pDIOIP/preview',
     type: 'drive',
+    thumbnail: '/bg1.jpeg',
   },
   {
     id: 'live1',
     label: 'Siaran Ulang Live — Part 1',
     src: 'https://www.youtube.com/embed/1Lrajv0bo5U?autoplay=1&rel=0',
     type: 'youtube',
+    thumbnail: 'https://img.youtube.com/vi/1Lrajv0bo5U/maxresdefault.jpg',
   },
   {
     id: 'live2',
     label: 'Siaran Ulang Live — Part 2',
     src: 'https://www.youtube.com/embed/Y5MTxurBlrE?autoplay=1&rel=0',
     type: 'youtube',
+    thumbnail: 'https://img.youtube.com/vi/Y5MTxurBlrE/maxresdefault.jpg',
   },
   {
     id: 'aftermovie',
     label: 'After Movie',
     src: null,
     type: 'coming-soon',
+    thumbnail: null,
   },
 ];
 
@@ -99,7 +103,11 @@ export function Trailer() {
                 {/* Thumbnail / Play State */}
                 {!isPlaying ? (
                   <>
-                    <div className="absolute inset-0 bg-[url('/bg1.jpeg')] bg-cover bg-center opacity-40 group-hover:opacity-30 transition-opacity duration-700" />
+                    <div
+                      key={activeId + '-thumb'}
+                      className="absolute inset-0 bg-cover bg-center opacity-50 group-hover:opacity-40 transition-opacity duration-700"
+                      style={{ backgroundImage: `url('${active.thumbnail}')` }}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/50 to-transparent" />
                     <div className="absolute bottom-6 left-0 right-0 text-center z-10">
                       <p className="text-text-muted font-mono text-xs tracking-widest uppercase">{active.label}</p>
