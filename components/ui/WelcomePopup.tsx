@@ -1,4 +1,5 @@
 "use client";
+import { getAsset } from '@/lib/asset';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';

@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Participant } from '@/types/site';
 import { motion } from 'framer-motion';
+import { getAsset } from '@/lib/asset';
 
 const CinematicText = ({ text, className, isExporting }: { text: string; className?: string; isExporting: boolean }) => {
   if (isExporting || !text) {
