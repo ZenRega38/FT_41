@@ -18,6 +18,7 @@ interface Awardee {
 interface Category {
   id: string;
   label: string;
+  shortLabel: string;
   sublabel: string;
   awardees: Awardee[];
 }
@@ -26,7 +27,8 @@ const CATEGORIES: Category[] = [
   {
     id: 'fakultas',
     label: 'Fakultas Teknik',
-    sublabel: 'Lulusan Terbaik Se-Fakultas',
+    shortLabel: 'FAKULTAS',
+    sublabel: 'Lulusan Terbaik Se-Fakultas Teknik',
     awardees: [
       { rank: 1, name: 'Dimas Satrio Wiranata, S.T.', slug: 'dimas-satrio-wiranata', photo: '/graduates/dimas-satrio-wiranata.webp' },
       { rank: 2, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
@@ -36,7 +38,8 @@ const CATEGORIES: Category[] = [
   {
     id: 'sipil',
     label: 'Teknik Sipil',
-    sublabel: 'Lulusan Terbaik Program Studi',
+    shortLabel: 'SIPIL',
+    sublabel: 'Lulusan Terbaik Prodi Teknik Sipil',
     awardees: [
       { rank: 1, name: 'Nureni, S.T.',                  slug: 'nureni',                  photo: '/graduates/nureni.webp' },
       { rank: 2, name: 'Shendly Calistha Bulawan, S.T.', slug: 'shendly-calistha-bulawan', photo: '/graduates/shendly-calistha-bulawan.webp' },
@@ -46,7 +49,8 @@ const CATEGORIES: Category[] = [
   {
     id: 'elektro',
     label: 'Teknik Elektro',
-    sublabel: 'Lulusan Terbaik Program Studi',
+    shortLabel: 'ELEKTRO',
+    sublabel: 'Lulusan Terbaik Prodi Teknik Elektro',
     awardees: [
       { rank: 1, name: 'Randi Ramdansyah, S.T.',       slug: 'randi-ramdansyah',       photo: '/graduates/randi-ramdansyah.webp' },
       { rank: 2, name: 'Michael Yehezkiel Rattu, S.T.', slug: 'michael-yehezkiel-rattu', photo: '/graduates/michael-yehezkiel-rattu.webp' },
@@ -55,7 +59,8 @@ const CATEGORIES: Category[] = [
   {
     id: 'komputer',
     label: 'Teknik Komputer',
-    sublabel: 'Lulusan Terbaik Program Studi',
+    shortLabel: 'KOMPUTER',
+    sublabel: 'Lulusan Terbaik Prodi Teknik Komputer',
     awardees: [
       { rank: 1, name: 'Dimas Satrio Wiranata, S.T.', slug: 'dimas-satrio-wiranata', photo: '/graduates/dimas-satrio-wiranata.webp' },
       { rank: 2, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
@@ -69,26 +74,25 @@ const RANK_LABELS = ['I', 'II', 'III'];
 
 function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isBento?: boolean }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const isFeatured  = isBento && i === 0;   // #1 — kiri besar
-  const isSecondary = isBento && i !== 0;   // #2 & #3 — kanan pendek
+  const isFeatured  = isBento && i === 0;   // #1 — kiri besar (mobile bento)
+  const isSecondary = isBento && i !== 0;   // #2 & #3 — kanan pendek (mobile bento)
 
   return (
     <Link
       href={`/peserta/${awardee.slug}`}
-      className={`block ${isFeatured ? 'row-span-2 sm:row-span-1' : ''}`}
+      className={`block ${isFeatured ? 'row-span-2 sm:row-span-1 h-full sm:h-auto' : ''}`}
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`group relative bg-charcoal border rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] h-full ${
+        className={`group relative bg-charcoal border rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] ${isFeatured ? 'h-full sm:h-auto' : ''} ${
           i === 0 ? 'border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.1)]' : 'border-glass hover:border-gold/20'
         }`}
       >
-        {/* Photo */}
-        <div className={`relative bg-black-soft overflow-hidden flex-shrink-0 ${
-          isFeatured  ? 'h-[260px] sm:h-auto sm:aspect-[3/4]' :
-          isSecondary ? 'h-[110px] sm:h-auto sm:aspect-[3/4]' :
+        <div className={`relative bg-black-soft overflow-hidden w-full ${
+          isFeatured  ? 'h-full sm:h-auto sm:aspect-[3/4]' :
+          isSecondary ? 'aspect-square sm:aspect-[3/4]' :
           'aspect-[3/4]'
         }`}>
           {awardee.photo ? (
@@ -110,34 +114,39 @@ function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isB
               {awardee.name.charAt(0)}
             </div>
           )}
-          <div className={`absolute inset-0 bg-gradient-to-t to-transparent z-20 pointer-events-none ${
-            isSecondary ? 'from-charcoal/50 via-transparent' : 'from-charcoal via-transparent'
-          }`} />
+
+          {/* Gradient shadow — sama untuk semua kartu, melindungi teks overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/60 to-transparent z-20 pointer-events-none opacity-90" />
 
           {/* Rank badge */}
           <div className={`absolute top-3 left-3 rounded-full flex items-center justify-center font-mono font-bold border z-30 ${
             i === 0
-              ? 'w-9 h-9 text-sm bg-gold text-black-primary border-gold'
+              ? 'w-9 h-9 text-sm bg-gold text-black-primary border-gold shadow-[0_0_15px_rgba(212,175,55,0.3)]'
               : 'w-7 h-7 text-xs bg-black-soft/80 backdrop-blur border-glass text-text-muted'
           }`}>
             {i === 0 ? <Star size={14} fill="currentColor" /> : RANK_LABELS[i]}
           </div>
-        </div>
 
-        {/* Info */}
-        <div className={`flex flex-col gap-0.5 relative z-30 ${isSecondary ? 'px-3 py-2' : 'p-4'}`}>
-          <div className={`flex items-center gap-1 font-mono tracking-widest uppercase ${isSecondary ? 'text-[9px] mb-0.5' : 'text-xs mb-1'} ${RANK_COLORS[i]}`}>
-            <Award size={10} />
-            <span>Peringkat {RANK_LABELS[i]}</span>
+          {/* Info Overlay — berada di atas gambar dan gradient */}
+          <div className={`absolute bottom-0 inset-x-0 flex flex-col gap-0.5 z-30 ${isSecondary ? 'px-3 py-2 sm:p-4' : 'p-4'}`}>
+            <div className={`flex items-center gap-1 font-mono tracking-widest uppercase drop-shadow-md ${
+              isSecondary ? 'text-[9px] sm:text-xs mb-0.5 sm:mb-1' : 'text-xs mb-1'
+            } ${RANK_COLORS[i]}`}>
+              <Award size={isSecondary ? 9 : 12} />
+              <span>Peringkat {RANK_LABELS[i]}</span>
+            </div>
+            <h3 className={`font-serif text-text-primary leading-snug drop-shadow-lg group-hover:text-champagne transition-colors ${
+              isSecondary ? 'text-[11px] sm:text-base' : 'text-base'
+            }`}>
+              {awardee.name}
+            </h3>
           </div>
-          <h3 className={`font-serif text-text-primary leading-snug group-hover:text-champagne transition-colors ${isSecondary ? 'text-[11px]' : 'text-base'}`}>
-            {awardee.name}
-          </h3>
         </div>
       </motion.div>
     </Link>
   );
 }
+
 
 
 export function FeaturedGraduates() {
@@ -161,18 +170,19 @@ export function FeaturedGraduates() {
 
         {/* Category pill tabs */}
         <MotionReveal direction="up" delay={0.1}>
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+          <div className="flex flex-row flex-wrap justify-center gap-2 sm:gap-3 mb-12 px-2">
             {CATEGORIES.map(cat => (
               <button
                 key={cat.id}
                 onClick={() => setActiveId(cat.id)}
-                className={`px-5 py-2 rounded-full text-sm font-mono tracking-wide border transition-all duration-300 ${
+                className={`px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-sm font-mono tracking-wide border transition-all duration-300 ${
                   activeId === cat.id
                     ? 'bg-gold text-black-primary border-gold font-bold shadow-[0_0_20px_rgba(212,175,55,0.35)]'
                     : 'bg-transparent text-text-muted border-white/15 hover:border-gold/50 hover:text-gold'
                 }`}
               >
-                {cat.label}
+                <span className="sm:hidden">{cat.shortLabel}</span>
+                <span className="hidden sm:inline">{cat.label}</span>
               </button>
             ))}
           </div>

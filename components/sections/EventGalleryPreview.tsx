@@ -28,12 +28,14 @@ export function EventGalleryPreview() {
   const yudisiumPhotos = photos.filter(p => p.category === 'yudisium' && !p.isVideo);
 
   const [displayedPhotos, setDisplayedPhotos] = useState<typeof photos>([]);
+  const [timerKey, setTimerKey] = useState(0);
 
   useEffect(() => {
     const pickPhotos = () => {
       const selectedKirab = shuffleArray(kirabPhotos).slice(0, 4);
       const selectedYudisium = shuffleArray(yudisiumPhotos).slice(0, 4);
       setDisplayedPhotos(shuffleArray([...selectedKirab, ...selectedYudisium]));
+      setTimerKey(prev => prev + 1);
     };
 
     pickPhotos();
@@ -86,13 +88,33 @@ export function EventGalleryPreview() {
           ))}
         </div>
 
-        <MotionReveal direction="up" className="flex flex-col sm:flex-row items-center justify-center gap-6">
+        <MotionReveal direction="up" className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-4">
           <Link 
             href="/galeri"
-            className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gold text-black-primary rounded-full font-mono tracking-widest uppercase text-sm font-bold hover:bg-champagne hover:scale-[1.02] transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.3)]"
+            className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent text-gold rounded-full font-mono tracking-widest uppercase text-sm font-bold hover:bg-gold hover:text-black-primary transition-all duration-500"
           >
-            <span>Lihat Semua Dokumentasi</span>
-            <ArrowRight size={16} />
+            {/* Outline track (faded) */}
+            <div className="absolute top-0 left-0 w-full h-full border border-gold/20 rounded-full transition-opacity duration-500 group-hover:opacity-0 pointer-events-none" />
+            
+            {/* Animated outline timer */}
+            <svg 
+              className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+              style={{ display: 'block' }}
+            >
+              <motion.rect 
+                key={timerKey}
+                x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="26"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 15, ease: "linear" }}
+              />
+            </svg>
+
+            <span className="relative z-10 group-hover:scale-105 transition-transform duration-300">Lihat Semua Dokumentasi</span>
+            <ArrowRight size={16} className="relative z-10 group-hover:scale-105 transition-transform duration-300" />
           </Link>
         </MotionReveal>
       </Container>
