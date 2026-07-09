@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     icon: getAsset('/logo.png'),
   },
   verification: {
-    google: 'fOX0C0jsTriaXBPnOFy11Ncj_iIAZMJBU1YImqtUnX4',
+    google: 'aftJDLDGkgU3eZe4FMNv5cavBQP7zeKYcmLhfrRY398',
   },
 };
 
