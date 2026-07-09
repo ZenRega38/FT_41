@@ -43,35 +43,6 @@ for (let i = 0; i < 25; i++) {
   });
 }
 
-// Generate 3 Videos
-allData.push({
-  id: idCounter++,
-  ratio: "aspect-video",
-  label: `Video Dokumentasi Yudisium 1`,
-  src: "", 
-  url: "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw", 
-  category: "video",
-  isVideo: true
-});
-allData.push({
-  id: idCounter++,
-  ratio: "aspect-video",
-  label: `Video Dokumentasi Yudisium 2`,
-  src: "", 
-  url: "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw", 
-  category: "video",
-  isVideo: true
-});
-allData.push({
-  id: idCounter++,
-  ratio: "aspect-video",
-  label: `Video Dokumentasi Kirab`,
-  src: "", 
-  url: "https://drive.google.com/drive/folders/16bwC7yIL6ulWvdt61NBwy-jzrMAxFWaw", 
-  category: "video",
-  isVideo: true
-});
-
 const galleryJsonPath = path.join(__dirname, '..', 'data', 'gallery.json');
 fs.writeFileSync(galleryJsonPath, JSON.stringify(allData, null, 2));
 console.log(`Generated mock gallery with ${allData.length} items`);

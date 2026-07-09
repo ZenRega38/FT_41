@@ -13,14 +13,10 @@ export default function GaleriPage() {
   const photos = galleryData;
   const [selectedImage, setSelectedImage] = useState<typeof photos[0] | null>(null);
   const [activeTab, setActiveTab] = useState<string>('all');
-  const [visibleCount, setVisibleCount] = useState<number>(12);
 
-  const filteredPhotos = photos.filter(photo => activeTab === 'all' || photo.category === activeTab);
-  const visiblePhotos = filteredPhotos.slice(0, visibleCount);
-
-  const handleLoadMore = () => {
-    setVisibleCount(prev => prev + 12);
-  };
+  const filteredPhotos = photos.filter(photo => 
+    activeTab === 'all' ? !photo.isVideo : photo.category === activeTab
+  );
 
   const tabs = [
     { id: 'all', label: 'Semua' },
@@ -49,10 +45,7 @@ export default function GaleriPage() {
           {tabs.map(tab => (
             <button
               key={tab.id}
-              onClick={() => {
-                setActiveTab(tab.id);
-                setVisibleCount(12);
-              }}
+              onClick={() => setActiveTab(tab.id)}
               className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
                 activeTab === tab.id
                   ? 'bg-gold/10 text-gold border-gold shadow-[0_0_15px_rgba(212,175,55,0.15)]'
@@ -72,7 +65,7 @@ export default function GaleriPage() {
           } as React.CSSProperties}
           className="[--masonry-cols:2] md:[--masonry-cols:3] lg:[--masonry-cols:4]"
         >
-          {visiblePhotos.map((photo, idx) => (
+          {filteredPhotos.map((photo, idx) => (
             <MotionReveal
               key={photo.id}
               delay={(idx % 12) * 0.05}
@@ -129,19 +122,6 @@ export default function GaleriPage() {
           ))}
         </div>
 
-        {visibleCount < filteredPhotos.length && (
-          <MotionReveal direction="up" className="mt-12 flex justify-center">
-            <button
-              onClick={handleLoadMore}
-              className="px-8 py-3 rounded-full bg-charcoal border border-glass text-text-primary hover:border-gold hover:text-gold transition-all duration-300 flex items-center gap-2 group"
-            >
-              <span>Tampilkan Lebih Banyak</span>
-              <span className="text-xs text-text-muted group-hover:text-gold/70 transition-colors">
-                ({filteredPhotos.length - visibleCount} tersisa)
-              </span>
-            </button>
-          </MotionReveal>
-        )}
       </Container>
 
       {/* Lightbox Modal */}
