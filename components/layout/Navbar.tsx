@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
 import { cn } from '@/lib/utils';
 import { Menu, X } from 'lucide-react';
+import { getAsset } from "@/lib/asset";
 
 const navLinks = [
   { href: '/', label: 'Beranda' },
@@ -39,7 +40,7 @@ export function Navbar() {
       <Container>
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link href="/" className="flex items-center gap-3 group" aria-label="Beranda">
-            <Image src="/logo.png" alt="Logo Fakultas Teknik" width={32} height={32} className="object-contain" />
+            <Image src={getAsset("/logo.png")} alt="Logo Fakultas Teknik" width={32} height={32} className="object-contain" />
             <div className="text-xl font-serif text-text-primary group-hover:text-gold transition-colors">
               FT<span className="text-gold">41</span>
             </div>

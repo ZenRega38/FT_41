@@ -20,6 +20,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, Suspense } from "react";
 import { section } from "framer-motion/client";
 import { HeroParticles } from "@/components/ui/HeroParticles";
+import { getAsset } from "@/lib/asset";
 
 export default function Home() {
   const heroRef = useRef(null);
@@ -68,7 +69,7 @@ export default function Home() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="/bg1.jpeg"
+            src={getAsset("/bg1.jpeg")}
             alt="Gedung Rektorat Background"
             fill
             priority

@@ -119,7 +119,7 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(({
       <div className="absolute top-20 left-0 right-0 z-10 flex flex-col items-center text-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/logo.png"
+          src={getAsset("/logo.png")}
           alt="Logo UBT"
           className="w-28 h-28 object-contain mb-6"
           crossOrigin="anonymous"

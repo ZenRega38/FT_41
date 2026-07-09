@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Participant } from '@/types/site';
 import { motion } from 'framer-motion';
+import { getAsset } from "@/lib/asset";
 
 interface GraduateCardProps {
   participant: Participant;
@@ -49,7 +50,7 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
               <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
               
               <Image
-                src={participant.photo}
+                src={getAsset(participant.photo)}
                 alt={participant.photoAlt || participant.name}
                 fill
                 className={`object-cover object-top transition-all duration-700 group-hover:scale-110 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}

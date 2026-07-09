@@ -61,7 +61,7 @@ export function WelcomePopup() {
 
             <div className="p-8 md:p-10 text-center space-y-6">
               <div className="mx-auto w-20 h-20 rounded-full bg-black-soft flex items-center justify-center border border-gold/30 mb-6 overflow-hidden shadow-[0_0_15px_rgba(212,175,55,0.2)]">
-                <Image src="/logo.png" alt="Logo" width={80} height={80} className="object-cover" />
+                <Image src={getAsset("/logo.png")} alt="Logo" width={80} height={80} className="object-cover" />
               </div>
               
               <h2 className="text-2xl md:text-3xl font-serif text-text-primary">Selamat Datang</h2>

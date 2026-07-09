@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
+import { getAsset } from "@/lib/asset";
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function AudioPlayer() {
@@ -59,7 +60,7 @@ export function AudioPlayer() {
       <audio 
         ref={audioRef}
         loop 
-        src="/audio/bg-music.m4a" 
+        src={getAsset("/audio/bg-music.m4a")} 
         preload="auto"
       />
       
