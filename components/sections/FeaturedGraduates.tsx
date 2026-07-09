@@ -29,8 +29,8 @@ const CATEGORIES: Category[] = [
     sublabel: 'Lulusan Terbaik Se-Fakultas',
     awardees: [
       { rank: 1, name: 'Dimas Satrio Wiranata, S.T.', slug: 'dimas-satrio-wiranata', photo: '/graduates/dimas-satrio-wiranata.webp' },
-      { rank: 2, name: 'Bisma Baghas Waluyo, S.T.',   slug: 'bisma-baghas-waluyo',   photo: '/graduates/bisma-baghas-waluyo.webp' },
-      { rank: 3, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
+      { rank: 2, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
+      { rank: 3, name: 'Bisma Baghas Waluyo, S.T.',   slug: 'bisma-baghas-waluyo',   photo: '/graduates/bisma-baghas-waluyo.webp' },
     ],
   },
   {
@@ -58,8 +58,8 @@ const CATEGORIES: Category[] = [
     sublabel: 'Lulusan Terbaik Program Studi',
     awardees: [
       { rank: 1, name: 'Dimas Satrio Wiranata, S.T.', slug: 'dimas-satrio-wiranata', photo: '/graduates/dimas-satrio-wiranata.webp' },
-      { rank: 2, name: 'Bisma Baghas Waluyo, S.T.',   slug: 'bisma-baghas-waluyo',   photo: '/graduates/bisma-baghas-waluyo.webp' },
-      { rank: 3, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
+      { rank: 2, name: 'Agung Gunawan, S.T.',          slug: 'agung-gunawan',          photo: '/graduates/agung-gunawan.webp' },
+      { rank: 3, name: 'Bisma Baghas Waluyo, S.T.',   slug: 'bisma-baghas-waluyo',   photo: '/graduates/bisma-baghas-waluyo.webp' },
     ],
   },
 ];
