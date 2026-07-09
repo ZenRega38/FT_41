@@ -4,8 +4,8 @@ import React, { useRef, useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { getAsset } from '@/lib/asset';
 import participantsData from '@/data/participants.json';
 import { motion, useScroll, useTransform, AnimatePresence, useAnimation, useMotionValue, PanInfo } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -19,14 +19,13 @@ const GalleryImage = ({ src, onClick }: { src: string; onClick: () => void }) =>
       className="relative w-40 h-56 md:w-60 md:h-80 shrink-0 rounded-2xl overflow-hidden border border-white/10 filter grayscale hover:!grayscale-0 hover:!opacity-100 hover:scale-105 transition-all duration-500 cursor-zoom-in"
     >
       <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
-      <Image 
-        src={src} 
-        alt="Graduate" 
-        fill 
-        className={`object-cover transition-all duration-700 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-md'}`} 
-        sizes="(max-width: 768px) 160px, 240px" 
-        unoptimized 
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={getAsset(src)}
+        alt="Graduate"
+        loading="lazy"
         onLoad={() => setIsLoaded(true)}
+        className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-md'}`}
       />
     </div>
   );
@@ -37,14 +36,12 @@ const LightboxImage = ({ src }: { src: string }) => {
   return (
     <div className="relative w-full max-w-2xl h-[70vh] md:h-[85vh] rounded-2xl overflow-hidden shadow-2xl border border-white/10 mx-auto bg-black-primary">
       <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
-      <Image 
-        src={src} 
-        alt="Graduate High Res" 
-        fill 
-        className={`object-contain transition-all duration-700 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-md scale-95'}`} 
-        sizes="(max-width: 1024px) 100vw, 1024px" 
-        unoptimized 
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={getAsset(src)}
+        alt="Graduate High Res"
         onLoad={() => setIsLoaded(true)}
+        className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-md scale-95'}`}
       />
     </div>
   );
