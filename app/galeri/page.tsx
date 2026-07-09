@@ -29,7 +29,6 @@ export default function GaleriPage() {
     <main className="min-h-screen bg-black-primary text-text-primary pt-32 pb-24">
       <Container>
 
-
         <MotionReveal direction="up" className="mb-12 space-y-4">
           <p className="text-gold tracking-[0.2em] uppercase text-xs md:text-sm font-semibold">Dokumentasi</p>
           <h1 className="hero-title font-serif text-transparent bg-clip-text bg-gradient-to-r from-champagne via-gold to-gold-muted drop-shadow-sm">

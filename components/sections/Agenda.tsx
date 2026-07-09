@@ -127,18 +127,13 @@ export function Agenda() {
 /** Red diagonal "[ TERLAKSANA ]" stamp overlay */
 function TerlaksanaStamp() {
   return (
-    <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden rounded-3xl">
-      <div
-        style={{ transform: 'rotate(-45deg) translate(-20%, 80%)' }}
-        className="absolute top-0 left-0 right-0 flex items-center justify-center"
+    <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden rounded-3xl flex items-center justify-center">
+      <span
+        className="border-4 border-red-600/70 text-red-600/80 font-mono text-xl md:text-2xl font-bold tracking-[0.2em] uppercase px-6 py-2 md:px-8 md:py-3 rounded-xl backdrop-blur-[2px]"
+        style={{ transform: 'rotate(-25deg)', textShadow: '0 0 15px rgba(220,38,38,0.5)', letterSpacing: '0.2em' }}
       >
-        <span
-          className="border-2 border-red-600/70 text-red-600/80 font-mono text-xs md:text-sm font-bold tracking-[0.3em] uppercase px-4 py-1 rounded"
-          style={{ textShadow: '0 0 8px rgba(220,38,38,0.3)', letterSpacing: '0.25em' }}
-        >
-          [ TERLAKSANA ]
-        </span>
-      </div>
+        TERLAKSANA
+      </span>
     </div>
   );
 }
