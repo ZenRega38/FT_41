@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  basePath: process.env.GITHUB_ACTIONS ? '/FT_41' : '',
+  ...(process.env.GITHUB_ACTIONS ? { basePath: '/FT_41' } : {}),
+  trailingSlash: true,
   images: {
     unoptimized: true,
     remotePatterns: [
