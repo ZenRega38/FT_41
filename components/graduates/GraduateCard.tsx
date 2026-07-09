@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
+
 import Link from 'next/link';
 import { Participant } from '@/types/site';
 import { motion } from 'framer-motion';
@@ -49,15 +49,13 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
               {/* Premium Shimmer Skeleton */}
               <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
               
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={getAsset(participant.photo)}
                 alt={participant.photoAlt || participant.name}
-                fill
-                className={`object-cover object-top transition-all duration-700 group-hover:scale-110 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}
-                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
                 loading="lazy"
-                unoptimized={true}
                 onLoad={() => setIsLoaded(true)}
+                className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-110 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}
               />
             </>
           )}

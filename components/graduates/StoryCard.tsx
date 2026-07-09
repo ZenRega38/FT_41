@@ -139,7 +139,7 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(({
           {participant.photo ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={participant.photo}
+              src={getAsset(participant.photo)}
               alt={participant.name}
               className="absolute top-1/2 left-1/2 origin-center select-none pointer-events-none"
               style={{

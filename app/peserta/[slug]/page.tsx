@@ -5,7 +5,7 @@ import { fetchStudentDetails } from '@/lib/sheets';
 import { Container } from '@/components/ui/Container';
 import { ArrowLeft, BookOpen, GraduationCap, Link as LinkIcon, Camera, Code, Users, Briefcase, Mail } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { getAsset } from '@/lib/asset';
 import { StoryCardModal } from '@/components/graduates/StoryCardModal';
 import { Participant } from '@/types/site';
 
@@ -110,7 +110,8 @@ export default async function PesertaDetailPage(props: { params: Promise<{ slug:
             <div className="aspect-[3/4] rounded-2xl overflow-hidden border border-glass bg-black-soft relative">
               <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-transparent to-transparent z-10"></div>
               {participant.photo ? (
-                <Image src={participant.photo} alt={participant.name} fill className="object-cover object-top relative z-0" sizes="(max-width: 768px) 100vw, 33vw" priority />
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={getAsset(participant.photo)} alt={participant.name} className="absolute inset-0 w-full h-full object-cover object-top z-0" />
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-text-muted/30 z-0">
                   <Camera size={48} className="mb-4 opacity-50" />
