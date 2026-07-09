@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
-import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import participantsData from '@/data/participants.json';
 import { getAsset } from '@/lib/asset';
@@ -29,6 +28,7 @@ export function LulusanHero() {
   const [shifted, setShifted]             = useState(false);
   const [currentParticipant, setCurrentParticipant] = useState<Participant | null>(null);
   const [isMobile, setIsMobile]           = useState(false);
+  const [isPhotoLoaded, setIsPhotoLoaded] = useState(false);
   const queueRef = useRef<Participant[]>([]);
 
   // Track page scroll to fade hero elements as GraduateWall rises
@@ -92,7 +92,10 @@ export function LulusanHero() {
   // Cycle photos every 3.5s
   useEffect(() => {
     if (!shifted) return;
-    const interval = setInterval(() => setCurrentParticipant(getNext()), PHOTO_INTERVAL);
+    const interval = setInterval(() => {
+      setIsPhotoLoaded(false);
+      setCurrentParticipant(getNext());
+    }, PHOTO_INTERVAL);
     return () => clearInterval(interval);
   }, [shifted, getNext]);
 
@@ -140,15 +143,17 @@ export function LulusanHero() {
                       transition={{ duration: 1.1, ease: [0.4, 0, 0.2, 1] }}
                       className="absolute inset-0"
                     >
-                      <Image
-                        src={currentParticipant.photo}
+                      {/* Shimmer skeleton */}
+                      <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isPhotoLoaded ? 'opacity-0' : 'opacity-100'}`} />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={getAsset(currentParticipant.photo)}
                         alt={currentParticipant.photoAlt || currentParticipant.name}
-                        fill
-                        className="object-cover object-top"
-                        priority
+                        onLoad={() => setIsPhotoLoaded(true)}
+                        className={`absolute inset-0 w-full h-full object-cover object-top z-10 transition-all duration-700 ${isPhotoLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}
                       />
                       {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/15 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black-primary via-black-primary/15 to-transparent z-20" />
                       {/* Name tag */}
                       <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                         <p className="text-text-primary font-serif text-sm md:text-base leading-snug line-clamp-2">
