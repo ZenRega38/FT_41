@@ -248,7 +248,7 @@ export const StoryCard = forwardRef<HTMLDivElement, StoryCardProps>(({
         <div className="flex items-center justify-center gap-3">
           <span className="w-3 h-3 rounded-full bg-gold animate-pulse" />
           <p className="text-white font-mono text-4xl tracking-widest font-bold">
-            s.id/Yudisium-FT
+            s.id/Yudisium-FT41
           </p>
         </div>
       </div>

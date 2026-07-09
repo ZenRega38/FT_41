@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSp
 import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import participantsData from '@/data/participants.json';
+import { getAsset } from '@/lib/asset';
 
 const SHIFT_DELAY   = 3000;   // 3s before layout shifts
 const PHOTO_INTERVAL = 3500;  // 3.5s per photo
@@ -140,7 +141,7 @@ export function LulusanHero() {
                       className="absolute inset-0"
                     >
                       <Image
-                        src={currentParticipant.photo}
+                        src={getAsset(currentParticipant.photo)}
                         alt={currentParticipant.photoAlt || currentParticipant.name}
                         fill
                         className="object-cover object-top"
