@@ -69,19 +69,28 @@ const RANK_LABELS = ['I', 'II', 'III'];
 
 function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isBento?: boolean }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const isFeatured  = isBento && i === 0;   // #1 — kiri besar
+  const isSecondary = isBento && i !== 0;   // #2 & #3 — kanan pendek
 
   return (
-    <Link href={`/peserta/${awardee.slug}`} className={isBento && i === 0 ? 'row-span-2 sm:row-span-1' : ''}>
+    <Link
+      href={`/peserta/${awardee.slug}`}
+      className={`block ${isFeatured ? 'row-span-2 sm:row-span-1' : ''}`}
+    >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`group relative bg-charcoal border rounded-3xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] ${
+        className={`group relative bg-charcoal border rounded-2xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] h-full ${
           i === 0 ? 'border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.1)]' : 'border-glass hover:border-gold/20'
         }`}
       >
         {/* Photo */}
-        <div className={`relative bg-black-soft overflow-hidden ${isBento && i === 0 ? 'h-full min-h-[280px]' : isBento ? 'aspect-square sm:aspect-[3/4]' : 'aspect-[3/4]'}`}>
+        <div className={`relative bg-black-soft overflow-hidden flex-shrink-0 ${
+          isFeatured  ? 'h-[260px] sm:h-auto sm:aspect-[3/4]' :
+          isSecondary ? 'h-[110px] sm:h-auto sm:aspect-[3/4]' :
+          'aspect-[3/4]'
+        }`}>
           {awardee.photo ? (
             <>
               {/* Premium Shimmer Skeleton */}
@@ -101,23 +110,27 @@ function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isB
               {awardee.name.charAt(0)}
             </div>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent z-20 pointer-events-none" />
+          <div className={`absolute inset-0 bg-gradient-to-t to-transparent z-20 pointer-events-none ${
+            isSecondary ? 'from-charcoal/50 via-transparent' : 'from-charcoal via-transparent'
+          }`} />
 
           {/* Rank badge */}
-          <div className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-sm border z-30 ${
-            i === 0 ? 'bg-gold text-black-primary border-gold' : 'bg-black-soft/80 backdrop-blur border-glass text-text-muted'
+          <div className={`absolute top-3 left-3 rounded-full flex items-center justify-center font-mono font-bold border z-30 ${
+            i === 0
+              ? 'w-9 h-9 text-sm bg-gold text-black-primary border-gold'
+              : 'w-7 h-7 text-xs bg-black-soft/80 backdrop-blur border-glass text-text-muted'
           }`}>
-            {i === 0 ? <Star size={16} fill="currentColor" /> : RANK_LABELS[i]}
+            {i === 0 ? <Star size={14} fill="currentColor" /> : RANK_LABELS[i]}
           </div>
         </div>
 
         {/* Info */}
-        <div className="p-5 flex flex-col gap-1 relative z-30">
-          <div className={`flex items-center gap-1.5 text-xs font-mono tracking-widest uppercase mb-1 ${RANK_COLORS[i]}`}>
-            <Award size={12} />
+        <div className={`flex flex-col gap-0.5 relative z-30 ${isSecondary ? 'px-3 py-2' : 'p-4'}`}>
+          <div className={`flex items-center gap-1 font-mono tracking-widest uppercase ${isSecondary ? 'text-[9px] mb-0.5' : 'text-xs mb-1'} ${RANK_COLORS[i]}`}>
+            <Award size={10} />
             <span>Peringkat {RANK_LABELS[i]}</span>
           </div>
-          <h3 className="font-serif text-text-primary text-base leading-snug group-hover:text-champagne transition-colors">
+          <h3 className={`font-serif text-text-primary leading-snug group-hover:text-champagne transition-colors ${isSecondary ? 'text-[11px]' : 'text-base'}`}>
             {awardee.name}
           </h3>
         </div>
@@ -125,6 +138,7 @@ function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isB
     </Link>
   );
 }
+
 
 export function FeaturedGraduates() {
   const [activeId, setActiveId] = useState('fakultas');
@@ -179,7 +193,7 @@ export function FeaturedGraduates() {
 
             <div className={`grid gap-3 max-w-5xl mx-auto ${
               active.awardees.length === 1 ? 'grid-cols-1 max-w-sm' :
-              active.awardees.length === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl' :
+              active.awardees.length === 2 ? 'grid-cols-2 max-w-2xl' :
               'grid-cols-2 sm:grid-cols-3'
             }`}>
               {active.awardees.map((awardee, i) => (
