@@ -8,7 +8,7 @@ import { StoryCard } from './StoryCard';
 import { Participant } from '@/types/site';
 import { motion, AnimatePresence, useMotionValue, useAnimation, PanInfo } from 'framer-motion';
 import participantsData from '@/data/participants.json';
-import { getStudentData } from '@/app/actions';
+import { fetchStudentDetails } from '@/lib/sheets';
 
 interface Props {
   participant: Participant;
@@ -355,7 +355,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle, prevSlug,
       setCurrentThesis(null);
       setIsLoadingDetails(true);
       if (nextP.nim) {
-        const sheet = await getStudentData(nextP.nim);
+        const sheet = await fetchStudentDetails(nextP.nim);
         if (sheet) {
           if (sheet.motto && sheet.motto !== "[N/A]") setCurrentMotto(sheet.motto);
           if (sheet.projects && sheet.projects.length > 0) setCurrentThesis(sheet.projects[0].title);
@@ -384,7 +384,7 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle, prevSlug,
       setCurrentThesis(null);
       setIsLoadingDetails(true);
       if (prevP.nim) {
-        const sheet = await getStudentData(prevP.nim);
+        const sheet = await fetchStudentDetails(prevP.nim);
         if (sheet) {
           if (sheet.motto && sheet.motto !== "[N/A]") setCurrentMotto(sheet.motto);
           if (sheet.projects && sheet.projects.length > 0) setCurrentThesis(sheet.projects[0].title);

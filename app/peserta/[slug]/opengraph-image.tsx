@@ -1,7 +1,6 @@
 import { ImageResponse } from 'next/og';
 import participantsData from '@/data/participants.json';
 
-export const runtime = 'edge';
 
 export const alt = 'Kartu Yudisium Peserta';
 export const size = {
@@ -9,6 +8,12 @@ export const size = {
   height: 630,
 };
 export const contentType = 'image/png';
+
+export function generateStaticParams() {
+  return participantsData.map((p) => ({
+    slug: p.slug,
+  }));
+}
 
 export default async function Image({ params }: { params: { slug: string } }) {
   const participant = participantsData.find((p) => p.slug === params.slug);
