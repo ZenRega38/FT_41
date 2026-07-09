@@ -141,7 +141,7 @@ export function LulusanHero() {
                       className="absolute inset-0"
                     >
                       <Image
-                        src={getAsset(currentParticipant.photo)}
+                        src={currentParticipant.photo}
                         alt={currentParticipant.photoAlt || currentParticipant.name}
                         fill
                         className="object-cover object-top"
