@@ -97,7 +97,8 @@
     "photoAlt": "Foto formal NURENI, S.T.",
     "displayConsent": true,
     "nim": "2140301012",
-    "gender": "P"
+    "gender": "P",
+    "awardTags": ["Lulusan Terbaik 1 Teknik Sipil"]
   },
   {
     "id": 9,
@@ -109,7 +110,8 @@
     "photoAlt": "Foto formal SHENDLY CALISTHA BULAWAN, S.T.",
     "displayConsent": true,
     "nim": "2140301017",
-    "gender": "P"
+    "gender": "P",
+    "awardTags": ["Lulusan Terbaik 2 Teknik Sipil"]
   },
   {
     "id": 10,
@@ -193,7 +195,8 @@
     "photoAlt": "Foto formal ALYA RIMA FIRDAUS, S.T.",
     "displayConsent": true,
     "nim": "2140301002",
-    "gender": "P"
+    "gender": "P",
+    "awardTags": ["Lulusan Terbaik 3 Teknik Sipil"]
   },
   {
     "id": 17,
@@ -409,7 +412,8 @@
     "photoAlt": "Foto formal MICHAEL YEHEZKIEL RATTU, S.T.",
     "displayConsent": true,
     "nim": "2140302010",
-    "gender": "L"
+    "gender": "L",
+    "awardTags": ["Lulusan Terbaik 2 Teknik Elektro"]
   },
   {
     "id": 35,
@@ -470,7 +474,8 @@
     "displayConsent": true,
     "nim": "2240302004",
     "gender": "L",
-    "banner": "https://media.licdn.com/dms/image/v2/D5616AQFFlcN5SxTBlw/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1737610371657?e=1784160000&v=beta&t=Etxe4AXkSCv05_IjL_pAxGHR5nUeGkJOrhgODvZEfvw"
+    "banner": "https://media.licdn.com/dms/image/v2/D5616AQFFlcN5SxTBlw/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1737610371657?e=1784160000&v=beta&t=Etxe4AXkSCv05_IjL_pAxGHR5nUeGkJOrhgODvZEfvw",
+    "awardTags": ["Lulusan Terbaik 1 Teknik Elektro"]
   },
   {
     "id": 40,
@@ -700,7 +705,8 @@
     "displayConsent": true,
     "nim": "2240304009",
     "gender": "L",
-    "banner": "https://media.licdn.com/dms/image/v2/D5616AQEtvzs4Z3XESA/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1704891059994?e=1784160000&v=beta&t=_HkAt3AeIbo-qFwZHm4QP4BK8ph5eFlEuvKy_WY2ewk"
+    "banner": "https://media.licdn.com/dms/image/v2/D5616AQEtvzs4Z3XESA/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1704891059994?e=1784160000&v=beta&t=_HkAt3AeIbo-qFwZHm4QP4BK8ph5eFlEuvKy_WY2ewk",
+    "awardTags": ["Lulusan Terbaik 1 Fakultas Teknik", "Lulusan Terbaik 1 Teknik Komputer"]
   },
   {
     "id": 59,
@@ -724,7 +730,8 @@
     "photoAlt": "Foto formal AGUNG GUNAWAN, S.T.",
     "displayConsent": true,
     "nim": "2240304026",
-    "gender": "L"
+    "gender": "L",
+    "awardTags": ["Lulusan Terbaik 2 Fakultas Teknik", "Lulusan Terbaik 2 Teknik Komputer"]
   },
   {
     "id": 61,
@@ -848,7 +855,8 @@
     "photoAlt": "Foto formal BISMA BAGHAS WALUYO, S.T.",
     "displayConsent": true,
     "nim": "2240304017",
-    "gender": "L"
+    "gender": "L",
+    "awardTags": ["Lulusan Terbaik 3 Fakultas Teknik", "Lulusan Terbaik 3 Teknik Komputer"]
   },
   {
     "id": 71,
