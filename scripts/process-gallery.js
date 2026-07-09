@@ -11,13 +11,24 @@ if (!fs.existsSync(outputDir)) {
 
 async function processImages() {
   const files = fs.readdirSync(inputDir).filter(f => f.toLowerCase().endsWith('.jpg') || f.toLowerCase().endsWith('.png'));
-  const galleryData = [];
-
-  let id = 1;
+  let galleryData = [];
+  const galleryJsonPath = path.join(process.cwd(), 'data', 'gallery.json');
+  if (fs.existsSync(galleryJsonPath)) {
+    try {
+      galleryData = JSON.parse(fs.readFileSync(galleryJsonPath, 'utf8'));
+    } catch (e) {}
+  }
+  
+  let id = galleryData.length > 0 ? Math.max(...galleryData.map(g => g.id)) + 1 : 1;
   for (const file of files) {
     const inputPath = path.join(inputDir, file);
     const outputFileName = file.replace(/\.(jpg|png)$/i, '.webp');
     const outputPath = path.join(outputDir, outputFileName);
+    
+    // Check if already processed
+    if (galleryData.some(g => g.src === `/gallery/${outputFileName}`)) {
+      continue;
+    }
     
     console.log(`Processing ${file}...`);
     
@@ -37,13 +48,13 @@ async function processImages() {
     galleryData.push({
       id: id++,
       ratio: tailwindRatioClass,
-      label: `Momen Yudisium ${id-1}`,
+      label: `Momen Acara ${id-1}`,
       src: `/gallery/${outputFileName}`,
       category: 'yudisium'
     });
   }
   
-  fs.writeFileSync(path.join(process.cwd(), 'data', 'gallery.json'), JSON.stringify(galleryData, null, 2));
+  fs.writeFileSync(galleryJsonPath, JSON.stringify(galleryData, null, 2));
   console.log('Done! Created gallery.json');
 }
 
