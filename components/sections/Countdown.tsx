@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Container } from '@/components/ui/Container';
-import { YUDISIUM_DATE } from '@/lib/constants';
+import { YUDISIUM_DATE, WISUDA_DATE } from '@/lib/constants';
 
 interface TimeLeft {
   days: number;
@@ -14,20 +14,23 @@ interface TimeLeft {
 
 export function Countdown() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mode, setMode] = useState<'countdown-wisuda' | 'countup-yudisium'>('countdown-wisuda');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setIsMounted(true), 0);
     const calculateTimeLeft = () => {
-      const difference = YUDISIUM_DATE - new Date().getTime();
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        });
-      }
+      const now = new Date().getTime();
+      const afterWisuda = now >= WISUDA_DATE;
+      setMode(afterWisuda ? 'countup-yudisium' : 'countdown-wisuda');
+
+      const diff = afterWisuda ? now - YUDISIUM_DATE : WISUDA_DATE - now;
+      setTimeLeft({
+        days:    Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours:   Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / 1000 / 60) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
     };
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
@@ -36,9 +39,13 @@ export function Countdown() {
 
   if (!isMounted) return null;
 
+  const isCountup = mode === 'countup-yudisium';
+  const label   = isCountup ? 'Semenjak Hari Puncak Yudisium' : 'Menuju Hari Puncak Wisuda';
+  const dateStr = isCountup ? '8 Juli 2026' : '29 Juli 2026';
+
   const units = [
-    { value: timeLeft.days, label: 'Hari' },
-    { value: timeLeft.hours, label: 'Jam' },
+    { value: timeLeft.days,    label: 'Hari' },
+    { value: timeLeft.hours,   label: 'Jam' },
     { value: timeLeft.minutes, label: 'Menit' },
     { value: timeLeft.seconds, label: 'Detik' },
   ];
@@ -49,18 +56,25 @@ export function Countdown() {
 
       <Container className="relative z-10">
         <div className="text-center mb-8 md:mb-12">
-          <p className="text-gold tracking-[0.2em] uppercase text-xs font-semibold mb-2">Menuju Hari Puncak Yudisium</p>
-          <h2 className="text-xl md:text-4xl font-serif text-text-primary">8 Juli 2026</h2>
+          <motion.p
+            key={label}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-gold tracking-[0.2em] uppercase text-xs font-semibold mb-2"
+          >
+            {label}
+          </motion.p>
+          <h2 className="text-xl md:text-4xl font-serif text-text-primary">{dateStr}</h2>
         </div>
 
-        {/* ── DESKTOP: original large boxes ── */}
+        {/* ── DESKTOP ── */}
         <div className="hidden md:flex justify-center gap-6 lg:gap-10 max-w-4xl mx-auto">
           {units.map((unit) => (
             <TimeUnit key={unit.label} value={unit.value} label={unit.label} large />
           ))}
         </div>
 
-        {/* ── MOBILE: compact single row with colons ── */}
+        {/* ── MOBILE ── */}
         <div className="flex md:hidden items-center justify-center gap-1.5 sm:gap-3">
           {units.map((unit, idx) => (
             <React.Fragment key={unit.label}>
@@ -103,7 +117,6 @@ function TimeUnit({ value, label, large }: { value: number; label: string; large
     );
   }
 
-  // Mobile compact
   return (
     <div className="flex flex-col items-center gap-1.5">
       <div className="w-14 h-16 bg-black-soft border border-glass rounded-lg flex items-center justify-center relative overflow-hidden">
