@@ -123,52 +123,68 @@ export function FeaturedGraduates() {
               active.awardees.length === 2 ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl' :
               'grid-cols-1 sm:grid-cols-3'
             }`}>
+function AwardeeCard({ awardee, i }: { awardee: Awardee, i: number }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <Link href={`/peserta/${awardee.slug}`}>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`group relative bg-charcoal border rounded-3xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] ${
+          i === 0 ? 'border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.1)]' : 'border-glass hover:border-gold/20'
+        }`}
+      >
+        {/* Photo */}
+        <div className="aspect-[3/4] relative bg-black-soft overflow-hidden">
+          {awardee.photo ? (
+            <>
+              {/* Premium Shimmer Skeleton */}
+              <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
+              
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={getAsset(awardee.photo)}
+                alt={awardee.name}
+                loading="lazy"
+                onLoad={() => setIsLoaded(true)}
+                className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 z-10 ${isLoaded ? 'opacity-100 blur-0' : 'opacity-0 blur-xl scale-110'}`}
+              />
+            </>
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-[8rem] font-serif text-gold/10">
+              {awardee.name.charAt(0)}
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent z-20 pointer-events-none" />
+
+          {/* Rank badge */}
+          <div className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-sm border z-30 ${
+            i === 0 ? 'bg-gold text-black-primary border-gold' : 'bg-black-soft/80 backdrop-blur border-glass text-text-muted'
+          }`}>
+            {i === 0 ? <Star size={16} fill="currentColor" /> : RANK_LABELS[i]}
+          </div>
+        </div>
+
+        {/* Info */}
+        <div className="p-5 flex flex-col gap-1 relative z-30">
+          <div className={`flex items-center gap-1.5 text-xs font-mono tracking-widest uppercase mb-1 ${RANK_COLORS[i]}`}>
+            <Award size={12} />
+            <span>Peringkat {RANK_LABELS[i]}</span>
+          </div>
+          <h3 className="font-serif text-text-primary text-base leading-snug group-hover:text-champagne transition-colors">
+            {awardee.name}
+          </h3>
+        </div>
+      </motion.div>
+    </Link>
+  );
+}
+
+// ... in the map ...
               {active.awardees.map((awardee, i) => (
-                <Link key={awardee.slug} href={`/peserta/${awardee.slug}`}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    className={`group relative bg-charcoal border rounded-3xl overflow-hidden flex flex-col cursor-pointer transition-all duration-500 hover:scale-[1.02] ${
-                      i === 0 ? 'border-gold/40 shadow-[0_0_40px_rgba(212,175,55,0.1)]' : 'border-glass hover:border-gold/20'
-                    }`}
-                  >
-                    {/* Photo */}
-                    <div className="aspect-[3/4] relative bg-black-soft overflow-hidden">
-                      {awardee.photo ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={getAsset(awardee.photo)}
-                          alt={awardee.name}
-                          className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-[8rem] font-serif text-gold/10">
-                          {awardee.name.charAt(0)}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
-
-                      {/* Rank badge */}
-                      <div className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center font-mono font-bold text-sm border ${
-                        i === 0 ? 'bg-gold text-black-primary border-gold' : 'bg-black-soft/80 backdrop-blur border-glass text-text-muted'
-                      }`}>
-                        {i === 0 ? <Star size={16} fill="currentColor" /> : RANK_LABELS[i]}
-                      </div>
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-5 flex flex-col gap-1">
-                      <div className={`flex items-center gap-1.5 text-xs font-mono tracking-widest uppercase mb-1 ${RANK_COLORS[i]}`}>
-                        <Award size={12} />
-                        <span>Peringkat {RANK_LABELS[i]}</span>
-                      </div>
-                      <h3 className="font-serif text-text-primary text-base leading-snug group-hover:text-champagne transition-colors">
-                        {awardee.name}
-                      </h3>
-                    </div>
-                  </motion.div>
-                </Link>
+                <AwardeeCard key={awardee.slug} awardee={awardee} i={i} />
               ))}
             </div>
           </motion.div>
