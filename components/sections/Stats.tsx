@@ -6,7 +6,7 @@ import { siteConfig } from '@/data/site';
 
 export function Stats() {
   const stats = [
-    { label: "Peserta Yudisium", value: siteConfig.stats.participants },
+    { label: "Lulusan Yudisium", value: siteConfig.stats.participants },
     { label: "Program Studi", value: siteConfig.stats.programs },
     { label: "Fakultas Teknik", value: siteConfig.stats.faculties },
     { label: "Chapter", value: "41st" },

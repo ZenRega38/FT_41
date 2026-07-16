@@ -18,7 +18,7 @@ export function Closing() {
           </h2>
           
           <p className="text-xl md:text-2xl text-text-muted mt-8 mb-12 font-light">
-            Selamat kepada 71 peserta Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
+            Selamat kepada 71 lulusan Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan.
           </p>
           
           <div className="pt-12">

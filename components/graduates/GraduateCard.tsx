@@ -22,7 +22,7 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
       transition={{ duration: 0.6, delay: (index % 10) * 0.05, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link 
-        href={`/peserta/${participant.slug}`}
+        href={`/lulusan/${participant.slug}`}
         className="group relative block w-full bg-charcoal border border-glass group-hover:border-gold/50 transition-colors duration-300 rounded-xl overflow-hidden"
       >
         <div className="aspect-[3/4] relative bg-black-soft w-full overflow-hidden">

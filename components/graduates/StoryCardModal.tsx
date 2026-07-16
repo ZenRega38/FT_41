@@ -320,9 +320,9 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle, prevSlug,
     setIsOpen(false);
     // If we swiped to a new student, push to their page to keep the background in sync!
     if (currentParticipant.slug !== participant.slug) {
-      router.push(`/peserta/${currentParticipant.slug}`);
+      router.push(`/lulusan/${currentParticipant.slug}`);
     } else {
-      router.replace(`/peserta/${participant.slug}`, { scroll: false });
+      router.replace(`/lulusan/${participant.slug}`, { scroll: false });
     }
   };
 

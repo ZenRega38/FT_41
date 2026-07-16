@@ -174,19 +174,19 @@
       "id": "c1",
       "name": "Sebril Angi, S.T.",
       "role": "Ketua Panitia",
-      "image": "https://drive.google.com/thumbnail?id=1AQTYfPL20gLfUAZkbG74RxQsGCEW8_Vn&sz=w1000"
+      "image": "/staff/c1.jpg"
     },
     {
       "id": "c2",
       "name": "Dwi Christal Hoti, S.T.",
       "role": "Sekretaris",
-      "image": "https://drive.google.com/thumbnail?id=1M2rq4qwDY20fnbxnDSVde0Ph0qRpFGmg&sz=w1000"
+      "image": "/staff/c2.jpg"
     },
     {
       "id": "c3",
       "name": "Senia Rombe Pabuntang, S.T.",
       "role": "Bendahara",
-      "image": "https://drive.google.com/thumbnail?id=1L0qf3eOQAw3N5Ujw2bsH0mj4hG-AK4Y2&sz=w1000"
+      "image": "/staff/c3.jpg"
     }
   ]
 }

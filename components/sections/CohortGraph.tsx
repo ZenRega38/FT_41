@@ -50,7 +50,7 @@ export function CohortGraph() {
       <Container>
         <MotionReveal direction="up" className="text-center mb-16 space-y-4">
           <p className="text-gold tracking-[0.3em] font-mono text-xs md:text-sm">[ DEMOGRAFI ]</p>
-          <h2 className="section-title text-text-primary">Distribusi Peserta</h2>
+          <h2 className="section-title text-text-primary">Distribusi Lulusan</h2>
           <p className="text-text-muted max-w-2xl mx-auto">
             Komposisi 71 {isPost ? 'lulusan' : 'calon lulusan'} berdasarkan berbagai kategori.
           </p>
@@ -106,7 +106,7 @@ export function CohortGraph() {
                         <span className="text-text-primary tracking-widest">
                           {activeTab === 'tahun' ? `Angkatan ${stat.label}` : stat.label}
                         </span>
-                        <span className="text-gold font-bold">{stat.count} Peserta</span>
+                        <span className="text-gold font-bold">{stat.count} Lulusan</span>
                       </div>
                       <div className="w-full h-4 bg-black-soft rounded-full overflow-hidden border border-glass">
                         <motion.div 

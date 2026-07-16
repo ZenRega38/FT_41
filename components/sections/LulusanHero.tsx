@@ -203,7 +203,7 @@ export function LulusanHero() {
                 shifted ? 'mx-auto md:ml-0 md:mr-auto' : 'mx-auto'
               }`}
             >
-              Selamat kepada seluruh peserta Yudisium Ke-41<br />
+              Selamat kepada seluruh lulusan Yudisium Ke-41<br />
               Fakultas Teknik Universitas Borneo Tarakan.
             </motion.p>
           </motion.div>

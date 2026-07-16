@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         : 'http://localhost:3000'
   ),
   title: "Yudisium Ke-41 Fakultas Teknik UBT",
-  description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 peserta, 4 program studi, satu babak baru.",
+  description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 lulusan, 4 program studi, satu babak baru.",
   icons: {
     icon: getAsset('/logo.png'),
   },

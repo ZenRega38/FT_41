@@ -7,9 +7,9 @@ import { motion } from 'framer-motion';
 
 const VIDEOS = [
   {
-    id: 'trailer',
-    label: 'Trailer',
-    src: 'https://drive.google.com/file/d/1DGUUqj4-i1ekn_DQa-F3hoQ5W-pDIOIP/preview',
+    id: 'aftermovie',
+    label: 'After Movie',
+    src: 'https://drive.google.com/file/d/19ZbFiZEf8uPLFvgYpxxFm7ZgutF7g6gS/preview',
     type: 'drive',
     thumbnail: '/bg1.jpeg',
   },
@@ -27,17 +27,10 @@ const VIDEOS = [
     type: 'youtube',
     thumbnail: 'https://img.youtube.com/vi/Y5MTxurBlrE/maxresdefault.jpg',
   },
-  {
-    id: 'aftermovie',
-    label: 'After Movie',
-    src: null,
-    type: 'coming-soon',
-    thumbnail: null,
-  },
 ];
 
 export function Trailer() {
-  const [activeId, setActiveId] = useState('trailer');
+  const [activeId, setActiveId] = useState('aftermovie');
   const [isPlaying, setIsPlaying] = useState(false);
 
   const active = VIDEOS.find(v => v.id === activeId)!;

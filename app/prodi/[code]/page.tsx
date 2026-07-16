@@ -89,7 +89,7 @@ export default async function ProdiDetailPage(props: { params: Promise<{ code: s
             
             <MotionReveal direction="up" delay={0.1}>
               <div className="p-6 rounded-2xl bg-charcoal border border-glass space-y-4">
-                <Link href={`/?prodi=${program.code}#peserta`} className="w-full py-4 rounded-xl bg-gold text-black-primary font-semibold flex items-center justify-center gap-2 hover:bg-champagne transition-colors shadow-lg">
+                <Link href={`/?prodi=${program.code}#lulusan`} className="w-full py-4 rounded-xl bg-gold text-black-primary font-semibold flex items-center justify-center gap-2 hover:bg-champagne transition-colors shadow-lg">
                   <Users size={18} />
                   <span>Lihat Lulusan Prodi Ini</span>
                 </Link>

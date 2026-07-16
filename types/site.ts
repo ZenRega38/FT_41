@@ -62,5 +62,5 @@ export interface GalleryItem {
   src: string;
   alt: string;
   caption?: string;
-  category: 'prosesi' | 'pimpinan' | 'peserta' | 'keluarga' | 'behind-the-scene';
+  category: 'prosesi' | 'pimpinan' | 'lulusan' | 'keluarga' | 'behind-the-scene';
 }

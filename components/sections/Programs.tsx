@@ -45,8 +45,8 @@ export function Programs() {
               </p>
               
               <div className="flex items-center justify-between mt-6 border-t border-glass pt-4">
-                <Link href={`/?prodi=${program.code}#peserta`} className="inline-flex items-center text-sm text-gold hover:text-champagne transition-colors group/btn">
-                  Lihat Peserta
+                <Link href={`/?prodi=${program.code}#lulusan`} className="inline-flex items-center text-sm text-gold hover:text-champagne transition-colors group/btn">
+                  Lihat Lulusan
                   <svg className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

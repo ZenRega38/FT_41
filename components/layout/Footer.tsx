@@ -45,7 +45,7 @@ export function Footer() {
               <h4 className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-3">Pengembang</h4>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/peserta/rega-rizkan-azizan" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">
+                  <Link href="/lulusan/rega-rizkan-azizan" className="text-sm text-text-muted hover:text-champagne hover:translate-x-1 inline-block transition-all">
                     Tentang Pengembang
                   </Link>
                 </li>
@@ -61,7 +61,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-glass flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-text-muted">
           <p>&copy; {new Date().getFullYear()} {siteConfig.institution.faculty} {siteConfig.institution.name}. All rights reserved.</p>
-          <p>Data peserta berdasarkan dokumen resmi panitia yudisium.</p>
+          <p>Data lulusan berdasarkan dokumen resmi panitia yudisium.</p>
         </div>
       </Container>
     </footer>

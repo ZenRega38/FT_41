@@ -79,7 +79,7 @@ function AwardeeCard({ awardee, i, isBento }: { awardee: Awardee, i: number, isB
 
   return (
     <Link
-      href={`/peserta/${awardee.slug}`}
+      href={`/lulusan/${awardee.slug}`}
       className={`block ${isFeatured ? 'row-span-2 sm:row-span-1 h-full sm:h-auto' : ''}`}
     >
       <motion.div

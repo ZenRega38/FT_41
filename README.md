@@ -9,9 +9,9 @@ Website ini adalah sebuah platform profil digital eksklusif yang dipersembahkan 
 Website ini dirancang dengan gaya **Sinematik dan Premium** (seperti peluncuran produk Apple atau acara penghargaan bergengsi). Tujuannya adalah untuk merayakan pencapaian para lulusan dengan cara yang modern, elegan, dan abadi. Setiap lulusan memiliki "panggung"-nya sendiri di sini.
 
 **Fitur Utama untuk Pengunjung:**
-- **Profil Lulusan Spesifik:** Setiap peserta memiliki halaman detail yang memuat foto resolusi tinggi, program studi, motto hidup, judul skripsi, pengalaman organisasi, hingga kontak media sosial (LinkedIn/Instagram).
+- **Profil Lulusan Spesifik:** Setiap lulusan memiliki halaman detail yang memuat foto resolusi tinggi, program studi, motto hidup, judul skripsi, pengalaman organisasi, hingga kontak media sosial (LinkedIn/Instagram).
 - **Galeri Sinematik yang Interaktif:** Kumpulan foto kenangan yang bisa digeser (*swipe*) layaknya melihat Instagram Story.
-- **Bagikan Momen Kelulusan:** Saat *link* profil peserta dibagikan ke WhatsApp atau Instagram, website akan otomatis mencetak *thumbnail* gambar khusus bertuliskan nama peserta tersebut secara dinamis.
+- **Bagikan Momen Kelulusan:** Saat *link* profil lulusan dibagikan ke WhatsApp atau Instagram, website akan otomatis mencetak *thumbnail* gambar khusus bertuliskan nama lulusan tersebut secara dinamis.
 - **Pengalaman Audio-Visual:** Dilengkapi dengan partikel emas yang melayang, teks yang muncul perlahan seperti *credit* film, dan musik latar (BGM) yang membangun suasana haru dan bangga.
 
 ---
@@ -34,7 +34,7 @@ Bagaimana cara website ini mendapatkan dan menampilkan data lulusan? Berikut ada
 ```mermaid
 flowchart TD
     A[Panitia Yudisium] -->|Mengisi Data Dasar| B(File CSV / JSON Lokal)
-    C[Peserta Yudisium] -->|Melengkapi Biodata Lengkap| D(Google Form)
+    C[Lulusan Yudisium] -->|Melengkapi Biodata Lengkap| D(Google Form)
     D --> E(Google Sheets Database)
     
     B --> F{Website Next.js App Router}
@@ -42,7 +42,7 @@ flowchart TD
     
     F -->|Render Halaman Utama| G[Halaman Beranda / Hero]
     F -->|Render Daftar Nama| H[Galeri & Daftar Lulusan]
-    F -->|Render Profil Individu| I[Halaman Profil /peserta/nama]
+    F -->|Render Profil Individu| I[Halaman Profil /lulusan/nama]
     F -->|Generate Gambar Link Sosmed| J[Open Graph Image / WhatsApp Preview]
     
     G --> K[Pengunjung Website]
@@ -80,7 +80,7 @@ Untuk menjalankan aplikasi ini di komputer lokal Anda:
    Buka [http://localhost:3000](http://localhost:3000) untuk melihat hasilnya.
 
 ### Struktur Proyek Utama
-- `app/`: Berisi semua rute halaman (seperti `app/page.tsx` untuk beranda dan `app/peserta/[slug]/page.tsx` untuk profil dinamis).
+- `app/`: Berisi semua rute halaman (seperti `app/page.tsx` untuk beranda dan `app/lulusan/[slug]/page.tsx` untuk profil dinamis).
 - `components/`: Berisi seluruh komponen antarmuka pengguna (UI), terbagi menjadi `sections`, `graduates`, `layout`, dll.
 - `lib/`: Berisi fungsi-fungsi utilitas, termasuk logika integrasi dengan Google Sheets (`sheets.ts`).
 - `data/`: Berisi data statis awal seperti daftar nama kelulusan (`participants.json`).

@@ -6,7 +6,7 @@ export function Messages() {
     {
       author: "Dr. Syahfrizal Tachfulloh, S.T., M.T.",
       role: "Dekan Fakultas Teknik",
-      body: "Lulusan Fakultas Teknik Universitas Borneo Tarakan diharapkan tidak hanya menjadi insinyur yang handal secara teknis, tetapi juga memiliki integritas dan kepedulian terhadap pengembangan kawasan perbatasan dan pesisir. Jadilah pelita di mana pun kalian berkarya."
+      body: "Lulusan Fakultas Teknik Universitas Borneo Tarakan diharapkan tidak hanya menjadi calon insinyur yang handal secara teknis, tetapi juga memiliki integritas dan kepedulian terhadap pengembangan kawasan perbatasan dan pesisir. Jadilah pelita di mana pun kalian berkarya."
     },
     {
       author: "Ir. Rosmalia Handayani, S.T., M.T.",

@@ -164,7 +164,7 @@ export function GalleryPreview() {
             href="/lulusan"
             className="inline-flex items-center gap-3 px-8 py-4 bg-charcoal border border-gold/30 rounded-full text-gold hover:text-black-primary hover:bg-gold font-mono tracking-widest uppercase text-sm md:text-base group transition-all duration-300 shadow-2xl"
           >
-            <span>Lihat Profil Peserta</span>
+            <span>Lihat Profil Lulusan</span>
             <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-300" />
           </Link>
         </MotionReveal>

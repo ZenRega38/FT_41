@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/tentang',
     '/galeri',
-    '/peserta',
+    '/lulusan',
     '/transparansi',
     '/prodi'
   ].map((route) => ({
@@ -21,9 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  // Halaman Profil Peserta (Dinamis)
+  // Halaman Profil Lulusan (Dinamis)
   const participantRoutes = participantsData.map((participant) => ({
-    url: `${baseUrl}/peserta/${participant.slug}`,
+    url: `${baseUrl}/lulusan/${participant.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,

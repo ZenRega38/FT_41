@@ -1,8 +1,8 @@
 export const siteConfig = {
   title: "Yudisium Ke-41 Fakultas Teknik UBT",
-  description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 peserta, 4 program studi, satu babak baru.",
+  description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 lulusan, 4 program studi, satu babak baru.",
   url: "https://yudisium41-ft-ubt.com", // Placeholder URL
-  tagline: "71 Engineers. One Legacy. From Tarakan to the Future.",
+  tagline: "71 Calon Insinyur. One Legacy. From Tarakan to the Future.",
   institution: {
     name: "Universitas Borneo Tarakan",
     faculty: "Fakultas Teknik",

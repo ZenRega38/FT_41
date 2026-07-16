@@ -68,7 +68,7 @@ export function WelcomePopup() {
               <h2 className="text-2xl md:text-3xl font-serif text-text-primary">Selamat Datang</h2>
               
               <p className="text-text-muted leading-relaxed">
-                Anda sedang memasuki laman resmi <strong>Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan</strong>. Mari rayakan lahirnya 71 {isPost ? 'insinyur' : 'calon insinyur'} yang siap membangun masa depan.
+                Anda sedang memasuki laman resmi <strong>Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan</strong>. Mari rayakan lahirnya 71 'calon insinyur' yang siap membangun masa depan.
               </p>
 
               <div className="pt-6 border-t border-glass flex flex-col items-center gap-4">

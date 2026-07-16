@@ -169,7 +169,7 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full bg-charcoal border border-glass focus:border-gold/50 rounded-lg py-2 pl-4 pr-12 text-sm text-text-primary outline-none transition-colors"
-          aria-label="Cari nama peserta"
+          aria-label="Cari nama lulusan"
         />
         <div className="absolute inset-y-0 right-2 flex items-center pointer-events-none">
           <kbd className="hidden sm:inline-flex items-center justify-center px-1.5 h-5 text-[10px] font-mono text-text-muted bg-black-soft border border-glass rounded group-focus-within:opacity-0 transition-opacity">
@@ -181,7 +181,7 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
   );
 
   return (
-    <section id="peserta" className={`${hideSectionHeader ? 'rounded-t-3xl pb-24' : 'py-24'} bg-black-soft min-h-screen`}>
+    <section id="lulusan" className={`${hideSectionHeader ? 'rounded-t-3xl pb-24' : 'py-24'} bg-black-soft min-h-screen`}>
 
       {/* ── Compact sticky header: only on /lulusan dedicated page ── */}
       {hideSectionHeader && (
@@ -295,7 +295,7 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
                     onClick={() => {
                       setVisibleCount(PAGE_SIZE);
                       setActiveScrollIndex(0);
-                      document.getElementById('peserta')?.scrollIntoView({ behavior: 'smooth' });
+                      document.getElementById('lulusan')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className="inline-flex items-center gap-3 text-text-muted hover:text-text-primary font-mono tracking-widest uppercase text-sm group transition-colors"
                   >
@@ -311,7 +311,7 @@ function GraduateWallContent({ hideSectionHeader = false }: { hideSectionHeader?
               animate={{ opacity: 1 }}
               className="text-center py-20 bg-charcoal rounded-xl border border-glass"
             >
-              <p className="text-text-muted">Tidak ada peserta yang sesuai dengan pencarian.</p>
+              <p className="text-text-muted">Tidak ada lulusan yang sesuai dengan pencarian.</p>
             </motion.div>
           )}
         </div>

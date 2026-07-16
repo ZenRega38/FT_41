@@ -142,7 +142,7 @@ export default function Home() {
       <EventGalleryPreview />
       <FeaturedGraduates />
       <Timeline />
-      <Suspense fallback={<div className="h-96 flex items-center justify-center font-mono text-gold tracking-widest uppercase text-sm">Memuat Data Peserta...</div>}>
+      <Suspense fallback={<div className="h-96 flex items-center justify-center font-mono text-gold tracking-widest uppercase text-sm">Memuat Data Lulusan...</div>}>
         <GraduateWall />
       </Suspense>
       <Messages />
