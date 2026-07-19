@@ -2,6 +2,8 @@ import { MetadataRoute } from 'next';
 import participantsData from '@/data/participants.json';
 import programsData from '@/data/programs.json';
 
+export const dynamic = 'force-static';
+
 export default function sitemap(): MetadataRoute.Sitemap {
   // Ganti dengan domain produksi Anda
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://zenrega38.github.io/FT_41';
