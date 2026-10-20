@@ -15,9 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/galeri',
     '/lulusan',
     '/transparansi',
-    '/prodi'
   ].map((route) => ({
-    url: `${baseUrl}${route}`,
+    url: `${baseUrl}${route}/`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: route === '' ? 1 : 0.8,
@@ -25,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Halaman Profil Lulusan (Dinamis)
   const participantRoutes = participantsData.map((participant) => ({
-    url: `${baseUrl}/lulusan/${participant.slug}`,
+    url: `${baseUrl}/lulusan/${participant.slug}/`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
@@ -33,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Halaman Prodi (Dinamis)
   const programRoutes = programsData.map((program) => ({
-    url: `${baseUrl}/prodi/${program.code}`,
+    url: `${baseUrl}/prodi/${program.code}/`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.7,

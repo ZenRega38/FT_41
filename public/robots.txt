@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ftubt41.web.id/sitemap.xml

@@ -7,7 +7,6 @@ import { GlobalPreloader } from "@/components/ui/GlobalPreloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { Suspense } from "react";
-import { getAsset } from "@/lib/asset";
 import "./globals.css";
 
 const chakraPetch = Chakra_Petch({
@@ -41,9 +40,6 @@ export const metadata: Metadata = {
   ),
   title: "Yudisium Ke-41 Fakultas Teknik UBT",
   description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 lulusan, 4 program studi, satu babak baru.",
-  icons: {
-    icon: getAsset('/logo.png'),
-  },
   verification: {
     google: 'aftJDLDGkgU3eZe4FMNv5cavBQP7zeKYcmLhfrRY398',
   },
