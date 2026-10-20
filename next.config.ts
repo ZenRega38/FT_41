@@ -1,10 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-<<<<<<< HEAD
-=======
-  ...(process.env.GITHUB_ACTIONS ? { basePath: '' } : {}),
->>>>>>> f7d961ef7ce6fa50e7e7470b2b39c59d0a601a01
   trailingSlash: true,
   images: {
     unoptimized: true,
