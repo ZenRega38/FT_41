@@ -5,7 +5,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Participant } from '@/types/site';
 import { motion } from 'framer-motion';
-import { getAsset } from "@/lib/asset";
+import { getThumb, fallbackToFull } from "@/lib/asset";
 
 interface GraduateCardProps {
   participant: Participant;
@@ -51,7 +51,8 @@ export function GraduateCard({ participant, index = 0 }: GraduateCardProps) {
               
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={getAsset(participant.photo)}
+                src={getThumb(participant.photo)}
+                onError={fallbackToFull(participant.photo)}
                 alt={participant.photoAlt || participant.name}
                 loading="lazy"
                 onLoad={() => setIsLoaded(true)}

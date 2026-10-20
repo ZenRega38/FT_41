@@ -70,7 +70,7 @@ export default function Home() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={getAsset("/bg1.jpeg")}
+            src={getAsset("/bg1.webp")}
             alt="Gedung Rektorat Background"
             fill
             priority

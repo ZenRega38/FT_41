@@ -5,7 +5,7 @@ import { Container } from '@/components/ui/Container';
 import { MotionReveal } from '@/components/ui/MotionReveal';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { getAsset } from '@/lib/asset';
+import { getAsset, getThumb, fallbackToFull } from '@/lib/asset';
 import participantsData from '@/data/participants.json';
 import { motion, useScroll, useTransform, AnimatePresence, useAnimation, useMotionValue, PanInfo } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -21,7 +21,8 @@ const GalleryImage = ({ src, onClick }: { src: string; onClick: () => void }) =>
       <div className={`absolute inset-0 bg-gradient-to-br from-charcoal via-[#14120c] to-black-primary animate-pulse z-0 transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`} />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={getAsset(src)}
+        src={getThumb(src)}
+        onError={fallbackToFull(src)}
         alt="Graduate"
         loading="lazy"
         onLoad={() => setIsLoaded(true)}

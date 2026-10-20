@@ -11,7 +11,7 @@ const VIDEOS = [
     label: 'After Movie',
     src: 'https://drive.google.com/file/d/19ZbFiZEf8uPLFvgYpxxFm7ZgutF7g6gS/preview',
     type: 'drive',
-    thumbnail: '/bg1.jpeg',
+    thumbnail: '/bg1.webp',
   },
   {
     id: 'live1',

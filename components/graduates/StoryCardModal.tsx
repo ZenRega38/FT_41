@@ -9,7 +9,7 @@ import { Participant } from '@/types/site';
 import { motion, AnimatePresence, useMotionValue, useAnimation, PanInfo } from 'framer-motion';
 import participantsData from '@/data/participants.json';
 import { fetchStudentDetails } from '@/lib/sheets';
-import { getAsset } from '@/lib/asset';
+import { getThumb, fallbackToFull } from '@/lib/asset';
 
 interface Props {
   participant: Participant;
@@ -453,7 +453,8 @@ export function StoryCardModal({ participant, motto, ipk, thesisTitle, prevSlug,
                     {rowPhotos.map((photo, idx) => (
                       <img
                         key={idx}
-                        src={getAsset(photo)}
+                        src={getThumb(photo)}
+                        onError={fallbackToFull(photo)}
                         alt=""
                         crossOrigin="anonymous"
                         style={{ width: '180px', height: '260px', objectFit: 'cover', borderRadius: '16px' }}

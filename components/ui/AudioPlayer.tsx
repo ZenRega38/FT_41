@@ -61,7 +61,7 @@ export function AudioPlayer() {
         ref={audioRef}
         loop 
         src={getAsset("/audio/bg-music.m4a")} 
-        preload="auto"
+        preload="none"
       />
       
       <button 
