@@ -45,7 +45,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
     ? process.env.NEXT_PUBLIC_SITE_URL
     : process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
+      : process.env.NODE_ENV === 'production' ? 'https://ftubt41.web.id' : 'http://localhost:3000';
 
   const imageUrl = `${baseUrl}${participant.photo}`;
 

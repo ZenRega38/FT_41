@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  ...(process.env.GITHUB_ACTIONS ? { basePath: '/FT_41' } : {}),
   trailingSlash: true,
   images: {
     unoptimized: true,

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
       ? process.env.NEXT_PUBLIC_SITE_URL
       : process.env.VERCEL_URL 
         ? `https://${process.env.VERCEL_URL}` 
-        : 'http://localhost:3000'
+        : process.env.NODE_ENV === 'production' ? 'https://ftubt41.web.id' : 'http://localhost:3000'
   ),
   title: "Yudisium Ke-41 Fakultas Teknik UBT",
   description: "Website profil Yudisium Ke-41 Fakultas Teknik Universitas Borneo Tarakan — 71 lulusan, 4 program studi, satu babak baru.",
